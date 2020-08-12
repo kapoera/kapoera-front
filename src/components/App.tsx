@@ -1,9 +1,5 @@
-import React from 'react'
+import React from 'react';
 
-const App: React.FC = () => (
-  <div>
-    Kapoera App
-  </div>
-)
+const App: React.FC = () => <div>Kapoera App</div>;
 
-export default App
+export default App;
