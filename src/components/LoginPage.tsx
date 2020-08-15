@@ -107,7 +107,7 @@ const RegisterForm: React.FC = () => {
 };
 
 interface LoginPageProps {
-  className: string;
+  className?: string;
 }
 
 const LoginPage: React.FC<LoginPageProps> = ({ className }: LoginPageProps) => {

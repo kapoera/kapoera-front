@@ -4,7 +4,7 @@ import { Menu } from 'semantic-ui-react';
 import styled from 'styled-components';
 
 interface NavBarProps {
-  className: string;
+  className?: string;
 }
 
 const NavBar: React.FC<NavBarProps> = ({ className }: NavBarProps) => {
