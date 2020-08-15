@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import axios from '../utils/axios';
 import styled from 'styled-components';
 
 const LoginForm: React.FC = () => {
@@ -10,10 +10,9 @@ const LoginForm: React.FC = () => {
     console.log({ username, password });
 
     try {
-      const result = axios({
-        method: 'POST',
-        url: 'http://aria.sparcs.org:32960/login',
-        data: { username, password }
+      const result = await axios.post('/login', {
+        username,
+        password
       });
       console.log(result);
     } catch (err) {}
@@ -56,12 +55,12 @@ const RegisterForm: React.FC = () => {
   const [nickname, setNickname] = useState('');
   const [password, setPassword] = useState('');
 
-  const submitHandler = () => {
+  const submitHandler = async () => {
     try {
-      const result = axios({
-        method: 'POST',
-        url: 'http://aria.sparcs.org:32960/signup',
-        data: { username, nickname, password }
+      const result = await axios.post('/signup', {
+        username,
+        nickname,
+        password
       });
       console.log(result);
     } catch (err) {}
