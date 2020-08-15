@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import axios from '../utils/axios';
-import styled from 'styled-components';
+import axios from '@/utils/axios';
 
 const LoginForm: React.FC = () => {
   const [username, setUsername] = useState('');
