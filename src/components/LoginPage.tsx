@@ -1,21 +1,31 @@
 import React, { useContext, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from '@/utils/axios';
-import { GlobalContext } from '@/context';
+import { GlobalContext, Actions } from '@/context';
+
+interface LoginResponse {
+  default_nickname: string;
+  is_new: boolean;
+  success: boolean;
+  token: string;
+}
 
 const LoginForm: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const { dispatch } = useContext(GlobalContext);
 
   const submitHandler = async () => {
-    console.log({ username, password });
-
     try {
-      const result = await axios.post('/login', {
-        username,
-        password
-      });
-      console.log(result);
+      const { data }: { data: LoginResponse } = await axios.post(
+        '/auth/login',
+        { username, password }
+      );
+
+      if (data.success) {
+        localStorage.setItem('kapoera-token', data.token);
+        dispatch({ type: Actions.Login });
+      }
     } catch (err) {}
   };
 
@@ -51,70 +61,12 @@ const LoginForm: React.FC = () => {
   );
 };
 
-const RegisterForm: React.FC = () => {
-  const [username, setUsername] = useState('');
-  const [nickname, setNickname] = useState('');
-  const [password, setPassword] = useState('');
-
-  const submitHandler = async () => {
-    try {
-      const result = await axios.post('/signup', {
-        username,
-        nickname,
-        password
-      });
-      console.log(result);
-    } catch (err) {}
-  };
-
-  return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        width: '300px',
-        marginRight: '30px'
-      }}
-    >
-      <h1>Register</h1>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        Username
-        <input
-          type="text"
-          value={username}
-          onChange={e => setUsername(e.target.value)}
-        />
-      </div>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        Nickname
-        <input
-          type="text"
-          value={nickname}
-          onChange={e => setNickname(e.target.value)}
-        />
-      </div>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        Password
-        <input
-          type="text"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-        />
-      </div>
-      <button style={{ marginTop: '10px' }} onClick={submitHandler}>
-        Submit
-      </button>
-    </div>
-  );
-};
-
 interface LoginPageProps {
   className?: string;
 }
 
 const LoginPage: React.FC<LoginPageProps> = ({ className }: LoginPageProps) => {
-  const { state, dispatch } = useContext(GlobalContext);
-  console.log(state);
+  const { state } = useContext(GlobalContext);
 
   return state.isLoggedIn ? (
     <Redirect to="/" />
@@ -123,7 +75,6 @@ const LoginPage: React.FC<LoginPageProps> = ({ className }: LoginPageProps) => {
       className={className}
       style={{ display: 'flex', justifyContent: 'center' }}
     >
-      <RegisterForm />
       <LoginForm />
     </div>
   );
