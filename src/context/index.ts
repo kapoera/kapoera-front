@@ -25,5 +25,10 @@ export const globalContextReducer = (
   state: GlobalState,
   action: GlobalAction
 ): GlobalState => {
-  return state;
+  switch (action.type) {
+    case Actions.Login:
+      return { ...state, isLoggedIn: true };
+    default:
+      return state;
+  }
 };
