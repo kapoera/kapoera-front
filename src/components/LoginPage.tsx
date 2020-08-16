@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { Redirect } from 'react-router-dom';
 import axios from '@/utils/axios';
+import { GlobalContext } from '@/context';
 
 const LoginForm: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -111,7 +113,12 @@ interface LoginPageProps {
 }
 
 const LoginPage: React.FC<LoginPageProps> = ({ className }: LoginPageProps) => {
-  return (
+  const { state, dispatch } = useContext(GlobalContext);
+  console.log(state);
+
+  return state.isLoggedIn ? (
+    <Redirect to="/" />
+  ) : (
     <div
       className={className}
       style={{ display: 'flex', justifyContent: 'center' }}
