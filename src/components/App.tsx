@@ -8,6 +8,7 @@ import {
   Actions,
   initialState
 } from '@/context';
+import axios from '@/utils/axios';
 import NavBar from './NavBar';
 import LoginPage from './LoginPage';
 
@@ -19,11 +20,32 @@ const GlobalStyle = createGlobalStyle`
 
 const Foo: React.FC = () => <div>FooFooFooFooFooFoo</div>;
 
+interface CheckStatusResponse {
+  valid: boolean;
+  decoded?: {
+    username: string;
+    nickname: string;
+  };
+}
+
 const App: React.FC = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
-    setTimeout(() => dispatch({ type: Actions.Login }), 1000);
+    const fetchStatus = async () => {
+      const { data }: { data: CheckStatusResponse } = await axios.get(
+        '/auth/check'
+      );
+
+      if (data.valid) {
+        dispatch({ type: Actions.SetInfo, payload: data.decoded });
+      } else {
+        localStorage.removeItem('kapoera-token');
+        dispatch({ type: Actions.Logout });
+      }
+    };
+
+    fetchStatus();
   }, []);
 
   return (
