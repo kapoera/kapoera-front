@@ -5,7 +5,8 @@ interface GlobalState {
 }
 
 export enum Actions {
-  Login = 'LOGIN'
+  Login = 'LOGIN',
+  Logout = 'LOGOUT'
 }
 
 interface GlobalAction {
@@ -28,6 +29,8 @@ export const globalContextReducer = (
   switch (action.type) {
     case Actions.Login:
       return { ...state, isLoggedIn: true };
+    case Actions.Logout:
+      return { ...state, isLoggedIn: false };
     default:
       return state;
   }
