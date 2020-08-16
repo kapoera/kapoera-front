@@ -5,7 +5,8 @@ const instance = axios.create({
 });
 
 instance.interceptors.request.use(config => {
-  const token = localStorage.getItem('kapoera-jwt');
+  const token = localStorage.getItem('kapoera-token');
+
   config.headers.Authorization = token ? `Bearer ${token}` : '';
 
   return config;
