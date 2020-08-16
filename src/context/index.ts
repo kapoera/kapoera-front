@@ -1,11 +1,29 @@
-import React from 'react';
+import React, { Dispatch } from 'react';
 
-export interface GlobalContextI {
-  loggedIn: boolean;
+interface GlobalState {
+  isLoggedIn: boolean;
 }
 
-export const defaultState: GlobalContextI = {
-  loggedIn: false
+export enum Actions {
+  Login = 'LOGIN'
+}
+
+interface GlobalAction {
+  type: Actions;
+}
+
+export const initialState: GlobalState = {
+  isLoggedIn: false
 };
 
-export const GlobalContext = React.createContext(defaultState);
+export const GlobalContext = React.createContext<{
+  state: GlobalState;
+  dispatch: Dispatch<GlobalAction>;
+}>(null);
+
+export const globalContextReducer = (
+  state: GlobalState,
+  action: GlobalAction
+): GlobalState => {
+  return state;
+};

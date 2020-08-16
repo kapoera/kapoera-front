@@ -1,8 +1,13 @@
-import React, { useContext } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import 'semantic-ui-css/semantic.min.css';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
-import { GlobalContext, defaultState } from '@/context';
+import {
+  GlobalContext,
+  globalContextReducer as reducer,
+  Actions,
+  initialState
+} from '@/context';
 import NavBar from './NavBar';
 import LoginPage from './LoginPage';
 
@@ -15,8 +20,14 @@ const GlobalStyle = createGlobalStyle`
 const Foo: React.FC = () => <div>FooFooFooFooFooFoo</div>;
 
 const App: React.FC = () => {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  useEffect(() => {
+    setTimeout(() => dispatch({ type: Actions.Login }), 1000);
+  }, []);
+
   return (
-    <GlobalContext.Provider value={defaultState}>
+    <GlobalContext.Provider value={{ state, dispatch }}>
       <GlobalStyle />
       <BrowserRouter>
         <NavBar />
