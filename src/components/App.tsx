@@ -9,6 +9,7 @@ import {
   initialState
 } from '@/context';
 import axios from '@/utils/axios';
+import * as AuthUtils from '@/utils/auth';
 import NavBar from './NavBar';
 import LoginPage from './LoginPage';
 
@@ -40,7 +41,7 @@ const App: React.FC = () => {
       if (data.valid) {
         dispatch({ type: Actions.SetInfo, payload: data.decoded });
       } else {
-        localStorage.removeItem('kapoera-token');
+        AuthUtils.logout();
         dispatch({ type: Actions.Logout });
       }
     };

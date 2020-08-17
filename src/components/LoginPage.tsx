@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from '@/utils/axios';
+import * as AuthUtils from '@/utils/auth';
 import { GlobalContext, Actions } from '@/context';
 
 interface LoginResponse {
@@ -23,7 +24,7 @@ const LoginForm: React.FC = () => {
       );
 
       if (data.success) {
-        localStorage.setItem('kapoera-token', data.token);
+        AuthUtils.login(data.token);
         dispatch({ type: Actions.Login });
       }
     } catch (err) {}
