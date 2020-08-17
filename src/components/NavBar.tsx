@@ -1,6 +1,12 @@
 import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Menu } from 'semantic-ui-react';
+import {
+  ButtonGroup,
+  Dropdown,
+  Icon,
+  Menu,
+  Transition
+} from 'semantic-ui-react';
 import styled from 'styled-components';
 import { GlobalContext, Actions } from '@/context';
 import * as AuthUtils from '@/utils/auth';
@@ -9,9 +15,14 @@ interface NavBarProps {
   className?: string;
 }
 
+const ProfileIcon = styled(Icon)`
+  margin: 0 !important;
+`;
+
 const NavBar: React.FC<NavBarProps> = ({ className }: NavBarProps) => {
   const history = useHistory();
-  const [activeItem, setActiveItem] = useState('home');
+  const [activeItem, setActiveItem] = useState<string>('home');
+  const [profileOpen, setProfileOpen] = useState<boolean>(false);
   const { state, dispatch } = useContext(GlobalContext);
 
   const handleProfileClick = () => {
@@ -30,10 +41,23 @@ const NavBar: React.FC<NavBarProps> = ({ className }: NavBarProps) => {
         onClick={() => setActiveItem('home')}
       />
       <Menu.Menu position="right">
-        <Menu.Item
-          name={state.isLoggedIn ? 'logout' : 'login'}
-          onClick={handleProfileClick}
-        />
+        <ButtonGroup color="blue">
+          <Dropdown
+            icon={<ProfileIcon name="user circle" size="large" />}
+            button
+            className="icon"
+            onClick={() => setProfileOpen(prevState => !prevState)}
+          >
+            <Transition visible={profileOpen} animation="scale" duration={500}>
+              <Dropdown.Menu>
+                <Dropdown.Item
+                  text={state.isLoggedIn ? 'logout' : 'login'}
+                  onClick={handleProfileClick}
+                />
+              </Dropdown.Menu>
+            </Transition>
+          </Dropdown>
+        </ButtonGroup>
       </Menu.Menu>
     </Menu>
   );
