@@ -39,6 +39,7 @@ const App: React.FC = () => {
       );
 
       if (data.valid) {
+        dispatch({ type: Actions.Login });
         dispatch({ type: Actions.SetInfo, payload: data.decoded });
       } else {
         AuthUtils.logout();
