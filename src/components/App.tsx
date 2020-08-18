@@ -6,7 +6,8 @@ import {
   GlobalContext,
   globalContextReducer as reducer,
   Actions,
-  initialState
+  initialState,
+  User
 } from '@/context';
 import axios from '@/utils/axios';
 import * as AuthUtils from '@/utils/auth';
@@ -22,25 +23,21 @@ const GlobalStyle = createGlobalStyle`
 const Foo: React.FC = () => <div>FooFooFooFooFooFoo</div>;
 
 interface CheckStatusResponse {
-  valid: boolean;
-  decoded?: {
-    username: string;
-    nickname: string;
-  };
+  success: boolean;
+  userinfo?: User;
 }
 
 const App: React.FC = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
-
   useEffect(() => {
     const fetchStatus = async () => {
       const { data }: { data: CheckStatusResponse } = await axios.get(
-        '/auth/check'
+        '/api/check'
       );
 
-      if (data.valid) {
+      if (data.success) {
         dispatch({ type: Actions.Login });
-        dispatch({ type: Actions.SetInfo, payload: data.decoded });
+        dispatch({ type: Actions.SetInfo, payload: data.userinfo });
       } else {
         AuthUtils.logout();
         dispatch({ type: Actions.Logout });

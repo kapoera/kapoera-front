@@ -2,10 +2,17 @@ import React, { Dispatch } from 'react';
 
 interface GlobalState {
   isLoggedIn: boolean;
-  user: {
-    username: string;
-    nickname: string;
-  };
+  user: User;
+}
+
+export interface User {
+  department: string;
+  is_admin: boolean;
+  nickname: string;
+  password: string;
+  score: number;
+  student_number: number;
+  username: string;
 }
 
 export enum Actions {
@@ -25,10 +32,7 @@ interface LogoutAction {
 
 interface SetInfoAction {
   type: typeof Actions.SetInfo;
-  payload: {
-    username: string;
-    nickname: string;
-  };
+  payload: User;
 }
 
 interface UpdateNickname {
@@ -40,7 +44,7 @@ type GlobalAction = LoginAction | LogoutAction | SetInfoAction | UpdateNickname;
 
 export const initialState: GlobalState = {
   isLoggedIn: false,
-  user: { username: '', nickname: '' }
+  user: null
 };
 
 export const GlobalContext = React.createContext<{
