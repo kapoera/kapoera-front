@@ -2,7 +2,7 @@ import React, { Dispatch } from 'react';
 
 interface GlobalState {
   isLoggedIn: boolean;
-  userInfo: {
+  user: {
     username: string;
     nickname: string;
   };
@@ -24,7 +24,7 @@ interface GlobalAction {
 
 export const initialState: GlobalState = {
   isLoggedIn: false,
-  userInfo: null
+  user: { username: '', nickname: '' }
 };
 
 export const GlobalContext = React.createContext<{
@@ -42,7 +42,7 @@ export const globalContextReducer = (
     case Actions.Logout:
       return { ...state, isLoggedIn: false };
     case Actions.SetInfo:
-      return { ...state, userInfo: action.payload };
+      return { ...state, user: action.payload };
     default:
       return state;
   }
