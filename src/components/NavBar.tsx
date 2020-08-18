@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { Menu } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { GlobalContext, Actions } from '@/context';
+import * as AuthUtils from '@/utils/auth';
 
 interface NavBarProps {
   className?: string;
@@ -14,8 +15,10 @@ const NavBar: React.FC<NavBarProps> = ({ className }: NavBarProps) => {
   const { state, dispatch } = useContext(GlobalContext);
 
   const handleProfileClick = () => {
-    if (state.isLoggedIn) dispatch({ type: Actions.Logout });
-
+    if (state.isLoggedIn) {
+      dispatch({ type: Actions.Logout });
+      AuthUtils.logout();
+    }
     history.push('/login');
   };
 
