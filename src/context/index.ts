@@ -11,16 +11,32 @@ interface GlobalState {
 export enum Actions {
   Login = 'LOGIN',
   Logout = 'LOGOUT',
-  SetInfo = 'SETINFO'
+  SetInfo = 'SET_INFO',
+  UpdateNickname = 'UPDATE_NICKNAME'
 }
 
-interface GlobalAction {
-  type: Actions;
-  payload?: {
+interface LoginAction {
+  type: typeof Actions.Login;
+}
+
+interface LogoutAction {
+  type: typeof Actions.Logout;
+}
+
+interface SetInfoAction {
+  type: typeof Actions.SetInfo;
+  payload: {
     username: string;
     nickname: string;
   };
 }
+
+interface UpdateNickname {
+  type: typeof Actions.UpdateNickname;
+  payload: string;
+}
+
+type GlobalAction = LoginAction | LogoutAction | SetInfoAction | UpdateNickname;
 
 export const initialState: GlobalState = {
   isLoggedIn: false,
@@ -43,6 +59,8 @@ export const globalContextReducer = (
       return { ...state, isLoggedIn: false };
     case Actions.SetInfo:
       return { ...state, user: action.payload };
+    case Actions.UpdateNickname:
+      return { ...state, user: { ...state.user, nickname: action.payload } };
     default:
       return state;
   }
