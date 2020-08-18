@@ -42,11 +42,7 @@ const NavBar: React.FC<NavBarProps> = ({ className }: NavBarProps) => {
 
   return (
     <Menu className={className} color="blue" inverted secondary>
-      <Menu.Item
-        name="home"
-        active={activeItem === 'home'}
-        onClick={() => setActiveItem('home')}
-      />
+      <Menu.Item name="home" onClick={() => history.push('/')} />
       <Menu.Menu position="right">
         <ButtonGroup color="blue">
           <Dropdown
