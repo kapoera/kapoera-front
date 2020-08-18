@@ -23,14 +23,21 @@ const NavBar: React.FC<NavBarProps> = ({ className }: NavBarProps) => {
   const history = useHistory();
   const [activeItem, setActiveItem] = useState<string>('home');
   const [profileOpen, setProfileOpen] = useState<boolean>(false);
-  const { state, dispatch } = useContext(GlobalContext);
+  const {
+    state: { isLoggedIn },
+    dispatch
+  } = useContext(GlobalContext);
 
-  const handleProfileClick = () => {
-    if (state.isLoggedIn) {
+  const handleLogClick = () => {
+    if (isLoggedIn) {
       dispatch({ type: Actions.Logout });
       AuthUtils.logout();
     }
     history.push('/login');
+  };
+
+  const handleProfileClick = () => {
+    history.push('/profile');
   };
 
   return (
@@ -51,9 +58,12 @@ const NavBar: React.FC<NavBarProps> = ({ className }: NavBarProps) => {
             <Transition visible={profileOpen} animation="scale" duration={500}>
               <Dropdown.Menu>
                 <Dropdown.Item
-                  text={state.isLoggedIn ? 'logout' : 'login'}
-                  onClick={handleProfileClick}
+                  text={isLoggedIn ? 'logout' : 'login'}
+                  onClick={handleLogClick}
                 />
+                {isLoggedIn && (
+                  <Dropdown.Item text="profile" onClick={handleProfileClick} />
+                )}
               </Dropdown.Menu>
             </Transition>
           </Dropdown>
