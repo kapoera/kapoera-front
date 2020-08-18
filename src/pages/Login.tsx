@@ -66,7 +66,7 @@ interface LoginPageProps {
   className?: string;
 }
 
-const LoginPage: React.FC<LoginPageProps> = ({ className }: LoginPageProps) => {
+const Login: React.FC<LoginPageProps> = ({ className }: LoginPageProps) => {
   const { state } = useContext(GlobalContext);
 
   return state.isLoggedIn ? (
@@ -81,4 +81,4 @@ const LoginPage: React.FC<LoginPageProps> = ({ className }: LoginPageProps) => {
   );
 };
 
-export default LoginPage;
+export default Login;
