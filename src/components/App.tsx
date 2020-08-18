@@ -11,7 +11,7 @@ import {
 import axios from '@/utils/axios';
 import * as AuthUtils from '@/utils/auth';
 import NavBar from './NavBar';
-import LoginPage from './LoginPage';
+import LoginPage from '@/pages/LoginPage';
 
 const GlobalStyle = createGlobalStyle`
   body {
