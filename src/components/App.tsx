@@ -11,7 +11,7 @@ import {
 import axios from '@/utils/axios';
 import * as AuthUtils from '@/utils/auth';
 import NavBar from './NavBar';
-import LoginPage from '@/pages/LoginPage';
+import { Login, Profile } from '@/pages';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -60,7 +60,10 @@ const App: React.FC = () => {
             <Foo />
           </Route>
           <Route exact path="/login">
-            <LoginPage />
+            <Login />
+          </Route>
+          <Route exact path="/profile">
+            <Profile />
           </Route>
         </Switch>
       </BrowserRouter>
