@@ -31,16 +31,20 @@ const App: React.FC = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
   useEffect(() => {
     const fetchStatus = async () => {
-      const { data }: { data: CheckStatusResponse } = await axios.get(
-        '/api/check'
-      );
+      try {
+        const { data }: { data: CheckStatusResponse } = await axios.get(
+          '/api/check'
+        );
 
-      if (data.success) {
-        dispatch({ type: Actions.Login });
-        dispatch({ type: Actions.SetInfo, payload: data.userinfo });
-      } else {
-        AuthUtils.logout();
-        dispatch({ type: Actions.Logout });
+        if (data.success) {
+          dispatch({ type: Actions.Login });
+          dispatch({ type: Actions.SetInfo, payload: data.userinfo });
+        } else {
+          AuthUtils.logout();
+          dispatch({ type: Actions.Logout });
+        }
+      } catch (error) {
+        console.error('Kapoera: Not Logged In');
       }
     };
 
