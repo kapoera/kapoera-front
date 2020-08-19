@@ -2,29 +2,49 @@ import React, { Dispatch } from 'react';
 
 interface GlobalState {
   isLoggedIn: boolean;
-  userInfo: {
-    username: string;
-    nickname: string;
-  };
+  user: User;
+}
+
+export interface User {
+  department: string;
+  is_admin: boolean;
+  nickname: string;
+  password: string;
+  score: number;
+  student_number: number;
+  username: string;
 }
 
 export enum Actions {
   Login = 'LOGIN',
   Logout = 'LOGOUT',
-  SetInfo = 'SETINFO'
+  SetInfo = 'SET_INFO',
+  UpdateNickname = 'UPDATE_NICKNAME'
 }
 
-interface GlobalAction {
-  type: Actions;
-  payload?: {
-    username: string;
-    nickname: string;
-  };
+interface LoginAction {
+  type: typeof Actions.Login;
 }
+
+interface LogoutAction {
+  type: typeof Actions.Logout;
+}
+
+interface SetInfoAction {
+  type: typeof Actions.SetInfo;
+  payload: User;
+}
+
+interface UpdateNickname {
+  type: typeof Actions.UpdateNickname;
+  payload: string;
+}
+
+type GlobalAction = LoginAction | LogoutAction | SetInfoAction | UpdateNickname;
 
 export const initialState: GlobalState = {
   isLoggedIn: false,
-  userInfo: null
+  user: null
 };
 
 export const GlobalContext = React.createContext<{
@@ -42,7 +62,9 @@ export const globalContextReducer = (
     case Actions.Logout:
       return { ...state, isLoggedIn: false };
     case Actions.SetInfo:
-      return { ...state, userInfo: action.payload };
+      return { ...state, user: action.payload };
+    case Actions.UpdateNickname:
+      return { ...state, user: { ...state.user, nickname: action.payload } };
     default:
       return state;
   }

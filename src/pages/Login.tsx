@@ -8,12 +8,13 @@ interface LoginResponse {
   default_nickname: string;
   is_new: boolean;
   success: boolean;
-  token: string;
+  accessToken: string;
+  refreshToken: string;
 }
 
 const LoginForm: React.FC = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
   const { dispatch } = useContext(GlobalContext);
 
   const submitHandler = async () => {
@@ -24,7 +25,7 @@ const LoginForm: React.FC = () => {
       );
 
       if (data.success) {
-        AuthUtils.login(data.token);
+        AuthUtils.login(data.accessToken, data.refreshToken);
         dispatch({ type: Actions.Login });
       }
     } catch (err) {}
@@ -66,7 +67,7 @@ interface LoginPageProps {
   className?: string;
 }
 
-const LoginPage: React.FC<LoginPageProps> = ({ className }: LoginPageProps) => {
+const Login: React.FC<LoginPageProps> = ({ className }: LoginPageProps) => {
   const { state } = useContext(GlobalContext);
 
   return state.isLoggedIn ? (
@@ -81,4 +82,4 @@ const LoginPage: React.FC<LoginPageProps> = ({ className }: LoginPageProps) => {
   );
 };
 
-export default LoginPage;
+export default Login;

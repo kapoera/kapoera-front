@@ -6,12 +6,13 @@ import {
   GlobalContext,
   globalContextReducer as reducer,
   Actions,
-  initialState
+  initialState,
+  User
 } from '@/context';
 import axios from '@/utils/axios';
 import * as AuthUtils from '@/utils/auth';
 import NavBar from './NavBar';
-import LoginPage from './LoginPage';
+import { Login, Profile } from '@/pages';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -22,28 +23,28 @@ const GlobalStyle = createGlobalStyle`
 const Foo: React.FC = () => <div>FooFooFooFooFooFoo</div>;
 
 interface CheckStatusResponse {
-  valid: boolean;
-  decoded?: {
-    username: string;
-    nickname: string;
-  };
+  success: boolean;
+  userinfo?: User;
 }
 
 const App: React.FC = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
-
   useEffect(() => {
     const fetchStatus = async () => {
-      const { data }: { data: CheckStatusResponse } = await axios.get(
-        '/auth/check'
-      );
+      try {
+        const { data }: { data: CheckStatusResponse } = await axios.get(
+          '/api/check'
+        );
 
-      if (data.valid) {
-        dispatch({ type: Actions.Login });
-        dispatch({ type: Actions.SetInfo, payload: data.decoded });
-      } else {
-        AuthUtils.logout();
-        dispatch({ type: Actions.Logout });
+        if (data.success) {
+          dispatch({ type: Actions.Login });
+          dispatch({ type: Actions.SetInfo, payload: data.userinfo });
+        } else {
+          AuthUtils.logout();
+          dispatch({ type: Actions.Logout });
+        }
+      } catch (error) {
+        console.error('Kapoera: Not Logged In');
       }
     };
 
@@ -60,7 +61,10 @@ const App: React.FC = () => {
             <Foo />
           </Route>
           <Route exact path="/login">
-            <LoginPage />
+            <Login />
+          </Route>
+          <Route exact path="/profile">
+            <Profile />
           </Route>
         </Switch>
       </BrowserRouter>
