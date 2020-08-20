@@ -2,15 +2,22 @@ import React, { useContext, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from '@/utils/axios';
 import * as AuthUtils from '@/utils/auth';
-import { GlobalContext, Actions } from '@/context';
+import { GlobalContext, Actions, User } from '@/context';
 
-interface LoginResponse {
-  default_nickname: string;
-  is_new: boolean;
+interface LoginResponseSuccess {
   success: boolean;
+  is_new: boolean;
   accessToken: string;
   refreshToken: string;
+  userinfo: User;
 }
+
+interface LoginResponseFail {
+  success: boolean;
+  message: string;
+}
+
+type LoginResponse = LoginResponseSuccess | LoginResponseFail;
 
 const LoginForm: React.FC = () => {
   const [username, setUsername] = useState<string>('');
@@ -25,8 +32,14 @@ const LoginForm: React.FC = () => {
       );
 
       if (data.success) {
-        AuthUtils.login(data.accessToken, data.refreshToken);
+        const {
+          accessToken,
+          refreshToken,
+          userinfo
+        } = data as LoginResponseSuccess;
+        AuthUtils.login(accessToken, refreshToken);
         dispatch({ type: Actions.Login });
+        dispatch({ type: Actions.SetInfo, payload: userinfo });
       }
     } catch (err) {}
   };
