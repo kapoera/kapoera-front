@@ -1,3 +1,5 @@
+import config from '@/config';
+
 export const login = (accessToken: string, refreshToken: string): void => {
   localStorage.setItem('kapoera-access', accessToken);
   localStorage.setItem('kapoera-refresh', refreshToken);
@@ -13,3 +15,19 @@ export const getAccessToken = (): string =>
 
 export const getRefreshToken = (): string =>
   localStorage.getItem('kapoera-refresh');
+
+export const requestAccessToken = async (): Promise<string> => {
+  const fetched = await fetch(`${config.baseURL}/auth/token`, {
+    method: 'POST',
+    headers: {
+      Refreshtoken: getRefreshToken()
+    }
+  });
+
+  const result = await (<
+    Promise<{ success: boolean; accessToken?: string; message?: string }>
+  >fetched.json());
+
+  if (result.success) return result.accessToken;
+  else return '';
+};
