@@ -60,7 +60,7 @@ export const globalContextReducer = (
     case Actions.Login:
       return { ...state, isLoggedIn: true };
     case Actions.Logout:
-      return { ...state, isLoggedIn: false };
+      return { ...state, isLoggedIn: false, user: null };
     case Actions.SetInfo:
       return { ...state, user: action.payload };
     case Actions.UpdateNickname:
