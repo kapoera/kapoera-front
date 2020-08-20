@@ -2,6 +2,7 @@ import React, { useEffect, useReducer } from 'react';
 import 'semantic-ui-css/semantic.min.css';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
+import { IntlProvider } from 'react-intl';
 import {
   GlobalContext,
   globalContextReducer as reducer,
@@ -9,10 +10,11 @@ import {
   initialState,
   User
 } from '@/context';
-import axios from '@/utils/axios';
-import * as AuthUtils from '@/utils/auth';
-import NavBar from './NavBar';
 import { Login, Profile } from '@/pages';
+import messages from '@/translations/ko.json';
+import * as AuthUtils from '@/utils/auth';
+import axios from '@/utils/axios';
+import NavBar from './NavBar';
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -29,6 +31,7 @@ interface CheckStatusResponse {
 
 const App: React.FC = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
+
   useEffect(() => {
     const fetchStatus = async () => {
       try {
@@ -53,21 +56,23 @@ const App: React.FC = () => {
 
   return (
     <GlobalContext.Provider value={{ state, dispatch }}>
-      <GlobalStyle />
-      <BrowserRouter>
-        <NavBar />
-        <Switch>
-          <Route exact path="/">
-            <Foo />
-          </Route>
-          <Route exact path="/login">
-            <Login />
-          </Route>
-          <Route exact path="/profile">
-            <Profile />
-          </Route>
-        </Switch>
-      </BrowserRouter>
+      <IntlProvider locale={state.locale} messages={messages[state.locale]}>
+        <GlobalStyle />
+        <BrowserRouter>
+          <NavBar />
+          <Switch>
+            <Route exact path="/">
+              <Foo />
+            </Route>
+            <Route exact path="/login">
+              <Login />
+            </Route>
+            <Route exact path="/profile">
+              <Profile />
+            </Route>
+          </Switch>
+        </BrowserRouter>
+      </IntlProvider>
     </GlobalContext.Provider>
   );
 };
