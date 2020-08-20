@@ -3,6 +3,7 @@ import React, { Dispatch } from 'react';
 interface GlobalState {
   isLoggedIn: boolean;
   user: User;
+  locale: string;
 }
 
 export interface User {
@@ -44,7 +45,8 @@ type GlobalAction = LoginAction | LogoutAction | SetInfoAction | UpdateNickname;
 
 export const initialState: GlobalState = {
   isLoggedIn: false,
-  user: null
+  user: null,
+  locale: 'ko'
 };
 
 export const GlobalContext = React.createContext<{
