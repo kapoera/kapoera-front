@@ -14,15 +14,16 @@ const Profile: React.FC = () => {
   }, [nickname]);
 
   const handleNicknameSubmit = async () => {
-    if (nickname === '') return;
+    if (inputNickname === '') return;
 
-    const result: {
-      success: boolean;
-      message?: string;
-    } = await axios.post('/api/nickname', { nickname });
+    const {
+      data: { success, message }
+    }: {
+      data: { success: boolean; message?: string };
+    } = await axios.post('/api/nickname', { nickname: inputNickname });
 
-    if (result.success) {
-      dispatch({ type: Actions.UpdateNickname, payload: nickname });
+    if (success) {
+      dispatch({ type: Actions.UpdateNickname, payload: inputNickname });
     } else {
       setPopupOpen(true);
       setTimeout(() => {
@@ -53,7 +54,7 @@ const Profile: React.FC = () => {
               }}
             />
           }
-          content="Nickname taken. Please select another nickname"
+          content="Nickname taken. Please try another nickname"
           position="top right"
           open={popupOpen}
           inverted
