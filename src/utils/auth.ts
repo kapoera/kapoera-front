@@ -1,13 +1,21 @@
 import config from '@/config';
 
 export const login = (accessToken: string, refreshToken: string): void => {
-  localStorage.setItem('kapoera-access', accessToken);
-  localStorage.setItem('kapoera-refresh', refreshToken);
+  setAccessToken(accessToken);
+  setRefreshToken(refreshToken);
 };
 
 export const logout = (): void => {
   localStorage.removeItem('kapoera-access');
   localStorage.removeItem('kapoera-refresh');
+};
+
+export const setAccessToken = (token: string): void => {
+  localStorage.setItem('kapoera-access', token);
+};
+
+export const setRefreshToken = (token: string): void => {
+  localStorage.setItem('kapoera-refresh', token);
 };
 
 export const getAccessToken = (): string =>

@@ -27,8 +27,7 @@ instance.interceptors.response.use(
     ) {
       originalRequest._retry = true;
       const accessToken = await AuthUtils.requestAccessToken();
-      localStorage.setItem('kapoera-access', accessToken);
-      originalRequest.headers.Authorization = `Bearer ${accessToken}`;
+      AuthUtils.setAccessToken(accessToken);
       return instance(originalRequest);
     }
 
