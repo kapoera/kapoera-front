@@ -1,8 +1,9 @@
 import axios from 'axios';
 import * as AuthUtils from '@/utils/auth';
+import config from '@/config';
 
 const instance = axios.create({
-  baseURL: 'http://aria.sparcs.org:32960'
+  baseURL: config.baseURL
 });
 
 instance.interceptors.request.use(config => {
