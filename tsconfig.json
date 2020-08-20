@@ -10,6 +10,7 @@
         "baseUrl": "./src",
         "paths": {
             "@/*": ["./*"]
-        }
+        },
+        "resolveJsonModule": true
     }
 }
