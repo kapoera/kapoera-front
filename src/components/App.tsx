@@ -11,7 +11,7 @@ import {
   User
 } from '@/context';
 import { Login, Profile } from '@/pages';
-import messages from '@/translations/ko.json';
+import messages from '@/translations';
 import * as AuthUtils from '@/utils/auth';
 import axios from '@/utils/axios';
 import NavBar from './NavBar';
