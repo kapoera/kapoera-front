@@ -2,5 +2,9 @@
     "home": "Home",
     "login": "Login",
     "logout": "Logout",
-    "profile": "Profile"
+    "profile": "Profile",
+    "profile_header": "My Profile",
+    "profile_username": "username",
+    "profile_nickname": "nickname",
+    "profile_save_changes": "Save Changes"
 }
