@@ -40,7 +40,7 @@ const NavBar: React.FC<NavBarProps> = ({ className }: NavBarProps) => {
       <Menu.Item name={f({ id: 'home' })} onClick={() => history.push('/')} />
       <Menu.Menu position="right">
         <Menu.Item onClick={() => dispatch({ type: Actions.ToggleLocale })}>
-          <Icon name="language" size="large" />
+          <Icon name="language" size="large" style={{ margin: 0 }} />
         </Menu.Item>
         {isLoggedIn ? (
           <ButtonGroup color="blue">
