@@ -10,6 +10,7 @@ import {
 import styled from 'styled-components';
 import { GlobalContext, Actions } from '@/context';
 import * as AuthUtils from '@/utils/auth';
+import { useIntl } from 'react-intl';
 
 interface NavBarProps {
   className?: string;
@@ -20,6 +21,7 @@ const ProfileIcon = styled(Icon)`
 `;
 
 const NavBar: React.FC<NavBarProps> = ({ className }: NavBarProps) => {
+  const { formatMessage: f } = useIntl();
   const history = useHistory();
   const [profileOpen, setProfileOpen] = useState<boolean>(false);
   const {
@@ -35,7 +37,7 @@ const NavBar: React.FC<NavBarProps> = ({ className }: NavBarProps) => {
 
   return (
     <Menu className={className} color="blue" inverted secondary>
-      <Menu.Item name="home" onClick={() => history.push('/')} />
+      <Menu.Item name={f({ id: 'home' })} onClick={() => history.push('/')} />
       <Menu.Menu position="right">
         {isLoggedIn ? (
           <ButtonGroup color="blue">
@@ -51,9 +53,12 @@ const NavBar: React.FC<NavBarProps> = ({ className }: NavBarProps) => {
                 duration={500}
               >
                 <Dropdown.Menu>
-                  <Dropdown.Item text="Logout" onClick={handleLogout} />
                   <Dropdown.Item
-                    text="Profile"
+                    text={f({ id: 'logout' })}
+                    onClick={handleLogout}
+                  />
+                  <Dropdown.Item
+                    text={f({ id: 'profile' })}
                     onClick={() => history.push('/profile')}
                   />
                 </Dropdown.Menu>
@@ -61,7 +66,9 @@ const NavBar: React.FC<NavBarProps> = ({ className }: NavBarProps) => {
             </Dropdown>
           </ButtonGroup>
         ) : (
-          <Menu.Item onClick={() => history.push('/login')}>LOGIN</Menu.Item>
+          <Menu.Item onClick={() => history.push('/login')}>
+            {f({ id: 'login' })}
+          </Menu.Item>
         )}
       </Menu.Menu>
     </Menu>
