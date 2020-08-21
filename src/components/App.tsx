@@ -11,7 +11,7 @@ import {
   User
 } from '@/context';
 import { Login, Profile } from '@/pages';
-import messages from '@/translations';
+import translations from '@/i18n';
 import * as AuthUtils from '@/utils/auth';
 import axios from '@/utils/axios';
 import NavBar from './NavBar';
@@ -56,7 +56,7 @@ const App: React.FC = () => {
 
   return (
     <GlobalContext.Provider value={{ state, dispatch }}>
-      <IntlProvider locale={state.locale} messages={messages[state.locale]}>
+      <IntlProvider locale={state.locale} messages={translations[state.locale]}>
         <GlobalStyle />
         <BrowserRouter>
           <NavBar />
