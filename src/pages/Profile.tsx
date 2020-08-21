@@ -40,24 +40,22 @@ const Profile: React.FC = () => {
   };
 
   return (
-    <Container
-      style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
-    >
+    <Container>
       <StyledHeader as="h1">{f({ id: 'profile_header' })}</StyledHeader>
-      <Grid centered>
-        <Grid.Row centered>
-          <Grid.Column width={2} stretched verticalAlign="middle">
+      <Grid>
+        <Grid.Row columns={2}>
+          <Grid.Column width={4} verticalAlign="middle">
             {f({ id: 'profile_username' })}
           </Grid.Column>
-          <Grid.Column width={10} stretched verticalAlign="middle">
+          <Grid.Column>
             <Input type="text" value={username} />
           </Grid.Column>
         </Grid.Row>
-        <Grid.Row centered>
-          <Grid.Column width={2} stretched verticalAlign="middle">
+        <Grid.Row columns={2}>
+          <Grid.Column width={4} verticalAlign="middle">
             {f({ id: 'profile_nickname' })}
           </Grid.Column>
-          <Grid.Column width={10} stretched verticalAlign="middle">
+          <Grid.Column>
             <Popup
               trigger={
                 <Input
