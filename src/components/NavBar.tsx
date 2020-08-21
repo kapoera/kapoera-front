@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import { useIntl } from 'react-intl';
 import { useHistory } from 'react-router-dom';
 import {
   ButtonGroup,
@@ -10,7 +11,6 @@ import {
 import styled from 'styled-components';
 import { GlobalContext, Actions } from '@/context';
 import * as AuthUtils from '@/utils/auth';
-import { useIntl } from 'react-intl';
 
 interface NavBarProps {
   className?: string;
@@ -39,6 +39,9 @@ const NavBar: React.FC<NavBarProps> = ({ className }: NavBarProps) => {
     <Menu className={className} color="blue" inverted secondary>
       <Menu.Item name={f({ id: 'home' })} onClick={() => history.push('/')} />
       <Menu.Menu position="right">
+        <Menu.Item onClick={() => dispatch({ type: Actions.ToggleLocale })}>
+          <Icon name="language" size="large" />
+        </Menu.Item>
         {isLoggedIn ? (
           <ButtonGroup color="blue">
             <Dropdown
