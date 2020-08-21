@@ -3,6 +3,7 @@ import React, { Dispatch } from 'react';
 interface GlobalState {
   isLoggedIn: boolean;
   user: User;
+  locale: string;
 }
 
 export interface User {
@@ -19,7 +20,8 @@ export enum Actions {
   Login = 'LOGIN',
   Logout = 'LOGOUT',
   SetInfo = 'SET_INFO',
-  UpdateNickname = 'UPDATE_NICKNAME'
+  UpdateNickname = 'UPDATE_NICKNAME',
+  ToggleLocale = 'TOGGLE_LOCALE'
 }
 
 interface LoginAction {
@@ -40,11 +42,21 @@ interface UpdateNickname {
   payload: string;
 }
 
-type GlobalAction = LoginAction | LogoutAction | SetInfoAction | UpdateNickname;
+interface ToggleLocale {
+  type: typeof Actions.ToggleLocale;
+}
+
+type GlobalAction =
+  | LoginAction
+  | LogoutAction
+  | SetInfoAction
+  | UpdateNickname
+  | ToggleLocale;
 
 export const initialState: GlobalState = {
   isLoggedIn: false,
-  user: null
+  user: null,
+  locale: 'ko'
 };
 
 export const GlobalContext = React.createContext<{
@@ -65,6 +77,8 @@ export const globalContextReducer = (
       return { ...state, user: action.payload };
     case Actions.UpdateNickname:
       return { ...state, user: { ...state.user, nickname: action.payload } };
+    case Actions.ToggleLocale:
+      return { ...state, locale: state.locale === 'ko' ? 'en' : 'ko' };
     default:
       return state;
   }
