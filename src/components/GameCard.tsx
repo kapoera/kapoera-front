@@ -9,7 +9,6 @@ import PostechLogo from '@/public/postech.png';
 interface GameCardProps {
   gameType: string;
   playing: boolean;
-  winner: string;
   result: [number, number];
   startingTime: Date;
 }
@@ -17,12 +16,11 @@ interface GameCardProps {
 const GameCard: React.FC<GameCardProps> = ({
   gameType,
   playing,
-  winner,
   result,
   startingTime
 }: GameCardProps) => {
   return (
-    <Card>
+    <Card style={{ margin: '0 auto' }}>
       <Card.Content>
         <Card.Header as="h1" textAlign="center">
           {gameType}
@@ -34,23 +32,20 @@ const GameCard: React.FC<GameCardProps> = ({
             </Grid.Column>
             <Grid.Column textAlign="center">
               {playing ? (
-                <Label color="green" size="mini">
+                <Label color="green" size="tiny">
                   Playing
                 </Label>
               ) : (
-                <>
+                <div style={{ fontSize: '0.8rem' }}>
                   <FormattedDate
                     value={startingTime}
-                    month="long"
-                    day="numeric"
+                    month="2-digit"
+                    day="2-digit"
+                    hour="2-digit"
+                    minute="2-digit"
+                    hour12={false}
                   />
-                  <br />
-                  <FormattedTime
-                    value={startingTime}
-                    hour="numeric"
-                    minute="numeric"
-                  />
-                </>
+                </div>
               )}
             </Grid.Column>
             <Grid.Column verticalAlign="middle">
