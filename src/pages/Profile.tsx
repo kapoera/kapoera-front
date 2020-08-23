@@ -41,11 +41,11 @@ const Profile: React.FC = () => {
 
   return (
     <Container>
-      <StyledHeader as="h1">{f({ id: 'profile_header' })}</StyledHeader>
+      <StyledHeader as="h1">{f({ id: 'profile.header' })}</StyledHeader>
       <Grid>
         <Grid.Row columns={2}>
           <Grid.Column width={4} verticalAlign="middle">
-            {f({ id: 'profile_username' })}
+            {f({ id: 'profile.username' })}
           </Grid.Column>
           <Grid.Column>
             <Input type="text" value={username} />
@@ -53,7 +53,7 @@ const Profile: React.FC = () => {
         </Grid.Row>
         <Grid.Row columns={2}>
           <Grid.Column width={4} verticalAlign="middle">
-            {f({ id: 'profile_nickname' })}
+            {f({ id: 'profile.nickname' })}
           </Grid.Column>
           <Grid.Column>
             <Popup
@@ -66,7 +66,7 @@ const Profile: React.FC = () => {
                   }}
                   action={{
                     color: 'teal',
-                    content: f({ id: 'profile_save_changes' }),
+                    content: f({ id: 'profile.save_changes' }),
                     onClick: handleNicknameSubmit,
                     disabled: nickname === inputNickname
                   }}

@@ -10,7 +10,7 @@ import {
   initialState,
   User
 } from '@/context';
-import { Login, Profile } from '@/pages';
+import { Login, Main, Profile } from '@/pages';
 import translations from '@/i18n';
 import * as AuthUtils from '@/utils/auth';
 import axios from '@/utils/axios';
@@ -18,11 +18,9 @@ import NavBar from './NavBar';
 
 const GlobalStyle = createGlobalStyle`
   body {
-    background-color: #ebebeb;
+    background-color: #fafafa;
   }
 `;
-
-const Foo: React.FC = () => <div>FooFooFooFooFooFoo</div>;
 
 interface CheckStatusResponse {
   success: boolean;
@@ -62,7 +60,7 @@ const App: React.FC = () => {
           <NavBar />
           <Switch>
             <Route exact path="/">
-              <Foo />
+              <Main />
             </Route>
             <Route exact path="/login">
               <Login />
