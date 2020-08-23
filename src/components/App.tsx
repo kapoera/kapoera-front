@@ -18,7 +18,7 @@ import NavBar from './NavBar';
 
 const GlobalStyle = createGlobalStyle`
   body {
-    background-color: #ebebeb;
+    background-color: #fafafa;
   }
 `;
 
