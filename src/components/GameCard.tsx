@@ -2,7 +2,7 @@ import React from 'react';
 import { Card } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { FormattedDate, FormattedTime } from 'react-intl';
-import { Grid, Image } from 'semantic-ui-react';
+import { Grid, Image, Label } from 'semantic-ui-react';
 import KaistLogo from '@/public/kaist.png';
 import PostechLogo from '@/public/postech.png';
 
@@ -33,13 +33,25 @@ const GameCard: React.FC<GameCardProps> = ({
               <Image src={KaistLogo} />
             </Grid.Column>
             <Grid.Column textAlign="center">
-              <FormattedDate value={startingTime} month="long" day="numeric" />
-              <br />
-              <FormattedTime
-                value={startingTime}
-                hour="numeric"
-                minute="numeric"
-              />
+              {playing ? (
+                <Label color="green" size="mini">
+                  Playing
+                </Label>
+              ) : (
+                <>
+                  <FormattedDate
+                    value={startingTime}
+                    month="long"
+                    day="numeric"
+                  />
+                  <br />
+                  <FormattedTime
+                    value={startingTime}
+                    hour="numeric"
+                    minute="numeric"
+                  />
+                </>
+              )}
             </Grid.Column>
             <Grid.Column verticalAlign="middle">
               <Image src={PostechLogo} />
