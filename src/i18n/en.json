@@ -3,8 +3,16 @@
     "login": "Login",
     "logout": "Logout",
     "profile": "Profile",
-    "profile_header": "My Profile",
-    "profile_username": "username",
-    "profile_nickname": "nickname",
-    "profile_save_changes": "Save"
+    "profile.header": "My Profile",
+    "profile.username": "username",
+    "profile.nickname": "nickname",
+    "profile.save_changes": "Save",
+    "game.ai": "Artificial Intelligence",
+    "game.hacking": "Hacking",
+    "game.kart": "Kart Rider",
+    "game.lol": "League of Legends",
+    "game.quiz": "Science Quiz",
+    "game.playing": "Playing",
+    "game.score": "Score",
+    "game.winning": "Winning"
 }
