@@ -34,7 +34,14 @@ module.exports = {
       },
       {
         test: /\.woff($|\?)|\.woff2($|\?)|\.ttf($|\?)|\.eot($|\?)|\.svg($|\?)|\.(png|jpg|gif)($|\?)/,
-        use: 'url-loader'
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              esModule: false
+            }
+          }
+        ]
       }
     ]
   },
