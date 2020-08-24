@@ -1,10 +1,10 @@
 import React from 'react';
 import { Card } from 'semantic-ui-react';
-import styled from 'styled-components';
 import { FormattedDate, useIntl } from 'react-intl';
 import { Grid, Image, Label } from 'semantic-ui-react';
 import KaistLogo from '@/public/kaist.png';
 import PostechLogo from '@/public/postech.png';
+import QuizImage from '@/public/quiz.jpg';
 
 interface GameCardProps {
   gameType: string;
@@ -22,7 +22,8 @@ const GameCard: React.FC<GameCardProps> = ({
   const { formatMessage: f } = useIntl();
 
   return (
-    <Card>
+    <Card fluid>
+      <Image src={QuizImage} wrapped ui={false} />
       <Card.Content>
         <Card.Header as="h1" textAlign="center">
           {f({ id: `game.${gameType}` })}
