@@ -27,7 +27,7 @@ const Profile: React.FC = () => {
       data: { success, message }
     }: {
       data: { success: boolean; message?: string };
-    } = await axios.post('/api/nickname', { nickname: inputNickname });
+    } = await axios.post('/api/private/nickname', { nickname: inputNickname });
 
     if (success) {
       dispatch({ type: Actions.UpdateNickname, payload: inputNickname });

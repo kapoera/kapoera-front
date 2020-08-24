@@ -34,7 +34,7 @@ const App: React.FC = () => {
     const fetchStatus = async () => {
       try {
         const { data }: { data: CheckStatusResponse } = await axios.get(
-          '/api/check'
+          '/api/private/check'
         );
 
         if (data.success) {
