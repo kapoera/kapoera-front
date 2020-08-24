@@ -47,7 +47,7 @@ const Main: React.FC = () => {
   return (
     <Container>
       <Header as="h1">Main</Header>
-      <Grid columns={3} stackable>
+      <Grid columns={3} doubling stackable>
         {mockData.map(data => (
           <Transition key={data.gameType} transitionOnMount>
             <Grid.Column>
