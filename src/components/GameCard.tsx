@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { Card } from 'semantic-ui-react';
 import { FormattedDate, useIntl } from 'react-intl';
 import { Grid, Image, Label } from 'semantic-ui-react';
@@ -20,9 +21,17 @@ const GameCard: React.FC<GameCardProps> = ({
   startingTime
 }: GameCardProps) => {
   const { formatMessage: f } = useIntl();
+  const history = useHistory();
 
   return (
-    <Card fluid>
+    <Card
+      fluid
+      link
+      as="div"
+      onClick={() => {
+        history.push(`/game/${gameType}`);
+      }}
+    >
       <Image src={QuizImage} wrapped ui={false} />
       <Card.Content>
         <Card.Header as="h1" textAlign="center">
