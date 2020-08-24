@@ -75,7 +75,7 @@ export const GameCard: React.FC<GameCardProps> = ({
                 </div>
               ) : (
                 <Label color="red" size="tiny">
-                  Finished
+                  {f({ id: 'game.finished' })}
                 </Label>
               )}
             </Grid.Column>
