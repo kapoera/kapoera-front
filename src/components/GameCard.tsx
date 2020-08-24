@@ -7,18 +7,33 @@ import KaistLogo from '@/public/kaist.png';
 import PostechLogo from '@/public/postech.png';
 import QuizImage from '@/public/quiz.jpg';
 
-interface GameCardProps {
-  gameType: string;
-  playing: boolean;
-  result: [number, number];
-  startingTime: Date;
+enum UniversityEnum {
+  Kaist = 'K',
+  Postech = 'P'
 }
 
-const GameCard: React.FC<GameCardProps> = ({
-  gameType,
+enum GameStatus {
+  Waiting = 'waiting',
+  Running = 'running',
+  Exiting = 'exiting'
+}
+
+export interface GameCardProps {
+  dividend: number;
+  game_type: string;
+  kaist_arr: number[];
+  postech_arr: number[];
+  playing: GameStatus;
+  result: { [key in UniversityEnum]: number };
+  starting_time: string;
+  winner?: UniversityEnum;
+}
+
+export const GameCard: React.FC<GameCardProps> = ({
+  game_type,
   playing,
   result,
-  startingTime
+  starting_time
 }: GameCardProps) => {
   const { formatMessage: f } = useIntl();
   const history = useHistory();
@@ -29,13 +44,13 @@ const GameCard: React.FC<GameCardProps> = ({
       link
       as="div"
       onClick={() => {
-        history.push(`/game/${gameType}`);
+        history.push(`/game/${game_type}`);
       }}
     >
       <Image src={QuizImage} wrapped ui={false} />
       <Card.Content>
         <Card.Header as="h1" textAlign="center">
-          {f({ id: `game.${gameType}` })}
+          {f({ id: `game.${game_type}` })}
         </Card.Header>
         <Grid>
           <Grid.Row columns={3}>
@@ -43,14 +58,14 @@ const GameCard: React.FC<GameCardProps> = ({
               <Image src={KaistLogo} />
             </Grid.Column>
             <Grid.Column textAlign="center">
-              {playing ? (
+              {playing === GameStatus.Running ? (
                 <Label color="green" size="tiny">
                   {f({ id: 'game.playing' })}
                 </Label>
-              ) : (
+              ) : playing === GameStatus.Waiting ? (
                 <div style={{ fontSize: '0.8rem' }}>
                   <FormattedDate
-                    value={startingTime}
+                    value={starting_time}
                     month="2-digit"
                     day="2-digit"
                     hour="2-digit"
@@ -58,6 +73,10 @@ const GameCard: React.FC<GameCardProps> = ({
                     hour12={false}
                   />
                 </div>
+              ) : (
+                <Label color="red" size="tiny">
+                  Finished
+                </Label>
               )}
             </Grid.Column>
             <Grid.Column verticalAlign="middle">
@@ -66,13 +85,13 @@ const GameCard: React.FC<GameCardProps> = ({
           </Grid.Row>
           <Grid.Row columns={3}>
             <Grid.Column textAlign="center">
-              <h3>{result[0]}</h3>
+              <h3>{result[UniversityEnum.Kaist]}</h3>
             </Grid.Column>
             <Grid.Column textAlign="center">
               {f({ id: 'game.score' })}
             </Grid.Column>
             <Grid.Column textAlign="center">
-              <h3>{result[1]}</h3>
+              <h3>{result[UniversityEnum.Postech]}</h3>
             </Grid.Column>
           </Grid.Row>
           <Grid.Row columns={3}>
@@ -87,5 +106,3 @@ const GameCard: React.FC<GameCardProps> = ({
     </Card>
   );
 };
-
-export default GameCard;
