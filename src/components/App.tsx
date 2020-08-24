@@ -10,8 +10,8 @@ import {
   initialState,
   User
 } from '@/context';
-import { Login, Main, Profile } from '@/pages';
 import translations from '@/i18n';
+import { Login, Game, Main, Profile } from '@/pages';
 import * as AuthUtils from '@/utils/auth';
 import axios from '@/utils/axios';
 import NavBar from './NavBar';
@@ -59,14 +59,17 @@ const App: React.FC = () => {
         <BrowserRouter>
           <NavBar />
           <Switch>
-            <Route exact path="/">
-              <Main />
-            </Route>
-            <Route exact path="/login">
+            <Route path="/login">
               <Login />
             </Route>
-            <Route exact path="/profile">
+            <Route path="/profile">
               <Profile />
+            </Route>
+            <Route path="/game/:gameId">
+              <Game />
+            </Route>
+            <Route path="/">
+              <Main />
             </Route>
           </Switch>
         </BrowserRouter>
