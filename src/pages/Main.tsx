@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Container, Grid, Header } from 'semantic-ui-react';
+import { Container, Grid, Header, Transition } from 'semantic-ui-react';
 import { GlobalContext } from '@/context';
 import GameCard from '@/components/GameCard';
 
@@ -49,9 +49,11 @@ const Main: React.FC = () => {
       <Header as="h1">Main</Header>
       <Grid columns={3} stackable>
         {mockData.map(data => (
-          <Grid.Column key={data.gameType}>
-            <GameCard {...data} />
-          </Grid.Column>
+          <Transition key={data.gameType} transitionOnMount>
+            <Grid.Column>
+              <GameCard {...data} />
+            </Grid.Column>
+          </Transition>
         ))}
       </Grid>
     </Container>
