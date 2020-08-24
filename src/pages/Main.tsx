@@ -3,6 +3,7 @@ import { Container, Grid, Header, Transition } from 'semantic-ui-react';
 import { GlobalContext } from '@/context';
 import axios from '@/utils/axios';
 import { GameCard, GameCardProps } from '@/components/GameCard';
+import StatusBanner from '@/components/StatusBanner';
 
 const Main: React.FC = () => {
   const { state, dispatch } = useContext(GlobalContext);
@@ -20,6 +21,7 @@ const Main: React.FC = () => {
   return (
     <Container>
       <Header as="h1">Main</Header>
+      <StatusBanner />
       <Grid columns={3} doubling stackable>
         {gamesData.map(data => (
           <Transition key={data.game_type} transitionOnMount>
