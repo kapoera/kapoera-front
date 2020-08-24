@@ -7,12 +7,12 @@ import KaistLogo from '@/public/kaist.png';
 import PostechLogo from '@/public/postech.png';
 import QuizImage from '@/public/quiz.jpg';
 
-enum UniversityEnum {
+export enum University {
   Kaist = 'K',
   Postech = 'P'
 }
 
-enum GameStatus {
+export enum GameStatus {
   Waiting = 'waiting',
   Running = 'running',
   Exiting = 'exiting'
@@ -24,9 +24,9 @@ export interface GameCardProps {
   kaist_arr: number[];
   postech_arr: number[];
   playing: GameStatus;
-  result: { [key in UniversityEnum]: number };
+  result: { [key in University]: number };
   starting_time: string;
-  winner?: UniversityEnum;
+  winner?: University;
 }
 
 export const GameCard: React.FC<GameCardProps> = ({
@@ -85,13 +85,13 @@ export const GameCard: React.FC<GameCardProps> = ({
           </Grid.Row>
           <Grid.Row columns={3}>
             <Grid.Column textAlign="center">
-              <h3>{result[UniversityEnum.Kaist]}</h3>
+              <h3>{result[University.Kaist]}</h3>
             </Grid.Column>
             <Grid.Column textAlign="center">
               {f({ id: 'game.score' })}
             </Grid.Column>
             <Grid.Column textAlign="center">
-              <h3>{result[UniversityEnum.Postech]}</h3>
+              <h3>{result[University.Postech]}</h3>
             </Grid.Column>
           </Grid.Row>
           <Grid.Row columns={3}>
