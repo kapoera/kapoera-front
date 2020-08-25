@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { FormattedDate, useIntl } from 'react-intl';
 import { Container, Grid, Image, Label } from 'semantic-ui-react';
@@ -7,6 +7,7 @@ import { GameCardProps, University, GameStatus } from '@/components/GameCard';
 import KaistLogo from '@/public/kaist.png';
 import PostechLogo from '@/public/postech.png';
 import LolImage from '@/public/lol.jpg';
+import axios from '@/utils/axios';
 
 const mockData: GameCardProps = {
   dividend: 1000,
@@ -57,8 +58,20 @@ const GameStatusBanner: React.FC<GameStatusBannerProps> = ({
 
 const Game: React.FC = () => {
   const { gameId }: { gameId: string } = useParams();
-  const { playing, starting_time, result } = mockData;
+  console.log(gameId);
+  const [{ playing, starting_time, result }, setGameData] = useState(mockData);
   const { formatMessage: f } = useIntl();
+  useEffect(() => {
+    const fetchGame = async () => {
+      const { data }: { data: GameCardProps } = await axios.get(
+        '/api/games/' + gameId
+      );
+      console.log(data);
+      setGameData(data);
+    };
+
+    fetchGame();
+  }, []);
 
   return (
     <Container>
