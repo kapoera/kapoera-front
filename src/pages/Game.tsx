@@ -29,6 +29,16 @@ const GameOverlay = styled.div`
   width: 100%;
 `;
 
+const StyledProgress = styled(Progress)`
+  -moz-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+  filter: FlipH;
+  -ms-filter: 'FlipH';
+  color: #fafafa;
+`;
+
 interface GameStatusBannerProps {
   children: React.ReactChild;
   src: any;
@@ -68,7 +78,6 @@ const Game: React.FC = () => {
   ] = useState(defaultState);
   const [kaistRatio, setKaistRatio] = useState<number>(0.0);
   const [postechRatio, setPostechRatio] = useState<number>(0.0);
-  const [totalBetting, setTotalBetting] = useState<number>(0);
   const { formatMessage: f } = useIntl();
 
   useEffect(() => {
@@ -91,9 +100,16 @@ const Game: React.FC = () => {
         '/api/games/' + gameId
       );
       setGameData(data);
-      setTotalBetting(data.kaist_arr.length + data.postech_arr.length);
-      setKaistRatio(data.kaist_arr.length);
-      setPostechRatio(data.postech_arr.length);
+      if (data.kaist_arr.length + data.postech_arr.length != 0) {
+        setKaistRatio(
+          (100 * data.kaist_arr.length) /
+            (data.kaist_arr.length + data.postech_arr.length)
+        );
+        setPostechRatio(
+          (100 * data.postech_arr.length) /
+            (data.kaist_arr.length + data.postech_arr.length)
+        );
+      }
     };
 
     fetchGame();
@@ -153,20 +169,10 @@ const Game: React.FC = () => {
           </Grid.Row>
           <Grid.Row columns={2}>
             <Grid.Column>
-              <Progress
-                value={kaistRatio}
-                total={totalBetting}
-                progress="ratio"
-                indicating
-              />
+              <StyledProgress percent={kaistRatio} color="blue" />
             </Grid.Column>
             <Grid.Column>
-              <Progress
-                value={postechRatio}
-                total={totalBetting}
-                progress="ratio"
-                indicating
-              />
+              <Progress percent={postechRatio} color="red" />
             </Grid.Column>
           </Grid.Row>
         </Grid>
