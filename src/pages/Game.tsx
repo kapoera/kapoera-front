@@ -2,22 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { FormattedDate, useIntl } from 'react-intl';
 import { Container, Grid, Image, Label } from 'semantic-ui-react';
+import io from 'socket.io-client';
 import styled from 'styled-components';
 import { GameCardProps, University, GameStatus } from '@/components/GameCard';
+import config from '@/config';
 import KaistLogo from '@/public/kaist.png';
 import PostechLogo from '@/public/postech.png';
 import LolImage from '@/public/lol.jpg';
 import axios from '@/utils/axios';
-
-const mockData: GameCardProps = {
-  dividend: 1000,
-  game_type: 'ai',
-  kaist_arr: [],
-  postech_arr: [],
-  playing: GameStatus.Exiting,
-  result: { [University.Kaist]: 30, [University.Postech]: 10 },
-  starting_time: '2020-08-24T14:21:18.242Z'
-};
 
 const DimmedImage = styled(Image)`
   opacity: 0.35;
@@ -56,17 +48,42 @@ const GameStatusBanner: React.FC<GameStatusBannerProps> = ({
   );
 };
 
+const defaultState: GameCardProps = {
+  dividend: 1000,
+  game_type: 'ai',
+  kaist_arr: [],
+  postech_arr: [],
+  playing: GameStatus.Exiting,
+  result: { [University.Kaist]: 0, [University.Postech]: 0 },
+  starting_time: '2020-08-24T00:00:00.000Z'
+};
+
 const Game: React.FC = () => {
   const { gameId }: { gameId: string } = useParams();
-  console.log(gameId);
-  const [{ playing, starting_time, result }, setGameData] = useState(mockData);
+  const [{ playing, starting_time, result, game_type }, setGameData] = useState(
+    defaultState
+  );
   const { formatMessage: f } = useIntl();
+
+  useEffect(() => {
+    const socket = io(config.socketURL, {
+      transports: ['websocket'],
+      upgrade: false,
+      query: { game: game_type }
+    });
+
+    socket.on('refresh', (data: GameCardProps) => {});
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+
   useEffect(() => {
     const fetchGame = async () => {
       const { data }: { data: GameCardProps } = await axios.get(
         '/api/games/' + gameId
       );
-      console.log(data);
       setGameData(data);
     };
 
