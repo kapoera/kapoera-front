@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { FormattedDate, useIntl } from 'react-intl';
-import { Container, Grid, Image, Label } from 'semantic-ui-react';
+import { Container, Grid, Image, Label, Progress } from 'semantic-ui-react';
 import io from 'socket.io-client';
 import styled from 'styled-components';
 import { GameCardProps, University, GameStatus } from '@/components/GameCard';
@@ -60,9 +60,15 @@ const defaultState: GameCardProps = {
 
 const Game: React.FC = () => {
   const { gameId }: { gameId: string } = useParams();
-  const [{ playing, starting_time, result, game_type }, setGameData] = useState(
-    defaultState
-  );
+
+  console.log(gameId);
+  const [
+    { playing, starting_time, result, kaist_arr, postech_arr, game_type },
+    setGameData
+  ] = useState(defaultState);
+  const [kaistRatio, setKaistRatio] = useState<number>(0.0);
+  const [postechRatio, setPostechRatio] = useState<number>(0.0);
+  const [totalBetting, setTotalBetting] = useState<number>(0);
   const { formatMessage: f } = useIntl();
 
   useEffect(() => {
@@ -72,7 +78,7 @@ const Game: React.FC = () => {
       query: { game: game_type }
     });
 
-    socket.on('refresh', (data: GameCardProps) => { });
+    socket.on('refresh', (data: GameCardProps) => {});
 
     return () => {
       socket.disconnect();
@@ -85,6 +91,9 @@ const Game: React.FC = () => {
         '/api/games/' + gameId
       );
       setGameData(data);
+      setTotalBetting(data.kaist_arr.length + data.postech_arr.length);
+      setKaistRatio(data.kaist_arr.length);
+      setPostechRatio(data.postech_arr.length);
     };
 
     fetchGame();
@@ -115,10 +124,10 @@ const Game: React.FC = () => {
                   />
                 </div>
               ) : (
-                    <Label color="red" size="huge">
-                      {f({ id: 'game.finished' })}
-                    </Label>
-                  )}
+                <Label color="red" size="huge">
+                  {f({ id: 'game.finished' })}
+                </Label>
+              )}
             </Grid.Column>
             <Grid.Column verticalAlign="middle">
               <Image src={PostechLogo} />
@@ -141,6 +150,24 @@ const Game: React.FC = () => {
               {f({ id: 'game.winning' })}
             </Grid.Column>
             <Grid.Column textAlign="center">-</Grid.Column>
+          </Grid.Row>
+          <Grid.Row columns={2}>
+            <Grid.Column>
+              <Progress
+                value={kaistRatio}
+                total={totalBetting}
+                progress="ratio"
+                indicating
+              />
+            </Grid.Column>
+            <Grid.Column>
+              <Progress
+                value={postechRatio}
+                total={totalBetting}
+                progress="ratio"
+                indicating
+              />
+            </Grid.Column>
           </Grid.Row>
         </Grid>
       </GameStatusBanner>
