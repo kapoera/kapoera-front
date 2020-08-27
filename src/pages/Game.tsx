@@ -72,7 +72,7 @@ const Game: React.FC = () => {
       query: { game: game_type }
     });
 
-    socket.on('refresh', (data: GameCardProps) => {});
+    socket.on('refresh', (data: GameCardProps) => { });
 
     return () => {
       socket.disconnect();
@@ -115,10 +115,10 @@ const Game: React.FC = () => {
                   />
                 </div>
               ) : (
-                <Label color="red" size="huge">
-                  {f({ id: 'game.finished' })}
-                </Label>
-              )}
+                    <Label color="red" size="huge">
+                      {f({ id: 'game.finished' })}
+                    </Label>
+                  )}
             </Grid.Column>
             <Grid.Column verticalAlign="middle">
               <Image src={PostechLogo} />

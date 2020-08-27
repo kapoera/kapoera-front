@@ -55,6 +55,7 @@ module.exports = {
     port: 8000,
     hot: true,
     historyApiFallback: true,
-    host: '0.0.0.0'
+    host: '0.0.0.0',
+    disableHostCheck: true
   }
 };
