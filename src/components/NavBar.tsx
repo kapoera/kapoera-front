@@ -22,7 +22,7 @@ const ProfileIcon = styled(Icon)`
 
 const StyledMenu = styled(Menu)`
   background-color: #252525 !important;
-  color: white !important;
+  margin-bottom: 0 !important;
 `;
 
 const NavBar: React.FC<NavBarProps> = ({ className }: NavBarProps) => {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { FormattedDate, useIntl } from 'react-intl';
-import { Container, Grid, Image, Label, Progress } from 'semantic-ui-react';
+import { Container, Grid, Image, Label, Progress, Menu } from 'semantic-ui-react';
 import io from 'socket.io-client';
 import styled from 'styled-components';
 import { GameCardProps, University, GameStatus } from '@/components/GameCard';
@@ -32,6 +32,12 @@ const GameOverlay = styled.div`
 const StyledProgress = styled(Progress)`
   color: #fafafa;
   direction: rtl;
+`;
+
+const Banner = styled(Menu)`
+  background-color: #696969 !important;
+  margin-bottom: 0 !important;
+  text-align: center;
 `;
 
 interface GameStatusBannerProps {
@@ -82,7 +88,7 @@ const Game: React.FC = () => {
       query: { game: game_type }
     });
 
-    socket.on('refresh', (data: GameCardProps) => {});
+    socket.on('refresh', (data: GameCardProps) => { });
 
     return () => {
       socket.disconnect();
@@ -98,11 +104,11 @@ const Game: React.FC = () => {
       if (data.kaist_arr.length + data.postech_arr.length != 0) {
         setKaistRatio(
           (100 * data.kaist_arr.length) /
-            (data.kaist_arr.length + data.postech_arr.length)
+          (data.kaist_arr.length + data.postech_arr.length)
         );
         setPostechRatio(
           (100 * data.postech_arr.length) /
-            (data.kaist_arr.length + data.postech_arr.length)
+          (data.kaist_arr.length + data.postech_arr.length)
         );
       }
     };
@@ -111,7 +117,12 @@ const Game: React.FC = () => {
   }, []);
 
   return (
-    <Container>
+    <Container fluid>
+      <Banner color="grey" inverted secondary>
+        <Menu.Item style={{ margin: "0 auto" }}>
+          <h4>{f({ id: `game.${gameId}` })}</h4>
+        </Menu.Item>
+      </Banner>
       <GameStatusBanner src={LolImage}>
         <Grid>
           <Grid.Row columns={3}>
@@ -135,10 +146,10 @@ const Game: React.FC = () => {
                   />
                 </div>
               ) : (
-                <Label color="red" size="huge">
-                  {f({ id: 'game.finished' })}
-                </Label>
-              )}
+                    <Label color="red" size="huge">
+                      {f({ id: 'game.finished' })}
+                    </Label>
+                  )}
             </Grid.Column>
             <Grid.Column verticalAlign="middle">
               <Image src={PostechLogo} />
