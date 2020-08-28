@@ -20,6 +20,11 @@ const ProfileIcon = styled(Icon)`
   margin: 0 !important;
 `;
 
+const StyledMenu = styled(Menu)`
+  background-color: #252525 !important;
+  color: white !important;
+`;
+
 const NavBar: React.FC<NavBarProps> = ({ className }: NavBarProps) => {
   const { formatMessage: f } = useIntl();
   const history = useHistory();
@@ -36,7 +41,7 @@ const NavBar: React.FC<NavBarProps> = ({ className }: NavBarProps) => {
   };
 
   return (
-    <Menu className={className} color="blue" inverted secondary>
+    <StyledMenu className={className} color="grey" inverted secondary>
       <Menu.Item onClick={() => history.push('/')}>
         <h3>{f({ id: 'home' })}</h3>
       </Menu.Item>
@@ -45,7 +50,7 @@ const NavBar: React.FC<NavBarProps> = ({ className }: NavBarProps) => {
           <Icon name="language" size="large" style={{ margin: 0 }} />
         </Menu.Item>
         {isLoggedIn ? (
-          <ButtonGroup color="blue">
+          <ButtonGroup color="grey">
             <Dropdown
               icon={<ProfileIcon name="user circle" size="large" />}
               button
@@ -71,12 +76,12 @@ const NavBar: React.FC<NavBarProps> = ({ className }: NavBarProps) => {
             </Dropdown>
           </ButtonGroup>
         ) : (
-          <Menu.Item onClick={() => history.push('/login')}>
-            <h3>{f({ id: 'login' })}</h3>
-          </Menu.Item>
-        )}
+            <Menu.Item onClick={() => history.push('/login')}>
+              <h3>{f({ id: 'login' })}</h3>
+            </Menu.Item>
+          )}
       </Menu.Menu>
-    </Menu>
+    </StyledMenu>
   );
 };
 
