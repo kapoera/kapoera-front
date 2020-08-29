@@ -20,6 +20,10 @@ const GlobalStyle = createGlobalStyle`
   body {
     background-color: #fafafa;
   }
+  body *{
+    @import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+    font-family: 'Jua', sans-serif;
+  }
 `;
 
 interface CheckStatusResponse {

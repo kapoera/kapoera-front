@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { FormattedDate, useIntl } from 'react-intl';
-import { Container, Grid, Image, Label, Progress, Menu } from 'semantic-ui-react';
+import { Container, Grid, Image, Label, Progress, Menu, Card, Responsive, Segment, Button } from 'semantic-ui-react';
 import io from 'socket.io-client';
 import styled from 'styled-components';
 import { GameCardProps, University, GameStatus } from '@/components/GameCard';
@@ -23,9 +23,9 @@ const GameOverlay = styled.div`
   font-size: calc(1rem + 1.5vmin);
   height: 100%;
   justify-content: center;
-  left: 0;
-  position: absolute;
-  top: 0;
+  // left: 0;
+  // position: absolute;
+  // top: 0;
   width: 100%;
 `;
 
@@ -40,20 +40,27 @@ const Banner = styled(Menu)`
   text-align: center;
 `;
 
+const Team = styled.div`
+  height: 20vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+
+`
+
 interface GameStatusBannerProps {
   children: React.ReactChild;
-  src: any;
 }
 
 const GameStatusBanner: React.FC<GameStatusBannerProps> = ({
-  children,
-  src
+  children
 }: GameStatusBannerProps) => {
   return (
-    <div style={{ position: 'relative', marginBottom: '15px' }}>
-      <DimmedImage fluid src={src} alt="Lol Image" />
+    <div style={{ width: '100%', height: '50vh' }}>
+      {/* <DimmedImage fluid src={src} alt="Lol Image" /> */}
       <GameOverlay>
-        <div style={{ width: '80%', height: '80%' }}>{children}</div>
+        <div style={{ width: '100%', height: '100%' }}>{children}</div>
       </GameOverlay>
     </div>
   );
@@ -71,8 +78,6 @@ const defaultState: GameCardProps = {
 
 const Game: React.FC = () => {
   const { gameId }: { gameId: string } = useParams();
-
-  console.log(gameId);
   const [
     { playing, starting_time, result, kaist_arr, postech_arr, game_type },
     setGameData
@@ -120,70 +125,81 @@ const Game: React.FC = () => {
     <Container fluid>
       <Banner color="grey" inverted secondary>
         <Menu.Item style={{ margin: "0 auto" }}>
-          <h4>{f({ id: `game.${gameId}` })}</h4>
+          <h3>{f({ id: `game.${gameId}` })}</h3>
         </Menu.Item>
       </Banner>
-      <GameStatusBanner src={LolImage}>
-        <Grid>
-          <Grid.Row columns={3}>
-            <Grid.Column verticalAlign="middle">
-              <Image src={KaistLogo} />
-            </Grid.Column>
-            <Grid.Column textAlign="center" verticalAlign="middle">
-              {playing === GameStatus.Running ? (
-                <Label color="green" size="huge">
-                  {f({ id: 'game.playing' })}
+      <Grid divided="vertically" style={{ position: "relative", top: "15px" }}>
+        <Grid.Row columns={2} style={{ padding: 0 }}>
+          <Grid.Column verticalAlign="middle" style={{ backgroundColor: "#a5dff9", margin: 0, padding: 0 }}>
+            <Team>
+              <Image src={KaistLogo} size="medium" style={{ flexGrow: 0.8, width: "10vw", height: "auto" }} />
+              <h1 style={{ flexGrow: 1, textAlign: "right", margin: "0 6vw", color: "white" }}>{result[University.Kaist]}</h1>
+            </Team>
+          </Grid.Column>
+          <Grid.Column verticalAlign="middle" style={{ backgroundColor: "#ffbbd6", margin: 0, padding: 0 }}>
+            <Team>
+              <h1 style={{ flexGrow: 1, textAlign: "left", margin: "0 6vw", color: "white" }}>{result[University.Postech]}</h1>
+              <Image src={PostechLogo} size="medium" style={{ flexGrow: 0.8, marginRight: "4vw", width: "10vw", height: "auto" }} />
+
+            </Team>
+          </Grid.Column>
+        </Grid.Row>
+        <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}>
+          {playing === GameStatus.Running ? (
+            <Label color="green" size="huge">
+              {f({ id: 'game.playing' })}
+            </Label>
+          ) : playing === GameStatus.Waiting ? (
+            <Label color="black" size="huge" style={{ fontSize: '0.8rem' }}>
+              <FormattedDate
+                value={starting_time}
+                month="2-digit"
+                day="2-digit"
+                hour="2-digit"
+                minute="2-digit"
+                hour12={false}
+              />
+            </Label>
+          ) : (
+                <Label color="red" size="huge">
+                  {f({ id: 'game.finished' })}
                 </Label>
-              ) : playing === GameStatus.Waiting ? (
-                <div style={{ fontSize: '0.8rem' }}>
-                  <FormattedDate
-                    value={starting_time}
-                    month="2-digit"
-                    day="2-digit"
-                    hour="2-digit"
-                    minute="2-digit"
-                    hour12={false}
-                  />
-                </div>
-              ) : (
-                    <Label color="red" size="huge">
-                      {f({ id: 'game.finished' })}
-                    </Label>
-                  )}
-            </Grid.Column>
-            <Grid.Column verticalAlign="middle">
-              <Image src={PostechLogo} />
-            </Grid.Column>
-          </Grid.Row>
-          <Grid.Row columns={3} style={{ marginBottom: '30px' }}>
-            <Grid.Column textAlign="center">
-              {result[University.Kaist]}
-            </Grid.Column>
-            <Grid.Column textAlign="center">
-              {f({ id: 'game.score' })}
-            </Grid.Column>
-            <Grid.Column textAlign="center">
-              {result[University.Postech]}
-            </Grid.Column>
-          </Grid.Row>
-          <Grid.Row columns={3}>
-            <Grid.Column textAlign="center">-</Grid.Column>
-            <Grid.Column textAlign="center">
-              {f({ id: 'game.winning' })}
-            </Grid.Column>
-            <Grid.Column textAlign="center">-</Grid.Column>
-          </Grid.Row>
-          <Grid.Row columns={2}>
-            <Grid.Column>
-              <StyledProgress percent={kaistRatio} color="blue" />
-            </Grid.Column>
-            <Grid.Column>
-              <Progress percent={postechRatio} color="red" />
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
-      </GameStatusBanner>
-    </Container>
+              )}
+        </div>
+      </Grid>
+      <Card style={{ position: "relative", top: "7vh", width: "90%", padding: "2rem 5rem" }} centered >
+        <Card.Content centered>
+          <Responsive as={Grid} style={{ margin: "0 0" }} minWidth={1200}>
+            <Grid.Row columns={3} centered>
+              <Grid.Column width={7}>
+                <StyledProgress percent={kaistRatio} color="blue" />
+              </Grid.Column >
+              <Grid.Column style={{ textAlign: "center" }} width={2}>
+                <h3>{f({ id: 'betting.status' })}</h3>
+              </Grid.Column>
+              <Grid.Column width={7}>
+                <Progress percent={postechRatio} color="red" />
+              </Grid.Column>
+            </Grid.Row>
+          </Responsive>
+          <Responsive as={Grid} style={{ margin: "0 0" }} maxWidth={1199}>
+            <Grid.Row columns={3} centered>
+              <Grid.Column width={6}>
+                <StyledProgress percent={kaistRatio} color="blue" />
+              </Grid.Column >
+              <Grid.Column style={{ textAlign: "center" }} width={2}>
+                <h4>{f({ id: 'betting.status' })}</h4>
+              </Grid.Column>
+              <Grid.Column width={6}>
+                <Progress percent={postechRatio} color="red" />
+              </Grid.Column>
+            </Grid.Row>
+          </Responsive>
+        </Card.Content>
+        <Button color="grey" style={{ margin: "0 auto", width: "25%" }} content={f({ id: 'betting.button' })}>
+        </Button>
+      </Card>
+    </Container >
   );
 };
 

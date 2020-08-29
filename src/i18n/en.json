@@ -15,5 +15,7 @@
     "game.playing": "Playing",
     "game.finished": "Finished",
     "game.score": "Score",
-    "game.winning": "Winning"
+    "game.winning": "Winning",
+    "betting.status": "Betting Status",
+    "betting.button": "Betting Button"
 }

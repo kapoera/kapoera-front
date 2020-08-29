@@ -21,7 +21,7 @@ const ProfileIcon = styled(Icon)`
 `;
 
 const StyledMenu = styled(Menu)`
-  background-color: #252525 !important;
+  background-color: #383838 !important;
   margin-bottom: 0 !important;
 `;
 
@@ -43,7 +43,7 @@ const NavBar: React.FC<NavBarProps> = ({ className }: NavBarProps) => {
   return (
     <StyledMenu className={className} color="grey" inverted secondary>
       <Menu.Item onClick={() => history.push('/')}>
-        <h3>{f({ id: 'home' })}</h3>
+        <h3 >{f({ id: 'home' })}</h3>
       </Menu.Item>
       <Menu.Menu position="right">
         <Menu.Item onClick={() => dispatch({ type: Actions.ToggleLocale })}>
