@@ -5,29 +5,27 @@ import { Container, Grid, Image, Label, Progress, Menu, Card, Responsive, Segmen
 import io from 'socket.io-client';
 import styled from 'styled-components';
 import { GameCardProps, University, GameStatus } from '@/components/GameCard';
+import PopupButton from "@/components/PopupButton";
+import MainEventPopup from "@/components/MainEventPopup";
 import config from '@/config';
 import KaistLogo from '@/public/kaist.png';
 import PostechLogo from '@/public/postech.png';
 import LolImage from '@/public/lol.jpg';
 import axios from '@/utils/axios';
 
-const DimmedImage = styled(Image)`
-  opacity: 0.35;
-`;
-
-const GameOverlay = styled.div`
-  align-items: center;
-  background-color: rgba(0, 0, 0, 0.65);
-  color: #fafafa;
-  display: flex;
-  font-size: calc(1rem + 1.5vmin);
-  height: 100%;
-  justify-content: center;
-  // left: 0;
-  // position: absolute;
-  // top: 0;
-  width: 100%;
-`;
+// const GameOverlay = styled.div`
+//   align-items: center;
+//   background-color: rgba(0, 0, 0, 0.65);
+//   color: #fafafa;
+//   display: flex;
+//   font-size: calc(1rem + 1.5vmin);
+//   height: 100%;
+//   justify-content: center;
+//   // left: 0;
+//   // position: absolute;
+//   // top: 0;
+//   width: 100%;
+// `;
 
 const StyledProgress = styled(Progress)`
   color: #fafafa;
@@ -49,22 +47,18 @@ const Team = styled.div`
 
 `
 
-interface GameStatusBannerProps {
-  children: React.ReactChild;
-}
-
-const GameStatusBanner: React.FC<GameStatusBannerProps> = ({
-  children
-}: GameStatusBannerProps) => {
-  return (
-    <div style={{ width: '100%', height: '50vh' }}>
-      {/* <DimmedImage fluid src={src} alt="Lol Image" /> */}
-      <GameOverlay>
-        <div style={{ width: '100%', height: '100%' }}>{children}</div>
-      </GameOverlay>
-    </div>
-  );
-};
+// const GameStatusBanner: React.FC<GameStatusBannerProps> = ({
+//   children
+// }: GameStatusBannerProps) => {
+//   return (
+//     <div style={{ width: '100%', height: '50vh' }}>
+//       {/* <DimmedImage fluid src={src} alt="Lol Image" /> */}
+//       <GameOverlay>
+//         <div style={{ width: '100%', height: '100%' }}>{children}</div>
+//       </GameOverlay>
+//     </div>
+//   );
+// };
 
 const defaultState: GameCardProps = {
   dividend: 1000,
@@ -76,6 +70,8 @@ const defaultState: GameCardProps = {
   starting_time: '2020-08-24T00:00:00.000Z'
 };
 
+
+
 const Game: React.FC = () => {
   const { gameId }: { gameId: string } = useParams();
   const [
@@ -84,7 +80,12 @@ const Game: React.FC = () => {
   ] = useState(defaultState);
   const [kaistRatio, setKaistRatio] = useState<number>(0.0);
   const [postechRatio, setPostechRatio] = useState<number>(0.0);
+  const [showPopup, setShowPopup] = useState<boolean>(false);
   const { formatMessage: f } = useIntl();
+
+  const popBetting = () => {
+    setShowPopup(true)
+  }
 
   useEffect(() => {
     const socket = io(config.socketURL, {
@@ -167,7 +168,7 @@ const Game: React.FC = () => {
               )}
         </div>
       </Grid>
-      <Card style={{ position: "relative", top: "7vh", width: "90%", padding: "2rem 5rem" }} centered >
+      <Card style={{ position: "relative", top: "7vh", width: "90%", padding: "1rem 5rem" }} centered >
         <Card.Content centered>
           <Responsive as={Grid} style={{ margin: "0 0" }} minWidth={1200}>
             <Grid.Row columns={3} centered>
@@ -196,9 +197,12 @@ const Game: React.FC = () => {
             </Grid.Row>
           </Responsive>
         </Card.Content>
-        <Button color="grey" style={{ margin: "0 auto", width: "25%" }} content={f({ id: 'betting.button' })}>
-        </Button>
+        <Card.Content style={{ display: "flex", alignItems: "center" }}>
+          <MainEventPopup game_type={game_type} >
+          </MainEventPopup>
+        </Card.Content>
       </Card>
+
     </Container >
   );
 };
