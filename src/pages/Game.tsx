@@ -123,13 +123,13 @@ const Game: React.FC = () => {
   }, []);
 
   return (
-    <Container fluid>
-      <Banner color="grey" inverted secondary>
+    <Container style={{ padding: "0 2%" }}>
+      <Banner color="grey" inverted secondary fluid style={{ margin: 0 }}>
         <Menu.Item style={{ margin: "0 auto" }}>
           <h3>{f({ id: `game.${gameId}` })}</h3>
         </Menu.Item>
       </Banner>
-      <Grid divided="vertically" style={{ position: "relative", top: "15px" }}>
+      <Grid divided="vertically" style={{ position: "relative", margin: 0 }} container>
         <Grid.Row columns={2} style={{ padding: 0 }}>
           <Grid.Column verticalAlign="middle" style={{ backgroundColor: "#a5dff9", margin: 0, padding: 0 }}>
             <Team>
@@ -176,7 +176,7 @@ const Game: React.FC = () => {
                 <StyledProgress percent={kaistRatio} color="blue" />
               </Grid.Column >
               <Grid.Column style={{ textAlign: "center" }} width={2}>
-                <h3>{f({ id: 'betting.status' })}</h3>
+                <h4>{f({ id: 'betting.status' })}</h4>
               </Grid.Column>
               <Grid.Column width={7}>
                 <Progress percent={postechRatio} color="red" />
