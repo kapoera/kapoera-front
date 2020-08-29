@@ -1,8 +1,13 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useContext } from 'react';
 import { Button, Header, Modal } from 'semantic-ui-react';
 import styled from 'styled-components';
 import KaistEmblem from '@/public/kaist_emblem.png';
 import PostechEmblem from '@/public/postech_emblem.png';
+import { useIntl } from 'react-intl';
+import PopupButton from "@/components/PopupButton";
+import { GlobalContext } from '@/context';
+import { useHistory } from 'react-router-dom';
+import axios from '@/utils/axios';
 
 interface LogoWrapperProps {
   checked?: boolean;
@@ -37,8 +42,8 @@ const ButtonGroup = styled.div`
 
 enum LogoState {
   None = 'NONE',
-  Kaist = 'KAIST',
-  Postech = 'POSTECH'
+  Kaist = 'K',
+  Postech = 'P'
 }
 
 enum MainEventAction {
@@ -74,20 +79,39 @@ interface MainEventPopupProps {
   game_type: string;
 }
 
+interface BettingResponse {
+  success: boolean;
+}
 const MainEventPopup: React.FC<MainEventPopupProps> = ({
   game_type
 }: MainEventPopupProps) => {
   const [{ open, selected }, dispatch] = useReducer(reducer, initialState);
-
+  const { formatMessage: f } = useIntl();
+  const {
+    state: { isLoggedIn }
+  } = useContext(GlobalContext);
+  const history = useHistory();
+  const bettingHandler = async () => {
+    if (isLoggedIn) {
+      const { data }: { data: BettingResponse } = await axios.post(
+        '/api/private/bet',
+        { game_type: game_type, choice: selected }
+      );
+      if (data.success) {
+        dispatch({ type: MainEventAction.ToggleOpen });
+      }
+    }
+    else history.push('/login')
+  }
   return (
     <Modal
       onClose={() => dispatch({ type: MainEventAction.ToggleOpen })}
       onOpen={() => dispatch({ type: MainEventAction.ToggleOpen })}
       open={open}
-      trigger={<Button>Show Popup</Button>}
+      trigger={<PopupButton></PopupButton>}
     >
       <Header as="h2" className="centered">
-        Who will win the AI game?
+        Who will win the {game_type} game?
       </Header>
       <Modal.Content>
         <ModalContainer>
@@ -114,7 +138,7 @@ const MainEventPopup: React.FC<MainEventPopupProps> = ({
             />
           </LogoGroup>
           <ButtonGroup>
-            <Button color="vk">Submit Bet</Button>
+            <Button color="vk" onClick={bettingHandler} disabled={selected === LogoState.None}>Submit Bet</Button>
             <Button
               onClick={() => {
                 dispatch({ type: MainEventAction.ToggleOpen });
@@ -125,8 +149,9 @@ const MainEventPopup: React.FC<MainEventPopupProps> = ({
           </ButtonGroup>
         </ModalContainer>
       </Modal.Content>
-    </Modal>
+    </Modal >
   );
 };
 
 export default MainEventPopup;
+
