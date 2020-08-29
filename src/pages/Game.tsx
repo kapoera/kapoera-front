@@ -169,7 +169,7 @@ const Game: React.FC = () => {
         </div>
       </Grid>
       <Card style={{ position: "relative", top: "7vh", width: "90%", padding: "1rem 5rem" }} centered >
-        <Card.Content centered>
+        <Card.Content>
           <Responsive as={Grid} style={{ margin: "0 0" }} minWidth={1200}>
             <Grid.Row columns={3} centered>
               <Grid.Column width={7}>
