@@ -37,13 +37,13 @@ const NavBar: React.FC<NavBarProps> = ({ className }: NavBarProps) => {
   const handleLogout = () => {
     dispatch({ type: Actions.Logout });
     AuthUtils.logout();
-    history.push('/login');
+    history.push('/signin');
   };
 
   return (
     <StyledMenu className={className} color="grey" inverted secondary>
       <Menu.Item onClick={() => history.push('/')}>
-        <h3 >{f({ id: 'home' })}</h3>
+        <h3>{f({ id: 'home' })}</h3>
       </Menu.Item>
       <Menu.Menu position="right">
         <Menu.Item onClick={() => dispatch({ type: Actions.ToggleLocale })}>
@@ -76,10 +76,14 @@ const NavBar: React.FC<NavBarProps> = ({ className }: NavBarProps) => {
             </Dropdown>
           </ButtonGroup>
         ) : (
-            <Menu.Item onClick={() => history.push('/login')}>
-              <h3>{f({ id: 'login' })}</h3>
-            </Menu.Item>
-          )}
+          <Menu.Item
+            onClick={() => {
+              history.push('/signin/redirect');
+            }}
+          >
+            <h3>{f({ id: 'login' })}</h3>
+          </Menu.Item>
+        )}
       </Menu.Menu>
     </StyledMenu>
   );
