@@ -80,21 +80,26 @@ const Game: React.FC = () => {
   ] = useState(defaultState);
   const [kaistRatio, setKaistRatio] = useState<number>(0.0);
   const [postechRatio, setPostechRatio] = useState<number>(0.0);
-  const [showPopup, setShowPopup] = useState<boolean>(false);
   const { formatMessage: f } = useIntl();
-
-  const popBetting = () => {
-    setShowPopup(true)
-  }
 
   useEffect(() => {
     const socket = io(config.socketURL, {
       transports: ['websocket'],
       upgrade: false,
-      query: { game: game_type }
+      query: { game: gameId }
     });
-
-    socket.on('refresh', (data: GameCardProps) => { console.log(data) });
+    socket.on('refresh', (data: GameCardProps) => {
+      if (data.kaist_arr.length + data.postech_arr.length != 0) {
+        setKaistRatio(
+          (100 * data.kaist_arr.length) /
+          (data.kaist_arr.length + data.postech_arr.length)
+        );
+        setPostechRatio(
+          (100 * data.postech_arr.length) /
+          (data.kaist_arr.length + data.postech_arr.length)
+        );
+      }
+    });
 
     return () => {
       socket.disconnect();
