@@ -11,7 +11,14 @@ import {
   User
 } from '@/context';
 import translations from '@/i18n';
-import { Login, Game, Main, Profile } from '@/pages';
+import {
+  Game,
+  Login,
+  LoginCallback,
+  LoginRedirect,
+  Main,
+  Profile
+} from '@/pages';
 import * as AuthUtils from '@/utils/auth';
 import axios from '@/utils/axios';
 import NavBar from './NavBar';
@@ -63,7 +70,13 @@ const App: React.FC = () => {
         <BrowserRouter>
           <NavBar />
           <Switch>
-            <Route path="/login">
+            <Route path="/signin/callback">
+              <LoginCallback />
+            </Route>
+            <Route path="/signin/redirect">
+              <LoginRedirect />
+            </Route>
+            <Route path="/signin">
               <Login />
             </Route>
             <Route path="/profile">
