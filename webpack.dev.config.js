@@ -56,6 +56,10 @@ module.exports = {
     hot: true,
     historyApiFallback: true,
     host: '0.0.0.0',
-    disableHostCheck: true
+    public: "aria.sparcs.org:32970"
+    // disableHostCheck: true,
+    // allowedHosts: [
+    //   "aria.sparcs.org"
+    // ]
   }
 };

@@ -94,7 +94,7 @@ const Game: React.FC = () => {
       query: { game: game_type }
     });
 
-    socket.on('refresh', (data: GameCardProps) => { });
+    socket.on('refresh', (data: GameCardProps) => { console.log(data) });
 
     return () => {
       socket.disconnect();
