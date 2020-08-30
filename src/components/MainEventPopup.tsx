@@ -87,7 +87,7 @@ const MainEventPopup: React.FC<MainEventPopupProps> = ({
   const bettingHandler = async () => {
     if (isLoggedIn) {
       if (selected === LogoState.None) {
-        console.log("no choice")
+        // console.log("no choice")
       }
       else {
         const { data }: { data: BettingResponse } = await axios.post(
@@ -99,7 +99,7 @@ const MainEventPopup: React.FC<MainEventPopupProps> = ({
           dispatch({ type: MainEventAction.ToggleOpen });
         }
         else {
-          console.log("잘못된 요청")
+          // console.log("잘못된 요청")
           dispatch({ type: MainEventAction.ToggleOpen });
         }
       }
