@@ -10,7 +10,7 @@ import {
 } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { GlobalContext, Actions } from '@/context';
-import * as AuthUtils from '@/utils/auth';
+import axios from '@/utils/axios';
 
 interface NavBarProps {
   className?: string;
@@ -34,10 +34,10 @@ const NavBar: React.FC<NavBarProps> = ({ className }: NavBarProps) => {
     dispatch
   } = useContext(GlobalContext);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     dispatch({ type: Actions.Logout });
-    AuthUtils.logout();
-    history.push('/signin');
+    await axios.post('/auth/logout');
+    history.push('/');
   };
 
   return (
