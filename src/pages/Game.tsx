@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { FormattedDate, useIntl } from 'react-intl';
 import { Container, Grid, Image, Label, Progress, Menu, Card, Responsive, Segment, Button } from 'semantic-ui-react';
 import io from 'socket.io-client';
 import styled from 'styled-components';
 import { GameCardProps, University, GameStatus } from '@/components/GameCard';
-import PopupButton from "@/components/PopupButton";
 import MainEventPopup from "@/components/MainEventPopup";
 import config from '@/config';
 import KaistLogo from '@/public/kaist.png';
 import PostechLogo from '@/public/postech.png';
+import { GlobalContext } from '@/context';
 import LolImage from '@/public/lol.jpg';
 import axios from '@/utils/axios';
 
@@ -46,6 +46,11 @@ const Team = styled.div`
   width: 100%;
 
 `
+export enum LogoState {
+  None = 'NONE',
+  Kaist = 'K',
+  Postech = 'P'
+}
 
 // const GameStatusBanner: React.FC<GameStatusBannerProps> = ({
 //   children
@@ -73,13 +78,16 @@ const defaultState: GameCardProps = {
 
 
 const Game: React.FC = () => {
+  const { state, dispatch } = useContext(GlobalContext);
+  const { _id } = state.user || { _id: "0" };
   const { gameId }: { gameId: string } = useParams();
   const [
-    { playing, starting_time, result, kaist_arr, postech_arr, game_type },
+    { playing, starting_time, result, game_type },
     setGameData
   ] = useState(defaultState);
   const [kaistRatio, setKaistRatio] = useState<number>(0.0);
   const [postechRatio, setPostechRatio] = useState<number>(0.0);
+  const [currentBetting, setCurrentBetting] = useState<LogoState>(LogoState.None);
   const { formatMessage: f } = useIntl();
 
   useEffect(() => {
@@ -112,6 +120,17 @@ const Game: React.FC = () => {
         '/api/games/' + gameId
       );
       setGameData(data);
+
+      if (data.kaist_arr.includes(_id)) {
+        setCurrentBetting(LogoState.Kaist)
+      }
+      else if (data.postech_arr.includes(_id)) {
+        setCurrentBetting(LogoState.Postech)
+      }
+      else {
+        setCurrentBetting(LogoState.None)
+      }
+
       if (data.kaist_arr.length + data.postech_arr.length != 0) {
         setKaistRatio(
           (100 * data.kaist_arr.length) /
@@ -123,9 +142,8 @@ const Game: React.FC = () => {
         );
       }
     };
-
     fetchGame();
-  }, []);
+  }, [_id]);
 
   return (
     <Container style={{ padding: "0 2%" }}>
@@ -203,7 +221,7 @@ const Game: React.FC = () => {
           </Responsive>
         </Card.Content>
         <Card.Content style={{ display: "flex", alignItems: "center" }}>
-          <MainEventPopup game_type={game_type} >
+          <MainEventPopup currentBetting={currentBetting} setCurrentBetting={setCurrentBetting} game_type={game_type} >
           </MainEventPopup>
         </Card.Content>
       </Card>

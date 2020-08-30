@@ -14,6 +14,7 @@ export interface User {
   score: number;
   student_number: number;
   username: string;
+  _id: any;
 }
 
 export enum Actions {
