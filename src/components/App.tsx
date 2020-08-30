@@ -19,7 +19,6 @@ import {
   Main,
   Profile
 } from '@/pages';
-import * as AuthUtils from '@/utils/auth';
 import axios from '@/utils/axios';
 import NavBar from './NavBar';
 
@@ -52,7 +51,6 @@ const App: React.FC = () => {
           dispatch({ type: Actions.Login });
           dispatch({ type: Actions.SetInfo, payload: data.userinfo });
         } else {
-          AuthUtils.logout();
           dispatch({ type: Actions.Logout });
         }
       } catch (error) {
