@@ -11,6 +11,7 @@ import {
 import styled from 'styled-components';
 import { GlobalContext, Actions } from '@/context';
 import axios from '@/utils/axios';
+import config from '@/config';
 
 interface NavBarProps {
   className?: string;
@@ -21,8 +22,18 @@ const ProfileIcon = styled(Icon)`
 `;
 
 const StyledMenu = styled(Menu)`
-  background-color: #383838 !important;
+  background-color: ${config.primary} !important;
   margin-bottom: 0 !important;
+`;
+
+const StyledDropdown = styled(Dropdown)`
+  background-color: ${config.primary} !important;
+  color: rgba(255, 255, 255, 0.7) !important;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.08) !important;
+    color: #fff !important;
+  }
 `;
 
 const NavBar: React.FC<NavBarProps> = ({ className }: NavBarProps) => {
@@ -50,8 +61,8 @@ const NavBar: React.FC<NavBarProps> = ({ className }: NavBarProps) => {
           <Icon name="language" size="large" style={{ margin: 0 }} />
         </Menu.Item>
         {isLoggedIn ? (
-          <ButtonGroup color="grey">
-            <Dropdown
+          <ButtonGroup>
+            <StyledDropdown
               icon={<ProfileIcon name="user circle" size="large" />}
               button
               className="icon"
@@ -73,7 +84,7 @@ const NavBar: React.FC<NavBarProps> = ({ className }: NavBarProps) => {
                   />
                 </Dropdown.Menu>
               </Transition>
-            </Dropdown>
+            </StyledDropdown>
           </ButtonGroup>
         ) : (
           <Menu.Item
