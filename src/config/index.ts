@@ -1,4 +1,4 @@
 export default {
-  baseURL: 'http://aria.sparcs.org:32960',
-  socketURL: 'http://aria.sparcs.org:32959'
+  baseURL: 'https://cyberkapo20.site/route',
+  socketURL: 'http://cyberkapo20.site:8080'
 };

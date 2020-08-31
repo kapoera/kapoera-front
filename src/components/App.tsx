@@ -11,8 +11,7 @@ import {
   User
 } from '@/context';
 import translations from '@/i18n';
-import { Login, Game, Main, Profile } from '@/pages';
-import * as AuthUtils from '@/utils/auth';
+import { Game, LoginCallback, LoginRedirect, Main, Profile } from '@/pages';
 import axios from '@/utils/axios';
 import NavBar from './NavBar';
 
@@ -45,7 +44,6 @@ const App: React.FC = () => {
           dispatch({ type: Actions.Login });
           dispatch({ type: Actions.SetInfo, payload: data.userinfo });
         } else {
-          AuthUtils.logout();
           dispatch({ type: Actions.Logout });
         }
       } catch (error) {
@@ -63,8 +61,11 @@ const App: React.FC = () => {
         <BrowserRouter>
           <NavBar />
           <Switch>
-            <Route path="/login">
-              <Login />
+            <Route path="/signin/callback">
+              <LoginCallback />
+            </Route>
+            <Route path="/signin/redirect">
+              <LoginRedirect />
             </Route>
             <Route path="/profile">
               <Profile />

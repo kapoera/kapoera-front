@@ -10,7 +10,7 @@ import {
 } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { GlobalContext, Actions } from '@/context';
-import * as AuthUtils from '@/utils/auth';
+import axios from '@/utils/axios';
 
 interface NavBarProps {
   className?: string;
@@ -34,16 +34,16 @@ const NavBar: React.FC<NavBarProps> = ({ className }: NavBarProps) => {
     dispatch
   } = useContext(GlobalContext);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     dispatch({ type: Actions.Logout });
-    AuthUtils.logout();
-    history.push('/login');
+    await axios.post('/auth/logout');
+    history.push('/');
   };
 
   return (
     <StyledMenu className={className} color="grey" inverted secondary>
       <Menu.Item onClick={() => history.push('/')}>
-        <h3 >{f({ id: 'home' })}</h3>
+        <h3>{f({ id: 'home' })}</h3>
       </Menu.Item>
       <Menu.Menu position="right">
         <Menu.Item onClick={() => dispatch({ type: Actions.ToggleLocale })}>
@@ -76,10 +76,14 @@ const NavBar: React.FC<NavBarProps> = ({ className }: NavBarProps) => {
             </Dropdown>
           </ButtonGroup>
         ) : (
-            <Menu.Item onClick={() => history.push('/login')}>
-              <h3>{f({ id: 'login' })}</h3>
-            </Menu.Item>
-          )}
+          <Menu.Item
+            onClick={() => {
+              history.push('/signin/redirect');
+            }}
+          >
+            <h3>{f({ id: 'login' })}</h3>
+          </Menu.Item>
+        )}
       </Menu.Menu>
     </StyledMenu>
   );
