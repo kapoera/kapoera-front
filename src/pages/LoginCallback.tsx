@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Redirect, useLocation } from 'react-router-dom';
-import { Header, Modal } from 'semantic-ui-react';
+import { useHistory, useLocation, Redirect } from 'react-router-dom';
+import { Button, Header, Modal } from 'semantic-ui-react';
 
 interface NicknameUpdateModalProps {
   defaultNickname: string;
@@ -9,10 +9,10 @@ interface NicknameUpdateModalProps {
 const NicknameUpdateModal: React.FC<NicknameUpdateModalProps> = ({
   defaultNickname
 }: NicknameUpdateModalProps) => {
-  const [open, setOpen] = useState<boolean>(true);
+  const history = useHistory();
 
   return (
-    <Modal open={open} onClose={() => setOpen(false)}>
+    <Modal open={true}>
       <Header as="h1">Welcome, {defaultNickname}</Header>
       <Modal.Content>
         <div style={{ fontSize: '1.5rem' }}>
@@ -20,6 +20,17 @@ const NicknameUpdateModal: React.FC<NicknameUpdateModalProps> = ({
           Note that nicknames are publicly exposed in this service.
         </div>
       </Modal.Content>
+      <Modal.Actions>
+        <Button
+          content="To Main Page"
+          labelPosition="right"
+          icon="checkmark"
+          onClick={() => {
+            history.push('/');
+          }}
+          positive
+        />
+      </Modal.Actions>
     </Modal>
   );
 };
