@@ -13,19 +13,6 @@ import { GlobalContext } from '@/context';
 import LolImage from '@/public/lol.jpg';
 import axios from '@/utils/axios';
 
-// const GameOverlay = styled.div`
-//   align-items: center;
-//   background-color: rgba(0, 0, 0, 0.65);
-//   color: #fafafa;
-//   display: flex;
-//   font-size: calc(1rem + 1.5vmin);
-//   height: 100%;
-//   justify-content: center;
-//   // left: 0;
-//   // position: absolute;
-//   // top: 0;
-//   width: 100%;
-// `;
 
 const StyledProgress = styled(Progress)`
   color: #fafafa;
@@ -51,19 +38,6 @@ export enum LogoState {
   Kaist = 'K',
   Postech = 'P'
 }
-
-// const GameStatusBanner: React.FC<GameStatusBannerProps> = ({
-//   children
-// }: GameStatusBannerProps) => {
-//   return (
-//     <div style={{ width: '100%', height: '50vh' }}>
-//       {/* <DimmedImage fluid src={src} alt="Lol Image" /> */}
-//       <GameOverlay>
-//         <div style={{ width: '100%', height: '100%' }}>{children}</div>
-//       </GameOverlay>
-//     </div>
-//   );
-// };
 
 const defaultState: GameCardProps = {
   dividend: 1000,
