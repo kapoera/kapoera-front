@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
-import { FormattedDate, useIntl } from 'react-intl';
+import { FormattedDate, FormattedMessage, useIntl } from 'react-intl';
 import {
   Container,
   Grid,
@@ -198,29 +198,35 @@ const Game: React.FC = () => {
           )}
         </div>
       </Grid>
-      <Card
-        style={{
-          position: 'relative',
-          top: '7vh',
-          width: '90%',
-          padding: '1rem 5rem'
-        }}
-        centered
-      >
+      <Card centered fluid>
         <Card.Content>
           <Grid columns={3}>
             <Grid.Row centered>
-              <Grid.Column width={7} stretched>
+              <Grid.Column width={7} stretched style={{ paddingRight: 0 }}>
                 <StyledProgress
                   percent={kaistRatio}
                   color="blue"
                   direction="left"
                 />
               </Grid.Column>
-              <Grid.Column verticalAlign="middle" width={2}>
-                <h4>{f({ id: 'betting.status' })}</h4>
+              <Grid.Column
+                verticalAlign="middle"
+                width={2}
+                style={{ padding: 0 }}
+              >
+                <div
+                  style={{
+                    fontSize: 'calc(0.5rem + 1vmin)',
+                    fontWeight: 'bold'
+                  }}
+                >
+                  <FormattedMessage
+                    id="betting.status"
+                    values={{ br: <br /> }}
+                  />
+                </div>
               </Grid.Column>
-              <Grid.Column width={7} stretched>
+              <Grid.Column width={7} stretched style={{ paddingLeft: 0 }}>
                 <StyledProgress
                   direction="right"
                   percent={postechRatio}
