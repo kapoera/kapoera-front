@@ -1,22 +1,33 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { FormattedDate, useIntl } from 'react-intl';
-import { Container, Grid, Image, Label, Progress, Menu, Card, Responsive, Segment, Button } from 'semantic-ui-react';
+import {
+  Container,
+  Grid,
+  Image,
+  Label,
+  Progress,
+  Card
+} from 'semantic-ui-react';
 import io from 'socket.io-client';
 import styled from 'styled-components';
 import { GameCardProps, University, GameStatus } from '@/components/GameCard';
-import MainEventPopup from "@/components/MainEventPopup";
+import MainEventPopup from '@/components/MainEventPopup';
 import config from '@/config';
 import KaistLogo from '@/public/kaist.png';
 import PostechLogo from '@/public/postech.png';
 import { GlobalContext } from '@/context';
-import LolImage from '@/public/lol.jpg';
 import axios from '@/utils/axios';
 
+interface StyledProgressProps {
+  direction: 'left' | 'right';
+}
 
 const StyledProgress = styled(Progress)`
   color: #fafafa;
-  direction: rtl;
+  direction: ${({ direction }: StyledProgressProps) =>
+    direction === 'left' ? 'rtl' : 'ltr'};
+  margin: 1em 0 !important;
 `;
 
 const Banner = styled.div`
@@ -187,42 +198,47 @@ const Game: React.FC = () => {
           )}
         </div>
       </Grid>
-      <Card style={{ position: "relative", top: "7vh", width: "90%", padding: "1rem 5rem" }} centered >
+      <Card
+        style={{
+          position: 'relative',
+          top: '7vh',
+          width: '90%',
+          padding: '1rem 5rem'
+        }}
+        centered
+      >
         <Card.Content>
-          <Responsive as={Grid} style={{ margin: "0 0" }} minWidth={1200}>
-            <Grid.Row columns={3} centered>
-              <Grid.Column width={7}>
-                <StyledProgress percent={kaistRatio} color="blue" />
-              </Grid.Column >
-              <Grid.Column style={{ textAlign: "center" }} width={2}>
+          <Grid columns={3}>
+            <Grid.Row centered>
+              <Grid.Column width={7} stretched>
+                <StyledProgress
+                  percent={kaistRatio}
+                  color="blue"
+                  direction="left"
+                />
+              </Grid.Column>
+              <Grid.Column verticalAlign="middle" width={2}>
                 <h4>{f({ id: 'betting.status' })}</h4>
               </Grid.Column>
-              <Grid.Column width={7}>
-                <Progress percent={postechRatio} color="red" />
+              <Grid.Column width={7} stretched>
+                <StyledProgress
+                  direction="right"
+                  percent={postechRatio}
+                  color="red"
+                />
               </Grid.Column>
             </Grid.Row>
-          </Responsive>
-          <Responsive as={Grid} style={{ margin: "0 0" }} maxWidth={1199}>
-            <Grid.Row columns={3} centered>
-              <Grid.Column width={6}>
-                <StyledProgress percent={kaistRatio} color="blue" />
-              </Grid.Column >
-              <Grid.Column style={{ textAlign: "center" }} width={2}>
-                <h4>{f({ id: 'betting.status' })}</h4>
-              </Grid.Column>
-              <Grid.Column width={6}>
-                <Progress percent={postechRatio} color="red" />
-              </Grid.Column>
-            </Grid.Row>
-          </Responsive>
+          </Grid>
         </Card.Content>
-        <Card.Content style={{ display: "flex", alignItems: "center" }}>
-          <MainEventPopup currentBetting={currentBetting} setCurrentBetting={setCurrentBetting} game_type={game_type} >
-          </MainEventPopup>
+        <Card.Content style={{ display: 'flex', alignItems: 'center' }}>
+          <MainEventPopup
+            currentBetting={currentBetting}
+            setCurrentBetting={setCurrentBetting}
+            game_type={game_type}
+          ></MainEventPopup>
         </Card.Content>
       </Card>
-
-    </Container >
+    </Container>
   );
 };
 
