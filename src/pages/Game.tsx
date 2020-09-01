@@ -53,15 +53,16 @@ const defaultState: GameCardProps = {
 
 const Game: React.FC = () => {
   const { state, dispatch } = useContext(GlobalContext);
-  const { _id } = state.user || { _id: "0" };
+  const { _id } = state.user || { _id: '0' };
   const { gameId }: { gameId: string } = useParams();
-  const [
-    { playing, starting_time, result, game_type },
-    setGameData
-  ] = useState(defaultState);
+  const [{ playing, starting_time, result, game_type }, setGameData] = useState(
+    defaultState
+  );
   const [kaistRatio, setKaistRatio] = useState<number>(0.0);
   const [postechRatio, setPostechRatio] = useState<number>(0.0);
-  const [currentBetting, setCurrentBetting] = useState<LogoState>(LogoState.None);
+  const [currentBetting, setCurrentBetting] = useState<LogoState>(
+    LogoState.None
+  );
   const { formatMessage: f } = useIntl();
 
   useEffect(() => {
@@ -74,11 +75,11 @@ const Game: React.FC = () => {
       if (data.kaist_arr.length + data.postech_arr.length != 0) {
         setKaistRatio(
           (100 * data.kaist_arr.length) /
-          (data.kaist_arr.length + data.postech_arr.length)
+            (data.kaist_arr.length + data.postech_arr.length)
         );
         setPostechRatio(
           (100 * data.postech_arr.length) /
-          (data.kaist_arr.length + data.postech_arr.length)
+            (data.kaist_arr.length + data.postech_arr.length)
         );
       }
     });
@@ -96,23 +97,21 @@ const Game: React.FC = () => {
       setGameData(data);
 
       if (data.kaist_arr.includes(_id)) {
-        setCurrentBetting(LogoState.Kaist)
-      }
-      else if (data.postech_arr.includes(_id)) {
-        setCurrentBetting(LogoState.Postech)
-      }
-      else {
-        setCurrentBetting(LogoState.None)
+        setCurrentBetting(LogoState.Kaist);
+      } else if (data.postech_arr.includes(_id)) {
+        setCurrentBetting(LogoState.Postech);
+      } else {
+        setCurrentBetting(LogoState.None);
       }
 
       if (data.kaist_arr.length + data.postech_arr.length != 0) {
         setKaistRatio(
           (100 * data.kaist_arr.length) /
-          (data.kaist_arr.length + data.postech_arr.length)
+            (data.kaist_arr.length + data.postech_arr.length)
         );
         setPostechRatio(
           (100 * data.postech_arr.length) /
-          (data.kaist_arr.length + data.postech_arr.length)
+            (data.kaist_arr.length + data.postech_arr.length)
         );
       }
     };
