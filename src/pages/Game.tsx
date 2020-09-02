@@ -68,7 +68,7 @@ const defaultState: GameCardProps = {
 };
 
 const Game: React.FC = () => {
-  const { state, dispatch } = useContext(GlobalContext);
+  const { state } = useContext(GlobalContext);
   const { _id } = state.user || { _id: '0' };
   const { gameId }: { gameId: string } = useParams();
   const [{ playing, starting_time, result, game_type }, setGameData] = useState(
@@ -233,10 +233,12 @@ const Game: React.FC = () => {
           currentBetting={currentBetting}
           setCurrentBetting={setCurrentBetting}
           game_type={game_type}
-        ></MainEventPopup>
+        />
       </Segment>
     </GameContainer>
   );
 };
 
-export default Game;
+export default styled(Game)`
+  overflow-x: hidden;
+`;

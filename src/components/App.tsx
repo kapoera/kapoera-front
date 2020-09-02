@@ -18,8 +18,9 @@ import NavBar from './NavBar';
 const GlobalStyle = createGlobalStyle`
   body {
     background-color: #fafafa;
+    overflow-x: hidden;
   }
-  body *{
+  body * {
     font-family: Jua, sans-serif;
   }
 `;
