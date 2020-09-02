@@ -3,8 +3,7 @@ import { Button, Header, Modal, Popup } from 'semantic-ui-react';
 import styled from 'styled-components';
 import KaistEmblem from '@/public/kaist_emblem.png';
 import PostechEmblem from '@/public/postech_emblem.png';
-import { useIntl } from 'react-intl';
-import PopupButton from "@/components/PopupButton";
+import PopupButton from '@/components/PopupButton';
 import { GlobalContext } from '@/context';
 import { useHistory } from 'react-router-dom';
 import axios from '@/utils/axios';
@@ -26,7 +25,9 @@ const LogoGroup = styled.div`
 
 const LogoWrapper = styled.img`
   cursor: pointer;
-  max-width: 200px;
+  max-width: 150px;
+  max-height: 150px;
+  object-fit: contain;
   ${({ checked }: LogoWrapperProps) =>
     checked &&
     `
@@ -75,11 +76,15 @@ interface BettingResponse {
   success: boolean;
 }
 const MainEventPopup: React.FC<MainEventPopupProps> = ({
-  currentBetting, setCurrentBetting, game_type
+  currentBetting,
+  setCurrentBetting,
+  game_type
 }: MainEventPopupProps) => {
   const inititalBetting = currentBetting;
-  const [{ open, selected }, dispatch] = useReducer(reducer, { open: false, selected: currentBetting });
-  const { formatMessage: f } = useIntl();
+  const [{ open, selected }, dispatch] = useReducer(reducer, {
+    open: false,
+    selected: currentBetting
+  });
   const {
     state: { isLoggedIn }
   } = useContext(GlobalContext);
@@ -88,30 +93,29 @@ const MainEventPopup: React.FC<MainEventPopupProps> = ({
     if (isLoggedIn) {
       if (selected === LogoState.None) {
         // console.log("no choice")
-      }
-      else {
+      } else {
         const { data }: { data: BettingResponse } = await axios.post(
           '/api/private/bet',
-          { game_type: game_type, choice: selected }
+          {
+            game_type: game_type,
+            choice: selected
+          }
         );
         if (data.success) {
-          setCurrentBetting(selected)
+          setCurrentBetting(selected);
           dispatch({ type: MainEventAction.ToggleOpen });
-        }
-        else {
-          // console.log("잘못된 요청")
+        } else {
           dispatch({ type: MainEventAction.ToggleOpen });
         }
       }
-    }
-    else history.push('/login')
-  }
+    } else history.push('/login');
+  };
   return (
     <Modal
       onClose={() => dispatch({ type: MainEventAction.ToggleOpen })}
       onOpen={() => dispatch({ type: MainEventAction.ToggleOpen })}
       open={open}
-      trigger={<PopupButton></PopupButton>}
+      trigger={<PopupButton />}
     >
       <Header as="h2" className="centered">
         Who will win the {game_type} game?
@@ -120,43 +124,54 @@ const MainEventPopup: React.FC<MainEventPopupProps> = ({
         <ModalContainer>
           <LogoGroup>
             <LogoWrapper
-              checked={inititalBetting === LogoState.Kaist || selected === LogoState.Kaist}
+              checked={
+                inititalBetting === LogoState.Kaist ||
+                selected === LogoState.Kaist
+              }
               src={KaistEmblem}
               onClick={() => {
                 if (inititalBetting === LogoState.None) {
                   dispatch({
                     type: MainEventAction.SelectLogo,
                     payload: LogoState.Kaist
-                  })
+                  });
                 }
-              }
-              }
+              }}
             />
             <LogoWrapper
-              checked={inititalBetting === LogoState.Postech || selected === LogoState.Postech}
+              checked={
+                inititalBetting === LogoState.Postech ||
+                selected === LogoState.Postech
+              }
               src={PostechEmblem}
               onClick={() => {
                 if (inititalBetting === LogoState.None) {
                   dispatch({
                     type: MainEventAction.SelectLogo,
                     payload: LogoState.Postech
-                  })
+                  });
                 }
-              }
-              }
+              }}
             />
           </LogoGroup>
           <ButtonGroup>
             {inititalBetting === LogoState.None ? (
-              <Button color="vk" onClick={bettingHandler}>Submit Bet</Button>
+              <Button color="vk" onClick={bettingHandler}>
+                Submit Bet
+              </Button>
             ) : (
-                <Popup
-                  trigger={<span><Button color="vk" onClick={bettingHandler} disabled>Submit Bet</Button></span>}
-                  content="Already betted"
-                  basic
-                />
-
-              )}
+              <Popup
+                trigger={
+                  <span>
+                    <Button color="vk" onClick={bettingHandler} disabled>
+                      Submit Bet
+                    </Button>
+                  </span>
+                }
+                content="Already betted"
+                basic
+              />
+            )}
             <Button
               onClick={() => {
                 dispatch({ type: MainEventAction.ToggleOpen });
@@ -167,9 +182,8 @@ const MainEventPopup: React.FC<MainEventPopupProps> = ({
           </ButtonGroup>
         </ModalContainer>
       </Modal.Content>
-    </Modal >
+    </Modal>
   );
 };
 
 export default MainEventPopup;
-
