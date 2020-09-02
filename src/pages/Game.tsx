@@ -137,7 +137,14 @@ const Game: React.FC = () => {
   return (
     <GameContainer>
       <Banner>{f({ id: `game.${gameId}` })}</Banner>
-      <Grid style={{ position: 'relative', margin: 0, height: '20vh' }}>
+      <Grid
+        style={{
+          position: 'relative',
+          margin: 0,
+          height: '20vh',
+          borderRadius: '15px'
+        }}
+      >
         <Grid.Row columns={4} style={{ padding: 0 }}>
           <Grid.Column style={{ backgroundColor: '#a5dff9', height: '100%' }}>
             <ColumnContent>
