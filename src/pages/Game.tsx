@@ -24,12 +24,12 @@ const StyledProgress = styled(Progress)`
 `;
 
 const Banner = styled.div`
-  background-color: #696969;
-  color: #fff;
+  align-items: center;
+  display: flex;
+  font-size: calc(1em + 3vmin);
+  height: 10vh;
   line-height: normal;
-  padding: 5px 0;
-  text-align: center;
-  width: 100%;
+  margin-left: 30px;
 `;
 
 interface ColumnContentProps {
@@ -39,11 +39,12 @@ interface ColumnContentProps {
 const ColumnContent = styled.div`
   display: flex;
   flex-direction: column;
+  font-size: calc(1em + 2vmin);
   height: 100%;
   justify-content: center;
   ${({ align }: ColumnContentProps) =>
     align ? `text-align: ${align};` : 'align-items: center'};
-  font-size: calc(1em + 2vmin);
+`;
 
 const GameContainer = styled.div`
   margin: 0 auto;
