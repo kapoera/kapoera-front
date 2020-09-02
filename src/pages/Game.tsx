@@ -1,14 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { FormattedDate, FormattedMessage, useIntl } from 'react-intl';
-import {
-  Container,
-  Grid,
-  Image,
-  Label,
-  Progress,
-  Card
-} from 'semantic-ui-react';
+import { Grid, Image, Label, Progress, Card } from 'semantic-ui-react';
 import io from 'socket.io-client';
 import styled from 'styled-components';
 import { GameCardProps, University, GameStatus } from '@/components/GameCard';
@@ -51,6 +44,10 @@ const ColumnContent = styled.div`
   ${({ align }: ColumnContentProps) =>
     align ? `text-align: ${align};` : 'align-items: center'};
   font-size: calc(1em + 2vmin);
+
+const GameContainer = styled.div`
+  margin: 0 auto;
+  max-width: 1000px;
 `;
 
 export enum LogoState {
@@ -137,10 +134,8 @@ const Game: React.FC = () => {
   }, [_id]);
 
   return (
-    <Container>
-      <Banner>
-        <h3>{f({ id: `game.${gameId}` })}</h3>
-      </Banner>
+    <GameContainer>
+      <Banner>{f({ id: `game.${gameId}` })}</Banner>
       <Grid style={{ position: 'relative', margin: 0, height: '20vh' }}>
         <Grid.Row columns={4} style={{ padding: 0 }}>
           <Grid.Column style={{ backgroundColor: '#a5dff9', height: '100%' }}>
@@ -244,7 +239,7 @@ const Game: React.FC = () => {
           ></MainEventPopup>
         </Card.Content>
       </Card>
-    </Container>
+    </GameContainer>
   );
 };
 
