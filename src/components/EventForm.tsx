@@ -9,30 +9,14 @@ interface BettingResponse {
   success: boolean;
 }
 
-const EventForm: React.FC<EventType> = ({event, mail}) => {
-  const [ eventChoice, setEventChoice ] = useState<string | null>(null)
-  const handleChange = (e, {value}) => setEventChoice(value)
+const EventForm: React.FC<EventType> = ({isLoggedIn, event, betAble}) => {
+  const [ eventChoice, setEventChoice ] = useState<string | null>(betAble)
+
+  const handleChange = (e, {value}) => { setEventChoice(value) }
   const history = useHistory();
-  const [ ableBetted, setAbleBetted ] = useState<boolean>(false)
-
-  useEffect(()=>{
-      console.log(mail)
-      console.log(event.key)
-      console.log(event.responses)
-      const betinfo = event.responses.filter(res=>res.key === mail)
-      console.log(betinfo)
-      if(betinfo.length === 0){
-        setAbleBetted(true)
-      }
-      else{
-        setAbleBetted(false)
-        setEventChoice(betinfo[0].choice)
-      }
-  }, [])
-
-
+  //console.log(betAble)
   const handleSubmit = async() => {
-    if(state.isLoggedIn){
+    if(isLoggedIn){
       if(eventChoice){
         console.log(eventChoice)
           const {data}: {data: BettingResponse} = await axios.post (
@@ -41,7 +25,7 @@ const EventForm: React.FC<EventType> = ({event, mail}) => {
           )
           if(data.success){
             console.log(data.success)
-            setAbleBetted(false)
+            history.go(0)
           }
           else{
             console.log(data.success)
@@ -54,21 +38,22 @@ const EventForm: React.FC<EventType> = ({event, mail}) => {
   return (
     <Form>
       <Form.Field>
-        Selected value: <b>{eventChoice}</b>
+        Selected value: <b>{betAble || eventChoice}</b>
       </Form.Field>
-      {event.choices.map(choice => (
-        <Form.Field>
+      {event.choices.map((choice, key) => (
+        <Form.Field key={key}>
           <Radio
             label={choice}
             value={choice}
             name='radioGroup'
-            checked={ eventChoice === choice }
+            checked={ choice === eventChoice || choice === betAble }
             onChange={handleChange}
+            disabled={ betAble != null }
           />
         </Form.Field>
       ))}
 
-      <Button content='Submit' onClick={handleSubmit} disabled={ableBetted === false}/>
+      <Button content='Submit' onClick={handleSubmit} disabled={betAble != null}/>
     </Form>
   )
 }
