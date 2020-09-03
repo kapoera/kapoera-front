@@ -4,12 +4,14 @@ import LibraryImage from '@/public/library_banner.png';
 import { Image } from 'semantic-ui-react';
 
 const DimmedImage = styled(Image)`
+  border-radius: 35px;
   opacity: 0.5;
 `;
 
 const Overlay = styled.div`
   align-items: center;
   background-color: rgba(0, 0, 0, 0.4);
+  border-radius: 35px;
   color: #fafafa;
   display: flex;
   font-size: 3rem;
@@ -23,7 +25,13 @@ const Overlay = styled.div`
 
 const StatusBanner: React.FC = () => {
   return (
-    <div style={{ position: 'relative', marginBottom: '15px' }}>
+    <div
+      style={{
+        position: 'relative',
+        marginBottom: '15px',
+        marginTop: '20px'
+      }}
+    >
       <DimmedImage fluid src={LibraryImage} alt="Library Image" />
       <Overlay>
         카이스트-포스텍 대제전
