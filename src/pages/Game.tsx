@@ -5,8 +5,8 @@ import { Container, Grid, Image, Label, Progress, Menu, Card, Responsive, Segmen
 import io from 'socket.io-client';
 import styled from 'styled-components';
 import { GameCardProps, University, GameStatus } from '@/components/GameCard';
-import EventList from '@/components/EventList';
-import MainEventPopup from '@/components/MainEventPopup';
+import EventList from '@/components/EventList'
+import MainEventPopup from "@/components/MainEventPopup";
 import config from '@/config';
 import KaistLogo from '@/public/kaist.png';
 import PostechLogo from '@/public/postech.png';
