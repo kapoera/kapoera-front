@@ -72,7 +72,7 @@ const defaultState: GameCardProps = {
 
 export interface Response {
   choice: string;
-  key: number;
+  key: string;
 }
 
 export interface EventType {
@@ -81,6 +81,7 @@ export interface EventType {
   choices: Array<string>;
   responses: Array<Response>;
   name: string;
+  key: number;
 }
 
 const defaultEvent: Array<EventType> = [{
@@ -88,7 +89,8 @@ const defaultEvent: Array<EventType> = [{
   answer: "a",
   choices: [],
   responses: [],
-  name: "default"
+  name: "default",
+  key: -1
 }]
 
 const Game: React.FC = () => {
