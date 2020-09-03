@@ -202,7 +202,7 @@ const Game: React.FC = () => {
         </div>
       </Grid>
       <Segment>
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <div style={{ marginLeft: '20px', display: 'flex' }}>
           <div
             style={{
               fontSize: 'calc(1rem + 2vmin)',
@@ -210,8 +210,7 @@ const Game: React.FC = () => {
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
-              marginRight: '20px',
-              marginLeft: '20px'
+              marginRight: '20px'
             }}
           >
             {f({ id: 'betting.status' })}
