@@ -202,38 +202,48 @@ const Game: React.FC = () => {
         </div>
       </Grid>
       <Segment>
-        <div
-          style={{
-            fontSize: 'calc(1rem + 1vmin)',
-            lineHeight: 'normal',
-            textAlign: 'center'
-          }}
-        >
-          {f({ id: 'betting.status' })}
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <div
+            style={{
+              fontSize: 'calc(1rem + 2vmin)',
+              lineHeight: 'normal',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginRight: '20px',
+              marginLeft: '20px'
+            }}
+          >
+            {f({ id: 'betting.status' })}
+          </div>
+          <div style={{ padding: '10px 0' }}>
+            <MainEventPopup
+              currentBetting={currentBetting}
+              setCurrentBetting={setCurrentBetting}
+              game_type={game_type}
+            />
+          </div>
         </div>
         <Grid columns={2}>
           <Grid.Row centered>
             <Grid.Column stretched>
               <StyledProgress
-                percent={kaistRatio}
+                label={`${Math.floor(kaistRatio)}%`}
+                percent={Math.floor(kaistRatio)}
                 color="blue"
                 direction="left"
               />
             </Grid.Column>
             <Grid.Column stretched>
               <StyledProgress
+                label={`${Math.floor(postechRatio)}%`}
                 direction="right"
-                percent={postechRatio}
+                percent={Math.floor(postechRatio)}
                 color="red"
               />
             </Grid.Column>
           </Grid.Row>
         </Grid>
-        <MainEventPopup
-          currentBetting={currentBetting}
-          setCurrentBetting={setCurrentBetting}
-          game_type={game_type}
-        />
       </Segment>
     </GameContainer>
   );
