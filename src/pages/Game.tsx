@@ -147,12 +147,18 @@ const Game: React.FC = () => {
         style={{
           position: 'relative',
           margin: 0,
-          height: '20vh',
-          borderRadius: '15px'
+          height: '20vh'
         }}
       >
         <Grid.Row columns={4} style={{ padding: 0 }}>
-          <Grid.Column style={{ backgroundColor: '#a5dff9', height: '100%' }}>
+          <Grid.Column
+            style={{
+              backgroundColor: '#a5dff9',
+              height: '100%',
+              borderTopLeftRadius: '20px',
+              borderBottomLeftRadius: '20px'
+            }}
+          >
             <ColumnContent>
               <Image src={KaistLogo} size="medium" style={{ width: '100%' }} />
             </ColumnContent>
@@ -167,7 +173,14 @@ const Game: React.FC = () => {
               {result[University.Postech]}
             </ColumnContent>
           </Grid.Column>
-          <Grid.Column style={{ backgroundColor: '#ffbbd6', height: '100%' }}>
+          <Grid.Column
+            style={{
+              backgroundColor: '#ffbbd6',
+              height: '100%',
+              borderTopRightRadius: '20px',
+              borderBottomRightRadius: '20px'
+            }}
+          >
             <ColumnContent>
               <Image
                 src={PostechLogo}
