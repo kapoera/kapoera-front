@@ -18,10 +18,10 @@ import NavBar from './NavBar';
 const GlobalStyle = createGlobalStyle`
   body {
     background-color: #fafafa;
+    overflow-x: hidden;
   }
-  body *{
-    @import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
-    font-family: 'Jua', sans-serif;
+  body * {
+    font-family: Jua, sans-serif;
   }
 `;
 
