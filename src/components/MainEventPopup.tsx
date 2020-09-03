@@ -25,8 +25,8 @@ const LogoGroup = styled.div`
 
 const LogoWrapper = styled.img`
   cursor: pointer;
-  max-width: 150px;
   max-height: 150px;
+  max-width: 150px;
   object-fit: contain;
   ${({ checked }: LogoWrapperProps) =>
     checked &&
@@ -92,7 +92,6 @@ const MainEventPopup: React.FC<MainEventPopupProps> = ({
   const bettingHandler = async () => {
     if (isLoggedIn) {
       if (selected === LogoState.None) {
-        // console.log("no choice")
       } else {
         const { data }: { data: BettingResponse } = await axios.post(
           '/api/private/bet',
