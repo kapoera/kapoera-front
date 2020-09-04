@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import { Container, Grid, Transition } from 'semantic-ui-react';
 import { useIntl } from 'react-intl';
 import { GameCard, GameCardProps } from '@/components/GameCard';
 import { Billboard, RankingI } from '@/components/Billboard';
 import MyStatusCard from '@/components/MyStatusCard';
 import StatusBanner from '@/components/StatusBanner';
+import { GlobalContext } from '@/context';
 import axios from '@/utils/axios';
 
 interface RankingResponse {
@@ -16,6 +17,9 @@ const Main: React.FC = () => {
   const [gamesData, setGamesData] = useState([]);
   const [rankings, setRankings] = useState<RankingI[]>([]);
   const { formatMessage: f } = useIntl();
+  const {
+    state: { user }
+  } = useContext(GlobalContext);
 
   useEffect(() => {
     const fetchGames = async () => {
