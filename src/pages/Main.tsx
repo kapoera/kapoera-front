@@ -54,7 +54,7 @@ const Main: React.FC = () => {
             <Grid.Column width={12}>
               <Billboard rankings={rankings} />
             </Grid.Column>
-            <Grid.Column width={3} style={{ padding: 0 }}>
+            <Grid.Column width={4} style={{ padding: 0 }}>
               <MyStatusCard />
             </Grid.Column>
           </Grid>
