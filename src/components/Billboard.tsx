@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Table } from 'semantic-ui-react';
+import { Grid, Label } from 'semantic-ui-react';
 
 export interface RankingI {
   score: number;
@@ -19,41 +19,48 @@ const BillboardPlain: React.FC<{ rankings: RankingI[] }> = ({
       >
         Rankings
       </div>
-      <Table style={{ marginBottom: '30px', maxWidth: '800px' }}>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell textAlign="center" style={{ fontSize: '1.6rem' }}>
-              {''}
-            </Table.HeaderCell>
-            <Table.HeaderCell textAlign="center" style={{ fontSize: '1.6rem' }}>
-              Nickname
-            </Table.HeaderCell>
-            <Table.HeaderCell textAlign="center" style={{ fontSize: '1.6rem' }}>
-              Score
-            </Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {rankings.map((ranking, idx) => (
-            <Table.Row key={ranking.nickname}>
-              <Table.Cell textAlign="right" verticalAlign="middle" width={2}>
-                {idx + 1}
-              </Table.Cell>
-              <Table.Cell
-                style={{ fontSize: '1.2rem' }}
-                verticalAlign="middle"
-                textAlign="center"
-                width={6}
-              >
-                {ranking.nickname}
-              </Table.Cell>
-              <Table.Cell verticalAlign="middle" textAlign="center" width={6}>
-                {ranking.score}
-              </Table.Cell>
-            </Table.Row>
-          ))}
-        </Table.Body>
-      </Table>
+      <Grid celled="internally">
+        <Grid.Row>
+          <Grid.Column width={2} style={{ border: 'none' }}>
+            {''}
+          </Grid.Column>
+          <Grid.Column
+            width={7}
+            textAlign="center"
+            style={{ fontSize: '1.6rem' }}
+          >
+            Nickname
+          </Grid.Column>
+          <Grid.Column
+            width={7}
+            textAlign="center"
+            style={{ fontSize: '1.6rem' }}
+          >
+            Score
+          </Grid.Column>
+        </Grid.Row>
+        {rankings.map((ranking, idx) => (
+          <Grid.Row key={ranking.nickname}>
+            <Grid.Column width={2}>
+              <Label ribbon>{idx + 1}</Label>
+            </Grid.Column>
+            <Grid.Column
+              width={7}
+              textAlign="center"
+              style={{ fontSize: '1.2rem' }}
+            >
+              {ranking.nickname}
+            </Grid.Column>
+            <Grid.Column
+              width={7}
+              textAlign="center"
+              style={{ fontSize: '1.2rem' }}
+            >
+              {ranking.score}
+            </Grid.Column>
+          </Grid.Row>
+        ))}
+      </Grid>
     </div>
   );
 };
