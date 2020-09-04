@@ -9,7 +9,7 @@ interface BettingResponse {
   success: boolean;
 }
 
-const EventForm: React.FC<EventType> = ({isLoggedIn, event, betAble}) => {
+const EventForm: React.FC<EventType> = ({isLoggedIn, event, betAble, setEvents, mail}) => {
   const [ eventChoice, setEventChoice ] = useState<string | null>(betAble)
 
   const handleChange = (e, {value}) => { setEventChoice(value) }
@@ -25,7 +25,10 @@ const EventForm: React.FC<EventType> = ({isLoggedIn, event, betAble}) => {
           )
           if(data.success){
             console.log(data.success)
-            history.go(0)
+            setEvents((prevState)=>{
+              const targetEvent = prevState.filter(each => each.key === event.key)[0]
+              return prevState.filter(each => each.key !== event.key).concat({ ...targetEvent, responses: targetEvent.responses.concat({ choice: eventChoice, key: mail }) })
+            })
           }
           else{
             console.log(data.success)

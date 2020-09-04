@@ -70,29 +70,6 @@ const defaultState: GameCardProps = {
   subevents: [],
 };
 
-export interface Response {
-  choice: string;
-  key: string;
-}
-
-export interface EventType {
-  game_type: string;
-  answer: string;
-  choices: Array<string>;
-  responses: Array<Response>;
-  name: string;
-  key: number;
-}
-
-const defaultEvent: Array<EventType> = [{
-  game_type: "default",
-  answer: "a",
-  choices: [],
-  responses: [],
-  name: "default",
-  key: -1
-}]
-
 const Game: React.FC = () => {
   const { state } = useContext(GlobalContext);
   const { _id } = state.user || { _id: '0' };
@@ -102,9 +79,6 @@ const Game: React.FC = () => {
     setGameData
   ] = useState(defaultState);
 
-  const [
-    events, setEvents
-  ] = useState(defaultEvent);
   const [kaistRatio, setKaistRatio] = useState<number>(0.0);
   const [postechRatio, setPostechRatio] = useState<number>(0.0);
   const [currentBetting, setCurrentBetting] = useState<LogoState>(
@@ -165,18 +139,6 @@ const Game: React.FC = () => {
     fetchGame();
 
   }, [_id]);
-
-  useEffect(() => {
-    const fetchEvents = async () => {
-      const { data }: { data: Array<EventType> } = await axios.get(
-      '/api/events/' + gameId
-      );
-      console.log(data);
-      setEvents(data);
-    }
-
-    fetchEvents();
-  }, []);
 
   return (
     <GameContainer>
@@ -288,7 +250,7 @@ const Game: React.FC = () => {
           </Grid.Row>
         </Grid>
       </Segment>
-      <EventList events={events}></EventList>
+      <EventList gameId={gameId}></EventList>
     </GameContainer>
   );
 };

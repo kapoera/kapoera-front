@@ -5,8 +5,33 @@ import { FormattedDate, useIntl } from 'react-intl';
 import { EventType } from '@/pages/Game';
 import EventForm from '@/components/EventForm';
 import { GlobalContext } from '@/context';
+import axios from '@/utils/axios';
 
-const EventList: React.FC<Array<EventType>> = ({events}: Array<EventType>) => {
+export interface Response {
+  choice: string;
+  key: string;
+}
+
+export interface EventType {
+  game_type: string;
+  answer: string;
+  choices: Array<string>;
+  responses: Array<Response>;
+  name: string;
+  key: number;
+}
+
+const defaultEvent: Array<EventType> = [{
+  game_type: "default",
+  answer: "a",
+  choices: [],
+  responses: [],
+  name: "default",
+  key: -1
+}]
+
+
+const EventList: React.FC = ({gameId}) => {
   const [ activeIndex, setActiveIndex ] = useState(-1);
   const [ userMail, setUserMail ] = useState("");
   const handleClick = (e, titleProps) => {
@@ -14,11 +39,28 @@ const EventList: React.FC<Array<EventType>> = ({events}: Array<EventType>) => {
     const newIndex = activeIndex === index ? -1 : index
     setActiveIndex(newIndex)
   }
+  const [
+    events, setEvents
+  ] = useState(defaultEvent);
+
   const { state, dispatch } = useContext(GlobalContext)
   const { mail } = state.user || { mail: "" }
   useEffect(()=>{
     setUserMail(mail)
   }, [mail])
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      const { data }: { data: Array<EventType> } = await axios.get(
+      '/api/events/' + gameId
+      );
+      console.log(data);
+      setEvents(data);
+    }
+
+    fetchEvents();
+  }, []);
+
 
   const judgeAbleBetting = (event) => {
     const bettinginfo = event.responses.filter(res=>res.key === mail)
@@ -36,7 +78,7 @@ const EventList: React.FC<Array<EventType>> = ({events}: Array<EventType>) => {
             {event.name}
           </Accordion.Title>
           <Accordion.Content active={activeIndex === key}>
-            <EventForm isLoggedIn={state.isLoggedIn} event={event} betAble={judgeAbleBetting(event)}></EventForm>
+            <EventForm isLoggedIn={state.isLoggedIn} event={event} betAble={judgeAbleBetting(event)} setEvents={setEvents} mail={mail}></EventForm>
           </Accordion.Content>
         </div>
       ))}
