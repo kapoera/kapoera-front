@@ -23,5 +23,7 @@
     "billboard.nickname": "Nickname",
     "billboard.score": "Score",
     "billboard.score_unit": "pts",
-    "mystatus.signin_message": "Sign in to check your score here!"
+    "mystatus.signin_message": "Sign in to check your score here!",
+    "mystatus.placing": "Placing",
+    "mystatus.header": "{nickname}'s performance"
 }
