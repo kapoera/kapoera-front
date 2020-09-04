@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Grid, Label } from 'semantic-ui-react';
+import { useIntl } from 'react-intl';
 
 export interface RankingI {
   score: number;
@@ -33,11 +34,10 @@ const BillboardPlain: React.FC<{ rankings: RankingI[] }> = ({
 }: {
   rankings: RankingI[];
 }) => {
+  const { formatMessage: f } = useIntl();
+
   return (
-    <Grid
-      divided="vertically"
-      style={{ maxWidth: '800px', marginLeft: '30px', marginRight: '30px' }}
-    >
+    <Grid divided="vertically" style={{ maxWidth: '800px' }}>
       <StyledGridHeader>
         <Grid.Column width={2} style={{ border: 'none' }}>
           {''}
@@ -51,7 +51,7 @@ const BillboardPlain: React.FC<{ rankings: RankingI[] }> = ({
             marginBottom: 0
           }}
         >
-          Nickname
+          {f({ id: 'billboard.nickname' })}
         </Grid.Column>
         <Grid.Column
           width={7}
@@ -62,7 +62,7 @@ const BillboardPlain: React.FC<{ rankings: RankingI[] }> = ({
             marginBottom: 0
           }}
         >
-          Score
+          {f({ id: 'billboard.score' })}
         </Grid.Column>
       </StyledGridHeader>
       {rankings.map((ranking, idx) => (
@@ -86,6 +86,9 @@ const BillboardPlain: React.FC<{ rankings: RankingI[] }> = ({
             style={{ fontSize: '1.4rem' }}
           >
             {ranking.score}
+            <span style={{ fontSize: '1rem' }}>
+              {' ' + f({ id: 'billboard.score_unit' })}
+            </span>
           </Grid.Column>
         </StyledGridRow>
       ))}
