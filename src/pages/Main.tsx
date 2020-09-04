@@ -11,15 +11,21 @@ import axios from '@/utils/axios';
 interface RankingResponse {
   success: boolean;
   rankings?: RankingI[];
+  user?: { score: number; ranking: number };
 }
 
 const Main: React.FC = () => {
   const [gamesData, setGamesData] = useState([]);
   const [rankings, setRankings] = useState<RankingI[]>([]);
+  const [userRanking, setUserRanking] = useState<{
+    score: number;
+    ranking: number;
+  } | null>(null);
   const { formatMessage: f } = useIntl();
   const {
-    state: { user }
+    state: { user, isLoggedIn }
   } = useContext(GlobalContext);
+  const { nickname } = user || { nickname: '' };
 
   useEffect(() => {
     const fetchGames = async () => {
@@ -29,9 +35,13 @@ const Main: React.FC = () => {
 
     const fetchRanking = async () => {
       const { data }: { data: RankingResponse } = await axios.get(
-        '/api/rankings/top?limit=5'
+        isLoggedIn ? '/api/private/rankings/top' : '/api/rankings/top'
       );
-      setRankings(data.rankings);
+
+      if (data.success) {
+        if (data.user) setUserRanking(data.user);
+        setRankings(data.rankings);
+      }
     };
 
     fetchGames();
@@ -59,7 +69,11 @@ const Main: React.FC = () => {
               <Billboard rankings={rankings} />
             </Grid.Column>
             <Grid.Column width={4} style={{ padding: 0 }}>
-              <MyStatusCard />
+              <MyStatusCard
+                {...userRanking}
+                isLoggedIn={isLoggedIn}
+                nickname={nickname}
+              />
             </Grid.Column>
           </Grid>
         </div>
