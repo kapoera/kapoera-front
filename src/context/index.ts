@@ -7,14 +7,17 @@ interface GlobalState {
 }
 
 export interface User {
-  department: string;
+  ku_std_no: string;
+  uid: string;
+  kaist_uid: string;
+  mail: string;
+  givenname: string;
+  mobile: string;
+  ku_kname: string;
+  sn: string;
+  score: number;
   is_admin: boolean;
   nickname: string;
-  password: string;
-  score: number;
-  student_number: number;
-  username: string;
-  _id: any;
 }
 
 export enum Actions {

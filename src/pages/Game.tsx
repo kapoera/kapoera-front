@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
-import { FormattedDate, FormattedMessage, useIntl } from 'react-intl';
-import { Container, Grid, Image, Label, Progress, Menu, Card, Responsive, Segment, Button, Accordion } from 'semantic-ui-react';
+import { FormattedDate, useIntl } from 'react-intl';
+import { Grid, Image, Label, Progress, Segment } from 'semantic-ui-react';
 import io from 'socket.io-client';
 import styled from 'styled-components';
 import { GameCardProps, University, GameStatus } from '@/components/GameCard';
-import EventList from '@/components/EventList'
-import MainEventPopup from "@/components/MainEventPopup";
+import EventList from '@/components/EventList';
+import MainEventPopup from '@/components/MainEventPopup';
 import config from '@/config';
 import KaistLogo from '@/public/kaist.png';
 import PostechLogo from '@/public/postech.png';
@@ -52,7 +52,6 @@ const GameContainer = styled.div`
   max-width: 1000px;
 `;
 
-
 export enum LogoState {
   None = 'NONE',
   Kaist = 'K',
@@ -67,7 +66,7 @@ const defaultState: GameCardProps = {
   playing: GameStatus.Exiting,
   result: { [University.Kaist]: 0, [University.Postech]: 0 },
   starting_time: '2020-08-24T00:00:00.000Z',
-  subevents: [],
+  subevents: []
 };
 
 const Game: React.FC = () => {
@@ -137,7 +136,6 @@ const Game: React.FC = () => {
       }
     };
     fetchGame();
-
   }, [_id]);
 
   return (
@@ -147,12 +145,18 @@ const Game: React.FC = () => {
         style={{
           position: 'relative',
           margin: 0,
-          height: '20vh',
-          borderRadius: '15px'
+          height: '20vh'
         }}
       >
         <Grid.Row columns={4} style={{ padding: 0 }}>
-          <Grid.Column style={{ backgroundColor: '#a5dff9', height: '100%' }}>
+          <Grid.Column
+            style={{
+              backgroundColor: '#a5dff9',
+              height: '100%',
+              borderTopLeftRadius: '20px',
+              borderBottomLeftRadius: '20px'
+            }}
+          >
             <ColumnContent>
               <Image src={KaistLogo} size="medium" style={{ width: '100%' }} />
             </ColumnContent>
@@ -167,7 +171,14 @@ const Game: React.FC = () => {
               {result[University.Postech]}
             </ColumnContent>
           </Grid.Column>
-          <Grid.Column style={{ backgroundColor: '#ffbbd6', height: '100%' }}>
+          <Grid.Column
+            style={{
+              backgroundColor: '#ffbbd6',
+              height: '100%',
+              borderTopRightRadius: '20px',
+              borderBottomRightRadius: '20px'
+            }}
+          >
             <ColumnContent>
               <Image
                 src={PostechLogo}
