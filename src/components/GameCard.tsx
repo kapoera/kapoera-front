@@ -27,6 +27,7 @@ export interface GameCardProps {
   result: { [key in University]: number };
   starting_time: string;
   winner?: University;
+  subevents: number[];
 }
 
 export const GameCard: React.FC<GameCardProps> = ({
@@ -74,10 +75,10 @@ export const GameCard: React.FC<GameCardProps> = ({
                   />
                 </div>
               ) : (
-                <Label color="red" size="tiny">
-                  {f({ id: 'game.finished' })}
-                </Label>
-              )}
+                    <Label color="red" size="tiny">
+                      {f({ id: 'game.finished' })}
+                    </Label>
+                  )}
             </Grid.Column>
             <Grid.Column verticalAlign="middle">
               <Image src={PostechLogo} />

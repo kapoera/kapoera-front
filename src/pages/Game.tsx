@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { FormattedDate, FormattedMessage, useIntl } from 'react-intl';
-import { Card, Grid, Image, Label, Progress, Segment } from 'semantic-ui-react';
+import { Container, Grid, Image, Label, Progress, Menu, Card, Responsive, Segment, Button, Accordion } from 'semantic-ui-react';
 import io from 'socket.io-client';
 import styled from 'styled-components';
 import { GameCardProps, University, GameStatus } from '@/components/GameCard';
-import MainEventPopup from '@/components/MainEventPopup';
+import EventList from '@/components/EventList'
+import MainEventPopup from "@/components/MainEventPopup";
 import config from '@/config';
 import KaistLogo from '@/public/kaist.png';
 import PostechLogo from '@/public/postech.png';
@@ -51,6 +52,7 @@ const GameContainer = styled.div`
   max-width: 1000px;
 `;
 
+
 export enum LogoState {
   None = 'NONE',
   Kaist = 'K',
@@ -64,16 +66,45 @@ const defaultState: GameCardProps = {
   postech_arr: [],
   playing: GameStatus.Exiting,
   result: { [University.Kaist]: 0, [University.Postech]: 0 },
-  starting_time: '2020-08-24T00:00:00.000Z'
+  starting_time: '2020-08-24T00:00:00.000Z',
+  subevents: [],
 };
+
+export interface Response {
+  choice: string;
+  key: string;
+}
+
+export interface EventType {
+  game_type: string;
+  answer: string;
+  choices: Array<string>;
+  responses: Array<Response>;
+  name: string;
+  key: number;
+}
+
+const defaultEvent: Array<EventType> = [{
+  game_type: "default",
+  answer: "a",
+  choices: [],
+  responses: [],
+  name: "default",
+  key: -1
+}]
 
 const Game: React.FC = () => {
   const { state } = useContext(GlobalContext);
   const { _id } = state.user || { _id: '0' };
   const { gameId }: { gameId: string } = useParams();
-  const [{ playing, starting_time, result, game_type }, setGameData] = useState(
-    defaultState
-  );
+  const [
+    { playing, starting_time, result, game_type, subevents },
+    setGameData
+  ] = useState(defaultState);
+
+  const [
+    events, setEvents
+  ] = useState(defaultEvent);
   const [kaistRatio, setKaistRatio] = useState<number>(0.0);
   const [postechRatio, setPostechRatio] = useState<number>(0.0);
   const [currentBetting, setCurrentBetting] = useState<LogoState>(
@@ -132,7 +163,20 @@ const Game: React.FC = () => {
       }
     };
     fetchGame();
+
   }, [_id]);
+
+  useEffect(() => {
+    const fetchEvents = async () => {
+      const { data }: { data: Array<EventType> } = await axios.get(
+      '/api/events/' + gameId
+      );
+      console.log(data);
+      setEvents(data);
+    }
+
+    fetchEvents();
+  }, []);
 
   return (
     <GameContainer>
@@ -244,6 +288,7 @@ const Game: React.FC = () => {
           </Grid.Row>
         </Grid>
       </Segment>
+      <EventList events={events}></EventList>
     </GameContainer>
   );
 };
