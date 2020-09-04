@@ -46,7 +46,7 @@ const Main: React.FC = () => {
 
     fetchGames();
     fetchRanking();
-  }, []);
+  }, [isLoggedIn]);
 
   return (
     <Container>
