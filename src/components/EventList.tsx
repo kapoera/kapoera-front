@@ -29,7 +29,7 @@ const EventList: React.FC<Array<EventType>> = ({events}: Array<EventType>) => {
   }
   return (
     <div>
-    <Accordion styled fluid style={{ position: "relative", top: "5rem" }}>
+    <Accordion styled fluid >
       {events.map((event, key) => (
         <div key={key}>
           <Accordion.Title active={activeIndex === key} index={key} onClick={handleClick}>
