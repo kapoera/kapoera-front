@@ -17,5 +17,11 @@
     "game.score": "점수",
     "game.winning": "적중 상금",
     "betting.status": "베팅 현황",
-    "betting.button": "베팅 하기"
+    "betting.button": "베팅 하기",
+    "main.rankings": "랭킹 현황",
+    "main.games": "대제전 경기",
+    "billboard.nickname": "닉네임",
+    "billboard.score": "점수",
+    "billboard.score_unit": "점",
+    "mystatus.signin_message": "로그인하고 점수를 확인하세요!"
 }
