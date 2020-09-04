@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Grid, Transition } from 'semantic-ui-react';
-import axios from '@/utils/axios';
+import { useIntl } from 'react-intl';
 import { GameCard, GameCardProps } from '@/components/GameCard';
 import { Billboard, RankingI } from '@/components/Billboard';
+import MyStatusCard from '@/components/MyStatusCard';
 import StatusBanner from '@/components/StatusBanner';
+import axios from '@/utils/axios';
 
 interface RankingResponse {
   success: boolean;
@@ -13,6 +15,7 @@ interface RankingResponse {
 const Main: React.FC = () => {
   const [gamesData, setGamesData] = useState([]);
   const [rankings, setRankings] = useState<RankingI[]>([]);
+  const { formatMessage: f } = useIntl();
 
   useEffect(() => {
     const fetchGames = async () => {
@@ -45,16 +48,23 @@ const Main: React.FC = () => {
               fontSize: '4rem'
             }}
           >
-            Rankings
+            {f({ id: 'main.rankings' })}
           </div>
-          <Billboard rankings={rankings} />
+          <Grid columns={2} stackable>
+            <Grid.Column width={12}>
+              <Billboard rankings={rankings} />
+            </Grid.Column>
+            <Grid.Column width={3} style={{ padding: 0 }}>
+              <MyStatusCard />
+            </Grid.Column>
+          </Grid>
         </div>
       )}
       <div>
         <div
           style={{ marginLeft: '30px', marginBottom: '40px', fontSize: '4rem' }}
         >
-          Games
+          {f({ id: 'main.games' })}
         </div>
         <Grid columns={3} doubling stackable>
           {gamesData.map(data => (
