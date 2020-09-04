@@ -36,7 +36,20 @@ const Main: React.FC = () => {
       <Transition transitionOnMount duration={300}>
         <StatusBanner />
       </Transition>
-      {rankings && <Billboard rankings={rankings} />}
+      {rankings && (
+        <div style={{ marginTop: '80px', marginBottom: '100px' }}>
+          <div
+            style={{
+              marginLeft: '30px',
+              marginBottom: '60px',
+              fontSize: '4rem'
+            }}
+          >
+            Rankings
+          </div>
+          <Billboard rankings={rankings} />
+        </div>
+      )}
       <div>
         <div
           style={{ marginLeft: '30px', marginBottom: '40px', fontSize: '4rem' }}

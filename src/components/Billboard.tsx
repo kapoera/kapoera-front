@@ -34,69 +34,62 @@ const BillboardPlain: React.FC<{ rankings: RankingI[] }> = ({
   rankings: RankingI[];
 }) => {
   return (
-    <div style={{ marginTop: '80px', marginBottom: '100px' }}>
-      <div
-        style={{ marginLeft: '30px', marginBottom: '60px', fontSize: '4rem' }}
-      >
-        Rankings
-      </div>
-      <Grid
-        divided="vertically"
-        style={{ maxWidth: '800px', marginLeft: '30px', marginRight: '30px' }}
-      >
-        <StyledGridHeader>
-          <Grid.Column width={2} style={{ border: 'none' }}>
-            {''}
+    <Grid
+      divided="vertically"
+      style={{ maxWidth: '800px', marginLeft: '30px', marginRight: '30px' }}
+    >
+      <StyledGridHeader>
+        <Grid.Column width={2} style={{ border: 'none' }}>
+          {''}
+        </Grid.Column>
+        <Grid.Column
+          width={7}
+          textAlign="center"
+          verticalAlign="middle"
+          style={{
+            fontSize: '1.8rem',
+            marginBottom: 0
+          }}
+        >
+          Nickname
+        </Grid.Column>
+        <Grid.Column
+          width={7}
+          textAlign="center"
+          verticalAlign="middle"
+          style={{
+            fontSize: '1.8rem',
+            marginBottom: 0
+          }}
+        >
+          Score
+        </Grid.Column>
+      </StyledGridHeader>
+      {rankings.map((ranking, idx) => (
+        <StyledGridRow
+          key={ranking.nickname}
+          last={idx === rankings.length - 1}
+        >
+          <Grid.Column width={2}>
+            <Label ribbon>{idx + 1}</Label>
           </Grid.Column>
           <Grid.Column
             width={7}
             textAlign="center"
-            verticalAlign="middle"
-            style={{
-              fontSize: '1.8rem',
-              marginBottom: 0
-            }}
+            style={{ fontSize: '1.4rem' }}
           >
-            Nickname
+            {ranking.nickname}
           </Grid.Column>
           <Grid.Column
             width={7}
             textAlign="center"
-            verticalAlign="middle"
-            style={{
-              fontSize: '1.8rem',
-              marginBottom: 0
-            }}
+            style={{ fontSize: '1.4rem' }}
           >
-            Score
+            {ranking.score}
           </Grid.Column>
-        </StyledGridHeader>
-        {rankings.map((ranking, idx) => (
-          <StyledGridRow
-            key={ranking.nickname}
-            last={idx === rankings.length - 1}
-          >
-            <Grid.Column width={2}>
-              <Label ribbon>{idx + 1}</Label>
-            </Grid.Column>
-            <Grid.Column
-              width={7}
-              textAlign="center"
-              style={{ fontSize: '1.4rem' }}
-            >
-              {ranking.nickname}
-            </Grid.Column>
-            <Grid.Column
-              width={7}
-              textAlign="center"
-              style={{ fontSize: '1.4rem' }}
-            >
-              {ranking.score}
-            </Grid.Column>
-          </StyledGridRow>
-        ))}
-      </Grid>
-    </div>
+        </StyledGridRow>
+      ))}
+    </Grid>
   );
 };
 
