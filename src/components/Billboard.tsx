@@ -9,13 +9,13 @@ export interface RankingI {
 }
 
 interface StyledGridRowProps {
-  last: boolean;
+  last: number;
 }
 
 const StyledGridRow = styled(Grid.Row)`
   background: #fff;
   ${({ last }: StyledGridRowProps) =>
-    last &&
+    last === 1 &&
     `
     border-bottom-right-radius: 15px;
     border-bottom-left-radius: 15px;
@@ -68,7 +68,7 @@ const BillboardPlain: React.FC<{ rankings: RankingI[] }> = ({
       {rankings.map((ranking, idx) => (
         <StyledGridRow
           key={ranking.nickname}
-          last={idx === rankings.length - 1}
+          last={idx === rankings.length - 1 ? 1 : 0}
         >
           <Grid.Column width={2}>
             <Label ribbon>{idx + 1}</Label>
