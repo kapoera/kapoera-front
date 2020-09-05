@@ -59,7 +59,7 @@ const Main: React.FC = () => {
       <Transition transitionOnMount duration={300}>
         <StatusBanner />
       </Transition>
-      <div style={{ marginTop: '80px', marginBottom: '100px' }}>
+      <div style={{ marginTop: '80px', marginBottom: '60px' }}>
         <MainHeader>{f({ id: 'main.rankings' })}</MainHeader>
         <Grid
           columns={2}
