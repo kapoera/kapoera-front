@@ -21,8 +21,8 @@ export enum GameStatus {
 export interface GameCardProps {
   dividend: number;
   game_type: string;
-  kaist_arr: number[];
-  postech_arr: number[];
+  kaist_arr: string[];
+  postech_arr: string[];
   playing: GameStatus;
   result: { [key in University]: number };
   starting_time: string;
@@ -75,10 +75,10 @@ export const GameCard: React.FC<GameCardProps> = ({
                   />
                 </div>
               ) : (
-                    <Label color="red" size="tiny">
-                      {f({ id: 'game.finished' })}
-                    </Label>
-                  )}
+                <Label color="red" size="tiny">
+                  {f({ id: 'game.finished' })}
+                </Label>
+              )}
             </Grid.Column>
             <Grid.Column verticalAlign="middle">
               <Image src={PostechLogo} />

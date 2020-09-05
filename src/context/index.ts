@@ -7,6 +7,7 @@ interface GlobalState {
 }
 
 export interface User {
+  _id: string;
   ku_std_no: string;
   uid: string;
   kaist_uid: string;

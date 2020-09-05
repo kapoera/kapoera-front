@@ -1,72 +1,114 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Radio, Form, Button, Progress } from 'semantic-ui-react';
 import { useHistory } from 'react-router-dom';
-import { GlobalContext } from '@/context';
-import { EventType } from '@/pages/Game';
+import { EventType } from './EventList';
 import axios from '@/utils/axios';
 
 interface BettingResponse {
   success: boolean;
 }
 
-const EventForm: React.FC<EventType> = ({isLoggedIn, event, betAble, setEvents, mail}) => {
-  const [ eventChoice, setEventChoice ] = useState<string | null>(betAble)
+interface EventFormProps {
+  isLoggedIn: boolean;
+  event: EventType;
+  betAble: string | null;
+  setEvents: React.Dispatch<React.SetStateAction<EventType[]>>;
+  mail: string;
+}
 
-  const handleChange = (e, {value}) => { setEventChoice(value) }
+const EventForm: React.FC<EventFormProps> = ({
+  isLoggedIn,
+  event,
+  betAble,
+  setEvents,
+  mail
+}: EventFormProps) => {
+  const [eventChoice, setEventChoice] = useState<string | null>(betAble);
+
+  const handleChange = (_, { value }) => {
+    setEventChoice(value);
+  };
   const history = useHistory();
-  //console.log(betAble)
-  const handleSubmit = async() => {
-    if(isLoggedIn){
-      if(eventChoice){
-        console.log(eventChoice)
-          const {data}: {data: BettingResponse} = await axios.post (
-           '/api/private/betevent',
-           {key: event.key, choice: eventChoice}
-          )
-          if(data.success){
-            console.log(data.success)
-            setEvents((prevState)=>{
-              const targetEvent = prevState.filter(each => each.key === event.key)[0]
-              return prevState.filter(each => each.key !== event.key).concat({ ...targetEvent, responses: targetEvent.responses.concat({ choice: eventChoice, key: mail }) })
-            })
-          }
-          else{
-            console.log(data.success)
-          }
-      }
-      else console.log(eventChoice)
-    }
-    else history.push('/')
-  }
 
-  const calculatePercent = (choice) => {
-    const denom: float = event.responses.length.toFixed()
-    const numer = event.responses.filter(res => res.choice === choice).length.toFixed()
-    return numer / denom * 100
-  }
+  const handleSubmit = async () => {
+    if (isLoggedIn) {
+      if (eventChoice) {
+        const {
+          data
+        }: { data: BettingResponse } = await axios.post(
+          '/api/private/betevent',
+          { key: event.key, choice: eventChoice }
+        );
+        if (data.success) {
+          setEvents(prevState => {
+            const targetEvent = prevState.filter(
+              each => each.key === event.key
+            )[0];
+            return prevState
+              .filter(each => each.key !== event.key)
+              .concat({
+                ...targetEvent,
+                responses: targetEvent.responses.concat({
+                  choice: eventChoice,
+                  key: mail
+                })
+              });
+          });
+        }
+      }
+    } else {
+      history.push('/');
+    }
+  };
+
+  const calculatePercent = (choice: string) => {
+    const denom = event.responses.length;
+    const numer = event.responses.filter(res => res.choice === choice).length;
+    return (numer / denom) * 100;
+  };
+
   return (
     <Form>
       <Form.Field>
         Selected value: <b>{betAble || eventChoice}</b>
       </Form.Field>
       {event.choices.map((choice, key) => (
-        <Form.Field key={key} style={{display: "flex", alignItems: "center", justifyContent: "flex-start"}}>
+        <Form.Field
+          key={key}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-start'
+          }}
+        >
           <Radio
             label={choice}
             value={choice}
-            name='radioGroup'
-            checked={ choice === eventChoice || choice === betAble }
+            name="radioGroup"
+            checked={choice === eventChoice || choice === betAble}
             onChange={handleChange}
-            disabled={ betAble != null }
-            style={{ marginRight: "auto" }}
+            disabled={betAble != null}
+            style={{ marginRight: 'auto' }}
           />
-          <Progress percent={calculatePercent(choice)} indicating style={{ width: "60%", margin: "0.2rem 1rem", justifySelf: "flex-end" }}></Progress>
+          <Progress
+            percent={calculatePercent(choice)}
+            indicating
+            style={{
+              width: '60%',
+              margin: '0.2rem 1rem',
+              justifySelf: 'flex-end'
+            }}
+          ></Progress>
         </Form.Field>
       ))}
 
-      <Button content='Submit' onClick={handleSubmit} disabled={betAble != null}/>
+      <Button
+        content="Submit"
+        onClick={handleSubmit}
+        disabled={betAble != null}
+      />
     </Form>
-  )
-}
+  );
+};
 
-export default EventForm
+export default EventForm;
