@@ -25,5 +25,8 @@
     "billboard.score_unit": "pts",
     "mystatus.signin_message": "Sign in to check your score here!",
     "mystatus.placing": "Placing",
-    "mystatus.header": "{nickname}'s performance"
+    "mystatus.header": "{nickname}'s performance",
+    "statusbanner.kapo": "Kaist-Postech",
+    "statusbanner.science_war": "Science War",
+    "statusbanner.day": "Day {day}"
 }
