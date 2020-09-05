@@ -11,7 +11,6 @@ import axios from '@/utils/axios';
 
 const MainHeader = styled.div`
   font-size: calc(2rem + 2.5vmin);
-  margin-bottom: 60px;
   margin-left: 30px;
 `;
 
@@ -60,9 +59,13 @@ const Main: React.FC = () => {
       <Transition transitionOnMount duration={300}>
         <StatusBanner />
       </Transition>
-      <div style={{ marginTop: '80px', marginBottom: '100px' }}>
+      <div style={{ marginTop: '80px', marginBottom: '60px' }}>
         <MainHeader>{f({ id: 'main.rankings' })}</MainHeader>
-        <Grid columns={2} stackable>
+        <Grid
+          columns={2}
+          stackable
+          style={{ marginTop: '1vmin', padding: '14px 0' }}
+        >
           <Grid.Column width={12}>
             <Billboard rankings={rankings} />
           </Grid.Column>
@@ -77,7 +80,7 @@ const Main: React.FC = () => {
       </div>
       <div>
         <MainHeader>{f({ id: 'main.games' })}</MainHeader>
-        <Grid columns={3} doubling stackable>
+        <Grid columns={3} doubling stackable style={{ marginTop: '1vmin' }}>
           {gamesData.map(data => (
             <Transition key={data.game_type} transitionOnMount duration={500}>
               <Grid.Column>
