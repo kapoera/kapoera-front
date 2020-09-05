@@ -1,12 +1,19 @@
 import React, { useEffect, useContext, useState } from 'react';
 import { Container, Grid, Transition } from 'semantic-ui-react';
 import { useIntl } from 'react-intl';
+import styled from 'styled-components';
 import { GameCard, GameCardProps } from '@/components/GameCard';
 import { Billboard, RankingI } from '@/components/Billboard';
 import MyStatusCard from '@/components/MyStatusCard';
 import StatusBanner from '@/components/StatusBanner';
 import { GlobalContext } from '@/context';
 import axios from '@/utils/axios';
+
+const MainHeader = styled.div`
+  font-size: calc(2rem + 2.5vmin);
+  margin-bottom: 60px;
+  margin-left: 30px;
+`;
 
 interface RankingResponse {
   success: boolean;
@@ -54,15 +61,7 @@ const Main: React.FC = () => {
         <StatusBanner />
       </Transition>
       <div style={{ marginTop: '80px', marginBottom: '100px' }}>
-        <div
-          style={{
-            marginLeft: '30px',
-            marginBottom: '60px',
-            fontSize: '4rem'
-          }}
-        >
-          {f({ id: 'main.rankings' })}
-        </div>
+        <MainHeader>{f({ id: 'main.rankings' })}</MainHeader>
         <Grid columns={2} stackable>
           <Grid.Column width={12}>
             <Billboard rankings={rankings} />
@@ -77,11 +76,7 @@ const Main: React.FC = () => {
         </Grid>
       </div>
       <div>
-        <div
-          style={{ marginLeft: '30px', marginBottom: '40px', fontSize: '4rem' }}
-        >
-          {f({ id: 'main.games' })}
-        </div>
+        <MainHeader>{f({ id: 'main.games' })}</MainHeader>
         <Grid columns={3} doubling stackable>
           {gamesData.map(data => (
             <Transition key={data.game_type} transitionOnMount duration={500}>
