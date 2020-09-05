@@ -42,7 +42,7 @@ const ordinalSuffix = (num: number) => {
 
 const SuffixSpan = styled.span`
   font-family: inherit;
-  font-size: 1.8rem;
+  font-size: 1.3rem;
   text-transform: lowercase;
 `;
 
@@ -66,10 +66,13 @@ const MyStatusCard: React.FC<MyStatusCardProps> = ({
     <FullSegment>
       <UserContainer>
         <UserHeader>{f({ id: 'mystatus.header' }, { nickname })}</UserHeader>
-        <FlexBox wrap={true} style={{ flex: 1 }}>
+        <FlexBox wrap style={{ flex: 1 }}>
           <FlexBox style={{ alignItems: 'center' }}>
             <Statistic color="red">
-              <Statistic.Value>{score}</Statistic.Value>
+              <Statistic.Value>
+                {score}
+                <SuffixSpan>pts</SuffixSpan>
+              </Statistic.Value>
               <Statistic.Label style={{ color: '#db2828' }}>
                 {f({ id: 'billboard.score' })}
               </Statistic.Label>
