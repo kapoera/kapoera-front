@@ -73,10 +73,9 @@ const Game: React.FC = () => {
   const { state } = useContext(GlobalContext);
   const { _id } = state.user || { _id: '0' };
   const { gameId }: { gameId: string } = useParams();
-  const [
-    { playing, starting_time, result, game_type, subevents },
-    setGameData
-  ] = useState(defaultState);
+  const [{ playing, starting_time, result, game_type }, setGameData] = useState(
+    defaultState
+  );
 
   const [kaistRatio, setKaistRatio] = useState<number>(0.0);
   const [postechRatio, setPostechRatio] = useState<number>(0.0);
