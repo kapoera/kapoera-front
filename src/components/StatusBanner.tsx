@@ -1,7 +1,8 @@
 import React from 'react';
+import { useIntl } from 'react-intl';
+import { Image } from 'semantic-ui-react';
 import styled from 'styled-components';
 import LibraryImage from '@/public/library_banner.png';
-import { Image } from 'semantic-ui-react';
 
 const DimmedImage = styled(Image)`
   border-radius: 35px;
@@ -21,6 +22,7 @@ const Overlay = styled.div`
   justify-content: center;
   left: 0;
   min-height: 140px;
+  padding: 0 15px;
   position: absolute;
   top: 0;
   white-space: pre-line;
@@ -28,6 +30,8 @@ const Overlay = styled.div`
 `;
 
 const StatusBanner: React.FC = () => {
+  const { formatMessage: f } = useIntl();
+
   return (
     <div
       style={{
@@ -38,10 +42,12 @@ const StatusBanner: React.FC = () => {
     >
       <DimmedImage fluid src={LibraryImage} alt="Library Image" />
       <Overlay>
-        <div>카이스트-포스텍&nbsp;</div>
+        <div>{f({ id: 'statusbanner.kapo' })}&nbsp;</div>
         <div>
-          대제전
-          <span style={{ color: 'tomato' }}>&nbsp;1일&nbsp;</span>차
+          {f({ id: 'statusbanner.science_war' })}
+          <span style={{ color: 'tomato' }}>
+            &nbsp;{f({ id: 'statusbanner.day' }, { day: 1 })}&nbsp;
+          </span>
         </div>
       </Overlay>
     </div>

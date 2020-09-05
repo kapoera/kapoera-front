@@ -25,5 +25,8 @@
     "billboard.score_unit": "점",
     "mystatus.signin_message": "로그인하고 점수를 확인하세요!",
     "mystatus.placing": "등수",
-    "mystatus.header": "{nickname}의 기록"
+    "mystatus.header": "{nickname}의 기록",
+    "statusbanner.kapo": "카이스트-포스텍",
+    "statusbanner.science_war": "대제전",
+    "statusbanner.day": "{day}일 차"
 }
