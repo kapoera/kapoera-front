@@ -5,13 +5,13 @@ import { Button, Icon, Segment, Statistic } from 'semantic-ui-react';
 import styled from 'styled-components';
 
 interface FlexBoxProps {
-  wrap?: boolean;
+  wrap?: number;
 }
 
 const FlexBox = styled.div`
   display: flex;
   justify-content: space-around;
-  ${({ wrap }: FlexBoxProps) => wrap && 'flex-wrap: wrap;'}
+  ${({ wrap }: FlexBoxProps) => wrap === 1 && 'flex-wrap: wrap;'}
 `;
 
 const FullSegment = styled(Segment)`
@@ -66,7 +66,7 @@ const MyStatusCard: React.FC<MyStatusCardProps> = ({
     <FullSegment>
       <UserContainer>
         <UserHeader>{f({ id: 'mystatus.header' }, { nickname })}</UserHeader>
-        <FlexBox wrap style={{ flex: 1 }}>
+        <FlexBox wrap={1} style={{ flex: 1 }}>
           <FlexBox style={{ alignItems: 'center' }}>
             <Statistic color="red">
               <Statistic.Value>
