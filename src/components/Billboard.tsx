@@ -35,6 +35,15 @@ const BillboardPlain: React.FC<{ rankings: RankingI[] }> = ({
   rankings: RankingI[];
 }) => {
   const { formatMessage: f } = useIntl();
+  const filledRankings =
+    rankings.length < 5
+      ? rankings.concat(
+          [...Array(5 - rankings.length).keys()].map(_ => ({
+            score: -1,
+            nickname: '-'
+          }))
+        )
+      : rankings;
 
   return (
     <Grid divided="vertically" style={{ maxWidth: '800px' }}>
@@ -65,10 +74,10 @@ const BillboardPlain: React.FC<{ rankings: RankingI[] }> = ({
           {f({ id: 'billboard.score' })}
         </Grid.Column>
       </StyledGridHeader>
-      {rankings.map((ranking, idx) => (
+      {filledRankings.map((ranking, idx) => (
         <StyledGridRow
-          key={ranking.nickname}
-          last={idx === rankings.length - 1 ? 1 : 0}
+          key={ranking.nickname + idx}
+          last={idx === filledRankings.length - 1 ? 1 : 0}
         >
           <Grid.Column width={2}>
             <Label ribbon>{idx + 1}</Label>
@@ -85,10 +94,16 @@ const BillboardPlain: React.FC<{ rankings: RankingI[] }> = ({
             textAlign="center"
             style={{ fontSize: '1.4rem' }}
           >
-            {ranking.score}
-            <span style={{ fontSize: '1rem' }}>
-              {' ' + f({ id: 'billboard.score_unit' })}
-            </span>
+            {ranking.score === -1 ? (
+              '-'
+            ) : (
+              <>
+                {ranking.score}
+                <span style={{ fontSize: '1rem' }}>
+                  {' ' + f({ id: 'billboard.score_unit' })}
+                </span>
+              </>
+            )}
           </Grid.Column>
         </StyledGridRow>
       ))}
