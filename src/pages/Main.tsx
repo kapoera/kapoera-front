@@ -53,31 +53,29 @@ const Main: React.FC = () => {
       <Transition transitionOnMount duration={300}>
         <StatusBanner />
       </Transition>
-      {rankings && (
-        <div style={{ marginTop: '80px', marginBottom: '100px' }}>
-          <div
-            style={{
-              marginLeft: '30px',
-              marginBottom: '60px',
-              fontSize: '4rem'
-            }}
-          >
-            {f({ id: 'main.rankings' })}
-          </div>
-          <Grid columns={2} stackable>
-            <Grid.Column width={12}>
-              <Billboard rankings={rankings} />
-            </Grid.Column>
-            <Grid.Column width={4} style={{ padding: 0 }}>
-              <MyStatusCard
-                {...userRanking}
-                isLoggedIn={isLoggedIn}
-                nickname={nickname}
-              />
-            </Grid.Column>
-          </Grid>
+      <div style={{ marginTop: '80px', marginBottom: '100px' }}>
+        <div
+          style={{
+            marginLeft: '30px',
+            marginBottom: '60px',
+            fontSize: '4rem'
+          }}
+        >
+          {f({ id: 'main.rankings' })}
         </div>
-      )}
+        <Grid columns={2} stackable>
+          <Grid.Column width={12}>
+            <Billboard rankings={rankings} />
+          </Grid.Column>
+          <Grid.Column width={4} style={{ padding: 0 }}>
+            <MyStatusCard
+              {...userRanking}
+              isLoggedIn={isLoggedIn}
+              nickname={nickname}
+            />
+          </Grid.Column>
+        </Grid>
+      </div>
       <div>
         <div
           style={{ marginLeft: '30px', marginBottom: '40px', fontSize: '4rem' }}
