@@ -5,6 +5,7 @@ import { Image } from 'semantic-ui-react';
 
 const DimmedImage = styled(Image)`
   border-radius: 35px;
+  min-height: 140px;
   opacity: 0.5;
 `;
 
@@ -14,12 +15,15 @@ const Overlay = styled.div`
   border-radius: 35px;
   color: #fafafa;
   display: flex;
-  font-size: 3rem;
+  flex-wrap: wrap;
+  font-size: calc(2rem + 1.5vmin);
   height: 100%;
   justify-content: center;
   left: 0;
+  min-height: 140px;
   position: absolute;
   top: 0;
+  white-space: pre-line;
   width: 100%;
 `;
 
@@ -34,8 +38,11 @@ const StatusBanner: React.FC = () => {
     >
       <DimmedImage fluid src={LibraryImage} alt="Library Image" />
       <Overlay>
-        카이스트-포스텍 대제전
-        <span style={{ color: 'tomato' }}>&nbsp;1일&nbsp;</span> 차
+        <div>카이스트-포스텍&nbsp;</div>
+        <div>
+          대제전
+          <span style={{ color: 'tomato' }}>&nbsp;1일&nbsp;</span>차
+        </div>
       </Overlay>
     </div>
   );
