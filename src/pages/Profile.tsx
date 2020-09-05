@@ -11,10 +11,11 @@ const StyledHeader = styled(Header)`
 
 const Profile: React.FC = () => {
   const { state, dispatch } = useContext(GlobalContext);
-  const { nickname, username } = state.user || { nickname: '', username: '' };
+  const { nickname } = state.user || { nickname: '' };
   const [inputNickname, setInputNickname] = useState<string>(nickname);
   const [popupOpen, setPopupOpen] = useState<boolean>(false);
   const { formatMessage: f } = useIntl();
+  const username = '';
 
   useEffect(() => {
     setInputNickname(nickname);
