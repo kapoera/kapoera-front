@@ -22,6 +22,7 @@ const Overlay = styled.div`
   justify-content: center;
   left: 0;
   min-height: 140px;
+  padding: 0 15px;
   position: absolute;
   top: 0;
   white-space: pre-line;
