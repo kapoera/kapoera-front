@@ -28,5 +28,8 @@
     "mystatus.header": "{nickname}'s performance",
     "statusbanner.kapo": "Kaist-Postech",
     "statusbanner.science_war": "Science War",
-    "statusbanner.day": "Day {day}"
+    "statusbanner.day": "Day {day}",
+    "nicknamemodal.content": "To change the default nickname given to you, visit the profile page. Note that nicknames are publicly exposed in this service.",
+    "nicknamemodal.header": "Welcome, {nickname}",
+    "nicknamemodal.button": "To Main Page"
 }
