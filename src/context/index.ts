@@ -4,6 +4,7 @@ interface GlobalState {
   isLoggedIn: boolean;
   user: User;
   locale: string;
+  isAdmin: boolean;
 }
 
 export interface User {
@@ -25,7 +26,8 @@ export enum Actions {
   Login = 'LOGIN',
   Logout = 'LOGOUT',
   UpdateNickname = 'UPDATE_NICKNAME',
-  ToggleLocale = 'TOGGLE_LOCALE'
+  ToggleLocale = 'TOGGLE_LOCALE',
+  Admin = 'ADMIN'
 }
 
 interface LoginAction {
@@ -46,12 +48,17 @@ interface ToggleLocale {
   type: typeof Actions.ToggleLocale;
 }
 
-type GlobalAction = LoginAction | LogoutAction | UpdateNickname | ToggleLocale;
+interface AdminAction {
+  type: typeof Actions.Admin;
+}
+
+type GlobalAction = LoginAction | LogoutAction | UpdateNickname | ToggleLocale | AdminAction;
 
 export const initialState: GlobalState = {
   isLoggedIn: false,
   user: null,
-  locale: 'ko'
+  locale: 'ko',
+  isAdmin: false
 };
 
 export const GlobalContext = React.createContext<{
@@ -67,11 +74,13 @@ export const globalContextReducer = (
     case Actions.Login:
       return { ...state, isLoggedIn: true, user: action.payload };
     case Actions.Logout:
-      return { ...state, isLoggedIn: false, user: null };
+      return { ...state, isLoggedIn: false, user: null, isAdmin: false };
     case Actions.UpdateNickname:
       return { ...state, user: { ...state.user, nickname: action.payload } };
     case Actions.ToggleLocale:
       return { ...state, locale: state.locale === 'ko' ? 'en' : 'ko' };
+    case Actions.Admin:
+      return { ...state, isAdmin: true }
     default:
       return state;
   }

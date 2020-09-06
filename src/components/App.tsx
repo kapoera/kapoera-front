@@ -11,10 +11,10 @@ import {
   User
 } from '@/context';
 import translations from '@/i18n';
-import { Game, LoginCallback, LoginRedirect, Main, Profile } from '@/pages';
+import { Game, LoginCallback, LoginRedirect, Main, Profile, Admin, AdminGame } from '@/pages';
 import axios from '@/utils/axios';
 import NavBar from './NavBar';
-
+import { PrivateRoute } from './PrivateRoute';
 const GlobalStyle = createGlobalStyle`
   body {
     background-color: #fafafa;
@@ -28,6 +28,10 @@ const GlobalStyle = createGlobalStyle`
 interface CheckStatusResponse {
   success: boolean;
   userinfo?: User;
+}
+
+interface AdminResponse {
+  success: boolean;
 }
 
 const App: React.FC = () => {
@@ -50,7 +54,24 @@ const App: React.FC = () => {
       }
     };
 
+    const fetchAdmin = async () => {
+      try {
+        const {
+          data
+        }: { data: AdminResponse } = await axios.post(
+          '/api/private/admin/check'
+        );
+        console.log("isAdmin")
+        if (data.success) {
+          dispatch({ type: Actions.Admin });
+        }
+      } catch (error) {
+        console.error('Kapoera: Not Admin');
+      }
+    }
+
     fetchStatus();
+    fetchAdmin();
   }, []);
 
   return (
@@ -72,6 +93,12 @@ const App: React.FC = () => {
             <Route path="/game/:gameId">
               <Game />
             </Route>
+            <PrivateRoute exact path="/admin">
+              <Admin />
+            </PrivateRoute>
+            <PrivateRoute exact path="/admin/:gameId">
+              <AdminGame />
+            </PrivateRoute>
             <Route path="/">
               <Main />
             </Route>

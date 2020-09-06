@@ -58,6 +58,6 @@ module.exports = {
     hot: true,
     historyApiFallback: true,
     host: '0.0.0.0',
-    public: 'cyberkapo20.site:8000'
+      public: "cyberkapo20.site:8000"
   }
 };

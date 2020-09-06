@@ -8,7 +8,7 @@ import MyStatusCard from '@/components/MyStatusCard';
 import StatusBanner from '@/components/StatusBanner';
 import { GlobalContext } from '@/context';
 import axios from '@/utils/axios';
-
+import { useHistory } from 'react-router-dom';
 const MainHeader = styled.div`
   font-size: calc(2rem + 2.5vmin);
   margin-left: 30px;
@@ -19,6 +19,7 @@ interface RankingResponse {
   rankings?: RankingI[];
   user?: { score: number; ranking: number };
 }
+
 
 const Main: React.FC = () => {
   const [gamesData, setGamesData] = useState([]);
@@ -32,7 +33,10 @@ const Main: React.FC = () => {
     state: { user, isLoggedIn }
   } = useContext(GlobalContext);
   const { nickname } = user || { nickname: '' };
-
+  const history = useHistory();
+  const clickEventInMain = (game_type) => {
+    history.push(`/game/${game_type}`);
+  }
   useEffect(() => {
     const fetchGames = async () => {
       const { data }: { data: GameCardProps[] } = await axios.get('/api/games');
@@ -84,7 +88,7 @@ const Main: React.FC = () => {
           {gamesData.map(data => (
             <Transition key={data.game_type} transitionOnMount duration={500}>
               <Grid.Column>
-                <GameCard {...data} />
+                <GameCard {...data} clickEvent={clickEventInMain} />
               </Grid.Column>
             </Transition>
           ))}
