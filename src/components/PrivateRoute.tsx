@@ -1,18 +1,31 @@
 import React, { useContext } from 'react'
 import axios from '@/utils/axios';
 import { GlobalContext } from '@/context';
-import { Route, Redirect } from 'react-router-dom'
+import { Route, Redirect, RouteProps } from 'react-router-dom'
 
-export const PrivateRoute = ({ render, ...routeProps }) => {
-    const { state: { isAdmin } } = useContext(GlobalContext);
+interface PrivateRouteProps extends RouteProps {
+    children: React.ReactChild;
+}
+
+export const PrivateRoute: React.FC<PrivateRouteProps> = (props: PrivateRouteProps) => {
+    const { children, ...rest } = props;
+    // const { state: { isAdmin } } = useContext(GlobalContext);
+    const isAdmin = true;
     console.log(isAdmin)
+
     return (
-        <Route
-            {...routeProps}
-            render={() => (isAdmin ?
-                render() :
-                <Redirect to='/' />)
-            }
-        />
-    );
+        <Route {...rest}>
+            {isAdmin ? children : <Redirect to="/" />}
+        </Route>
+    )
+
+    //    return (
+    //        <Route
+    //            {...routeProps}
+    //            render={() => (true ?
+    //                render() :
+    //                <Redirect to='/' />)
+    //            }
+    //        />
+    //    );
 };

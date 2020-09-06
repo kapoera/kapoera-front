@@ -11,7 +11,7 @@ import {
   User
 } from '@/context';
 import translations from '@/i18n';
-import { Game, LoginCallback, LoginRedirect, Main, Profile, Admin } from '@/pages';
+import { Game, LoginCallback, LoginRedirect, Main, Profile, Admin, AdminGame } from '@/pages';
 import axios from '@/utils/axios';
 import NavBar from './NavBar';
 import { PrivateRoute } from './PrivateRoute';
@@ -59,8 +59,7 @@ const App: React.FC = () => {
         const {
           data
         }: { data: AdminResponse } = await axios.post(
-          '/api/private/admin/check',
-          {}
+          '/api/private/admin/check'
         );
         console.log("isAdmin")
         if (data.success) {
@@ -69,12 +68,10 @@ const App: React.FC = () => {
       } catch (error) {
         console.error('Kapoera: Not Admin');
       }
-
     }
 
-    fetchStatus().then(() => {
-      fetchAdmin()
-    });
+    fetchStatus();
+    fetchAdmin();
   }, []);
 
   return (
@@ -96,7 +93,11 @@ const App: React.FC = () => {
             <Route path="/game/:gameId">
               <Game />
             </Route>
-            <PrivateRoute path="/admin" render={Admin}>
+            <PrivateRoute path="/admin">
+              <Admin />
+            </PrivateRoute>
+            <PrivateRoute path="/admin/:gameId">
+              <AdminGame />
             </PrivateRoute>
             <Route path="/">
               <Main />

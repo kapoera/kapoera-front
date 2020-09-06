@@ -29,6 +29,7 @@ export interface GameCardProps {
   starting_time: string;
   winner?: University;
   subevents: number[];
+  clickEvent: (string) => void;
 }
 
 const StyledImage = styled(Image)`
@@ -42,19 +43,18 @@ export const GameCard: React.FC<GameCardProps> = ({
   game_type,
   playing,
   result,
-  starting_time
+  starting_time,
+  clickEvent
 }: GameCardProps) => {
   const { formatMessage: f } = useIntl();
-  const history = useHistory();
+
 
   return (
     <Card
       fluid
       link
       as="div"
-      onClick={() => {
-        history.push(`/game/${game_type}`);
-      }}
+      onClick={() => clickEvent(game_type)}
     >
       <StyledImage src={Library[game_type]} wrapped ui={false} />
       <Card.Content>
@@ -83,10 +83,10 @@ export const GameCard: React.FC<GameCardProps> = ({
                   />
                 </div>
               ) : (
-                <Label color="red" size="tiny">
-                  {f({ id: 'game.finished' })}
-                </Label>
-              )}
+                    <Label color="red" size="tiny">
+                      {f({ id: 'game.finished' })}
+                    </Label>
+                  )}
             </Grid.Column>
             <Grid.Column verticalAlign="middle">
               <Image src={PostechLogo} />
