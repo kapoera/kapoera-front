@@ -5,7 +5,7 @@ import { FormattedDate, useIntl } from 'react-intl';
 import { Grid, Image, Label } from 'semantic-ui-react';
 import KaistLogo from '@/public/kaist.png';
 import PostechLogo from '@/public/postech.png';
-import QuizImage from '@/public/quiz.jpg';
+import Library from '@/public/games';
 
 export enum University {
   Kaist = 'K',
@@ -48,7 +48,7 @@ export const GameCard: React.FC<GameCardProps> = ({
         history.push(`/game/${game_type}`);
       }}
     >
-      <Image src={QuizImage} wrapped ui={false} />
+      <Image src={Library['ai']} wrapped ui={false} />
       <Card.Content>
         <Card.Header as="h1" textAlign="center">
           {f({ id: `game.${game_type}` })}
