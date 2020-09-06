@@ -19,6 +19,7 @@ export interface EventType {
 }
 
 interface EventListProps {
+  isAdmin: boolean;
   gameId: string;
 }
 
@@ -33,7 +34,7 @@ const defaultEvent: EventType[] = [
   }
 ];
 
-const EventList: React.FC<EventListProps> = ({ gameId }: EventListProps) => {
+const EventList: React.FC<EventListProps> = ({ isAdmin, gameId }: EventListProps) => {
   const [activeIndex, setActiveIndex] = useState(-1);
   const handleClick = (e, titleProps) => {
     const { index } = titleProps;

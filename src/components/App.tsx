@@ -93,10 +93,10 @@ const App: React.FC = () => {
             <Route path="/game/:gameId">
               <Game />
             </Route>
-            <PrivateRoute path="/admin">
+            <PrivateRoute exact path="/admin">
               <Admin />
             </PrivateRoute>
-            <PrivateRoute path="/admin/:gameId">
+            <PrivateRoute exact path="/admin/:gameId">
               <AdminGame />
             </PrivateRoute>
             <Route path="/">

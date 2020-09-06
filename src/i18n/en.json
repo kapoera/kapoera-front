@@ -16,8 +16,12 @@
     "game.finished": "Finished",
     "game.score": "Score",
     "game.winning": "Winning",
+    "game.status": "game status",
+    "game.status.change": "change game status",
+    "game.score.change": "change score",
     "betting.status": "Betting Status",
     "betting.button": "Betting Button",
+    "betting.end": "End Betting",
     "main.rankings": "Rankings",
     "main.games": "Games",
     "billboard.nickname": "Nickname",
@@ -32,4 +36,5 @@
     "nicknamemodal.content": "To change the default nickname given to you, visit the profile page. Note that nicknames are publicly exposed in this service.",
     "nicknamemodal.header": "Welcome, {nickname}",
     "nicknamemodal.button": "To Main Page"
+    "statusbanner.day": "Day {day}"
 }

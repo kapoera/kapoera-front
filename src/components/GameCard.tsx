@@ -13,6 +13,12 @@ export enum University {
   Postech = 'P'
 }
 
+export enum Winner {
+  Kaist = 'K',
+  Postech = 'P',
+  None = 'N'
+}
+
 export enum GameStatus {
   Waiting = 'waiting',
   Running = 'running',
@@ -27,7 +33,7 @@ export interface GameCardProps {
   playing: GameStatus;
   result: { [key in University]: number };
   starting_time: string;
-  winner?: University;
+  winner?: Winner;
   subevents: number[];
   clickEvent: (string) => void;
 }
