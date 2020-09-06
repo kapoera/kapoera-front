@@ -9,8 +9,7 @@ interface PrivateRouteProps extends RouteProps {
 
 export const PrivateRoute: React.FC<PrivateRouteProps> = (props: PrivateRouteProps) => {
     const { children, ...rest } = props;
-    // const { state: { isAdmin } } = useContext(GlobalContext);
-    const isAdmin = true;
+    const { state: { isAdmin } } = useContext(GlobalContext);
     console.log(isAdmin)
 
     return (

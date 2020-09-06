@@ -41,7 +41,7 @@ const NavBar: React.FC<NavBarProps> = ({ className }: NavBarProps) => {
   const history = useHistory();
   const [profileOpen, setProfileOpen] = useState<boolean>(false);
   const {
-    state: { isLoggedIn },
+    state: { isLoggedIn, isAdmin },
     dispatch
   } = useContext(GlobalContext);
 
@@ -56,9 +56,10 @@ const NavBar: React.FC<NavBarProps> = ({ className }: NavBarProps) => {
       <Menu.Item onClick={() => history.push('/')}>
         <h3>{f({ id: 'home' })}</h3>
       </Menu.Item>
+      { isAdmin ?
       <Menu.Item onClick={() => history.push('/admin')}>
         <h3>admin</h3>
-      </Menu.Item>
+      </Menu.Item> : <div></div>}
       <Menu.Menu position="right">
         <Menu.Item onClick={() => dispatch({ type: Actions.ToggleLocale })}>
           <Icon name="language" size="large" style={{ margin: 0 }} />

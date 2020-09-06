@@ -58,6 +58,6 @@ module.exports = {
     hot: true,
     historyApiFallback: true,
     host: '0.0.0.0',
-    public: "aria.sparcs.org:32970"
+      public: "cyberkapo20.site:8000"
   }
 };

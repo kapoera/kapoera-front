@@ -115,7 +115,7 @@ const Game: React.FC = () => {
         '/api/games/' + gameId
       );
       setGameData(data);
-
+      console.log(data)
       if (data.kaist_arr.includes(_id)) {
         setCurrentBetting(LogoState.Kaist);
       } else if (data.postech_arr.includes(_id)) {
@@ -123,7 +123,6 @@ const Game: React.FC = () => {
       } else {
         setCurrentBetting(LogoState.None);
       }
-
       if (data.kaist_arr.length + data.postech_arr.length != 0) {
         setKaistRatio(
           (100 * data.kaist_arr.length) /
@@ -140,6 +139,7 @@ const Game: React.FC = () => {
 
   return (
     <GameContainer>
+      { currentBetting }
       <Banner>{f({ id: `game.${gameId}` })}</Banner>
       <Grid
         style={{
