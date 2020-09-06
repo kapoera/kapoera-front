@@ -56,6 +56,9 @@ const NavBar: React.FC<NavBarProps> = ({ className }: NavBarProps) => {
       <Menu.Item onClick={() => history.push('/')}>
         <h3>{f({ id: 'home' })}</h3>
       </Menu.Item>
+      <Menu.Item onClick={() => history.push('/admin')}>
+        <h3>admin</h3>
+      </Menu.Item>
       <Menu.Menu position="right">
         <Menu.Item onClick={() => dispatch({ type: Actions.ToggleLocale })}>
           <Icon name="language" size="large" style={{ margin: 0 }} />
@@ -87,14 +90,14 @@ const NavBar: React.FC<NavBarProps> = ({ className }: NavBarProps) => {
             </StyledDropdown>
           </ButtonGroup>
         ) : (
-          <Menu.Item
-            onClick={() => {
-              history.push('/signin/redirect');
-            }}
-          >
-            <h3>{f({ id: 'login' })}</h3>
-          </Menu.Item>
-        )}
+            <Menu.Item
+              onClick={() => {
+                history.push('/signin/redirect');
+              }}
+            >
+              <h3>{f({ id: 'login' })}</h3>
+            </Menu.Item>
+          )}
       </Menu.Menu>
     </StyledMenu>
   );
