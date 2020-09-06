@@ -1,6 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { Card } from 'semantic-ui-react';
+import styled from 'styled-components';
 import { FormattedDate, useIntl } from 'react-intl';
 import { Grid, Image, Label } from 'semantic-ui-react';
 import KaistLogo from '@/public/kaist.png';
@@ -30,6 +31,13 @@ export interface GameCardProps {
   subevents: number[];
 }
 
+const StyledImage = styled(Image)`
+  > img {
+    height: 250px !important;
+    object-fit: cover !important;
+  }
+`;
+
 export const GameCard: React.FC<GameCardProps> = ({
   game_type,
   playing,
@@ -48,7 +56,7 @@ export const GameCard: React.FC<GameCardProps> = ({
         history.push(`/game/${game_type}`);
       }}
     >
-      <Image src={Library['ai']} wrapped ui={false} />
+      <StyledImage src={Library[game_type]} wrapped ui={false} />
       <Card.Content>
         <Card.Header as="h1" textAlign="center">
           {f({ id: `game.${game_type}` })}
