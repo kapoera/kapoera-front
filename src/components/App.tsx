@@ -41,8 +41,7 @@ const App: React.FC = () => {
         );
 
         if (data.success) {
-          dispatch({ type: Actions.Login });
-          dispatch({ type: Actions.SetInfo, payload: data.userinfo });
+          dispatch({ type: Actions.Login, payload: data.userinfo });
         } else {
           dispatch({ type: Actions.Logout });
         }

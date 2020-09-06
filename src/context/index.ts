@@ -24,22 +24,17 @@ export interface User {
 export enum Actions {
   Login = 'LOGIN',
   Logout = 'LOGOUT',
-  SetInfo = 'SET_INFO',
   UpdateNickname = 'UPDATE_NICKNAME',
   ToggleLocale = 'TOGGLE_LOCALE'
 }
 
 interface LoginAction {
   type: typeof Actions.Login;
+  payload: User;
 }
 
 interface LogoutAction {
   type: typeof Actions.Logout;
-}
-
-interface SetInfoAction {
-  type: typeof Actions.SetInfo;
-  payload: User;
 }
 
 interface UpdateNickname {
@@ -51,12 +46,7 @@ interface ToggleLocale {
   type: typeof Actions.ToggleLocale;
 }
 
-type GlobalAction =
-  | LoginAction
-  | LogoutAction
-  | SetInfoAction
-  | UpdateNickname
-  | ToggleLocale;
+type GlobalAction = LoginAction | LogoutAction | UpdateNickname | ToggleLocale;
 
 export const initialState: GlobalState = {
   isLoggedIn: false,
@@ -75,11 +65,9 @@ export const globalContextReducer = (
 ): GlobalState => {
   switch (action.type) {
     case Actions.Login:
-      return { ...state, isLoggedIn: true };
+      return { ...state, isLoggedIn: true, user: action.payload };
     case Actions.Logout:
       return { ...state, isLoggedIn: false, user: null };
-    case Actions.SetInfo:
-      return { ...state, user: action.payload };
     case Actions.UpdateNickname:
       return { ...state, user: { ...state.user, nickname: action.payload } };
     case Actions.ToggleLocale:
