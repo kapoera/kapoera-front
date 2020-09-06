@@ -28,5 +28,8 @@
     "mystatus.header": "{nickname}의 기록",
     "statusbanner.kapo": "카이스트-포스텍",
     "statusbanner.science_war": "대제전",
-    "statusbanner.day": "{day}일 차"
+    "statusbanner.day": "{day}일 차",
+    "nicknamemodal.content": "기본으로 주어진 닉네임을 변경하기 위해서는 프로필 페이지를 방문해 주세요. 해당 닉네임은 타인에게 노출된다는 점을 감안해 주시기 바랍니다.",
+    "nicknamemodal.header": "{nickname}님, 안녕하세요",
+    "nicknamemodal.button": "메인 페이지로"
 }
