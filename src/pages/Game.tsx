@@ -67,7 +67,7 @@ const defaultState: GameCardProps = {
   result: { [University.Kaist]: 0, [University.Postech]: 0 },
   starting_time: '2020-08-24T00:00:00.000Z',
   subevents: [],
-  clickEvent: () => { }
+  clickEvent: () => {}
 };
 
 const Game: React.FC = () => {
@@ -95,11 +95,11 @@ const Game: React.FC = () => {
       if (data.kaist_arr.length + data.postech_arr.length != 0) {
         setKaistRatio(
           (100 * data.kaist_arr.length) /
-          (data.kaist_arr.length + data.postech_arr.length)
+            (data.kaist_arr.length + data.postech_arr.length)
         );
         setPostechRatio(
           (100 * data.postech_arr.length) /
-          (data.kaist_arr.length + data.postech_arr.length)
+            (data.kaist_arr.length + data.postech_arr.length)
         );
       }
     });
@@ -115,7 +115,6 @@ const Game: React.FC = () => {
         '/api/games/' + gameId
       );
       setGameData(data);
-      console.log(data)
       if (data.kaist_arr.includes(_id)) {
         setCurrentBetting(LogoState.Kaist);
       } else if (data.postech_arr.includes(_id)) {
@@ -126,11 +125,11 @@ const Game: React.FC = () => {
       if (data.kaist_arr.length + data.postech_arr.length != 0) {
         setKaistRatio(
           (100 * data.kaist_arr.length) /
-          (data.kaist_arr.length + data.postech_arr.length)
+            (data.kaist_arr.length + data.postech_arr.length)
         );
         setPostechRatio(
           (100 * data.postech_arr.length) /
-          (data.kaist_arr.length + data.postech_arr.length)
+            (data.kaist_arr.length + data.postech_arr.length)
         );
       }
     };
@@ -139,7 +138,7 @@ const Game: React.FC = () => {
 
   return (
     <GameContainer>
-      { currentBetting }
+      {currentBetting}
       <Banner>{f({ id: `game.${gameId}` })}</Banner>
       <Grid
         style={{
@@ -212,10 +211,10 @@ const Game: React.FC = () => {
               />
             </Label>
           ) : (
-                <Label color="red" size="huge">
-                  {f({ id: 'game.finished' })}
-                </Label>
-              )}
+            <Label color="red" size="huge">
+              {f({ id: 'game.finished' })}
+            </Label>
+          )}
         </div>
       </Grid>
       <Segment>
