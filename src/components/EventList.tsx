@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Accordion } from 'semantic-ui-react';
+import { Accordion, AccordionTitleProps } from 'semantic-ui-react';
 import EventForm from '@/components/EventForm';
 import { GlobalContext } from '@/context';
 import axios from '@/utils/axios';
@@ -34,11 +34,14 @@ const defaultEvent: EventType[] = [
   }
 ];
 
-const EventList: React.FC<EventListProps> = ({ isAdmin, gameId }: EventListProps) => {
+const EventList: React.FC<EventListProps> = ({ gameId }: EventListProps) => {
   const [activeIndex, setActiveIndex] = useState(-1);
-  const handleClick = (e, titleProps) => {
+  const handleClick = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    titleProps: AccordionTitleProps
+  ) => {
     const { index } = titleProps;
-    const newIndex = activeIndex === index ? -1 : index;
+    const newIndex = (activeIndex === index ? -1 : index) as number;
     setActiveIndex(newIndex);
   };
   const [events, setEvents] = useState(defaultEvent);
@@ -56,7 +59,7 @@ const EventList: React.FC<EventListProps> = ({ isAdmin, gameId }: EventListProps
     fetchEvents();
   }, []);
 
-  const judgeAbleBetting = event => {
+  const judgeAbleBetting = (event: EventType) => {
     const bettinginfo = event.responses.filter(res => res.key === mail);
     if (bettinginfo.length === 0) {
       return null;
@@ -82,6 +85,7 @@ const EventList: React.FC<EventListProps> = ({ isAdmin, gameId }: EventListProps
                 betAble={judgeAbleBetting(event)}
                 setEvents={setEvents}
                 mail={mail}
+                game_type={gameId}
               />
             </Accordion.Content>
           </div>

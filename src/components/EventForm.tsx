@@ -14,6 +14,7 @@ interface EventFormProps {
   betAble: string | null;
   setEvents: React.Dispatch<React.SetStateAction<EventType[]>>;
   mail: string;
+  game_type: string;
 }
 
 const EventForm: React.FC<EventFormProps> = ({
@@ -21,7 +22,8 @@ const EventForm: React.FC<EventFormProps> = ({
   event,
   betAble,
   setEvents,
-  mail
+  mail,
+  game_type
 }: EventFormProps) => {
   const [eventChoice, setEventChoice] = useState<string | null>(betAble);
 
@@ -37,7 +39,7 @@ const EventForm: React.FC<EventFormProps> = ({
           data
         }: { data: BettingResponse } = await axios.post(
           '/api/private/betevent',
-          { key: event.key, choice: eventChoice }
+          { key: event.key, choice: eventChoice, game_type }
         );
         if (data.success) {
           setEvents(prevState => {
