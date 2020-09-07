@@ -6,9 +6,9 @@ interface PopupButtonProps {
   disabled: boolean;
 }
 
-const PopupButton: React.FC<PopupButtonProps> = ({
-  disabled
-}: PopupButtonProps) => {
+const PopupButton: React.FC<PopupButtonProps> = (props: PopupButtonProps) => {
+  const { disabled, ...rest } = props;
+
   const { formatMessage: f } = useIntl();
   return (
     <Button
@@ -16,6 +16,7 @@ const PopupButton: React.FC<PopupButtonProps> = ({
       color="grey"
       content={f({ id: 'betting.button' })}
       disabled={disabled}
+      {...rest}
     />
   );
 };
