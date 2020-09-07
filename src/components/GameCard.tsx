@@ -107,13 +107,13 @@ export const GameCard: React.FC<GameCardProps> = ({
           </Grid.Row>
           <Grid.Row columns={3}>
             <Grid.Column textAlign="center">
-              {dividend / (kaist_arr.length + 1)}
+              {Math.round(dividend / (kaist_arr.length + 1))}
             </Grid.Column>
             <Grid.Column textAlign="center">
               {f({ id: 'game.winning' })}
             </Grid.Column>
             <Grid.Column textAlign="center">
-              {dividend / (postech_arr.length + 1)}
+              {Math.round(dividend / (postech_arr.length + 1))}
             </Grid.Column>
           </Grid.Row>
         </Grid>
