@@ -396,7 +396,5 @@ const AdminGame: React.FC = () => {
   );
 };
 
-export default styled(AdminGame)`
-  overflow-x: hidden;
-`;
+export default AdminGame;
 
