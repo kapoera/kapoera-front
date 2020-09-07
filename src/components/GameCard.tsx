@@ -1,5 +1,4 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
 import { Card } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { FormattedDate, useIntl } from 'react-intl';
@@ -35,7 +34,7 @@ export interface GameCardProps {
   starting_time: string;
   winner?: Winner;
   subevents: number[];
-  clickEvent: (string) => void;
+  clickEvent: (arg0: string) => void;
 }
 
 const StyledImage = styled(Image)`
@@ -54,14 +53,8 @@ export const GameCard: React.FC<GameCardProps> = ({
 }: GameCardProps) => {
   const { formatMessage: f } = useIntl();
 
-
   return (
-    <Card
-      fluid
-      link
-      as="div"
-      onClick={() => clickEvent(game_type)}
-    >
+    <Card fluid link as="div" onClick={() => clickEvent(game_type)}>
       <StyledImage src={Library[game_type]} wrapped ui={false} />
       <Card.Content>
         <Card.Header as="h1" textAlign="center">
@@ -89,10 +82,10 @@ export const GameCard: React.FC<GameCardProps> = ({
                   />
                 </div>
               ) : (
-                    <Label color="red" size="tiny">
-                      {f({ id: 'game.finished' })}
-                    </Label>
-                  )}
+                <Label color="red" size="tiny">
+                  {f({ id: 'game.finished' })}
+                </Label>
+              )}
             </Grid.Column>
             <Grid.Column verticalAlign="middle">
               <Image src={PostechLogo} />
