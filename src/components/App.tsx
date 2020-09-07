@@ -53,6 +53,7 @@ const App: React.FC = () => {
         );
 
         if (data.success) {
+          console.log(data.userinfo)
           dispatch({ type: Actions.Login, payload: data.userinfo });
         } else {
           dispatch({ type: Actions.Logout });

@@ -46,7 +46,7 @@ const EventList: React.FC<EventListProps> = ({ gameId }: EventListProps) => {
   };
   const [events, setEvents] = useState(defaultEvent);
   const { state } = useContext(GlobalContext);
-  const { mail } = state.user || { mail: '' };
+  const { _id } = state.user || { _id: '' };
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -60,7 +60,7 @@ const EventList: React.FC<EventListProps> = ({ gameId }: EventListProps) => {
   }, []);
 
   const judgeAbleBetting = (event: EventType) => {
-    const bettinginfo = event.responses.filter(res => res.key === mail);
+    const bettinginfo = event.responses.filter(res => res.key === _id);
     if (bettinginfo.length === 0) {
       return null;
     } else return bettinginfo[0].choice;
@@ -84,7 +84,7 @@ const EventList: React.FC<EventListProps> = ({ gameId }: EventListProps) => {
                 event={event}
                 betAble={judgeAbleBetting(event)}
                 setEvents={setEvents}
-                mail={mail}
+                _id={_id}
                 game_type={gameId}
               />
             </Accordion.Content>
