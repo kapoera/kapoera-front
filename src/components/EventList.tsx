@@ -34,7 +34,7 @@ const defaultEvent: EventType[] = [
   }
 ];
 
-const EventList: React.FC<EventListProps> = ({ isAdmin, gameId }: EventListProps) => {
+const EventList: React.FC<EventListProps> = ({ gameId }: EventListProps) => {
   const [activeIndex, setActiveIndex] = useState(-1);
   const handleClick = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
@@ -59,7 +59,7 @@ const EventList: React.FC<EventListProps> = ({ isAdmin, gameId }: EventListProps
     fetchEvents();
   }, []);
 
-  const judgeAbleBetting = event => {
+  const judgeAbleBetting = (event: EventType) => {
     const bettinginfo = event.responses.filter(res => res.key === mail);
     if (bettinginfo.length === 0) {
       return null;
@@ -85,6 +85,7 @@ const EventList: React.FC<EventListProps> = ({ isAdmin, gameId }: EventListProps
                 betAble={judgeAbleBetting(event)}
                 setEvents={setEvents}
                 mail={mail}
+                game_type={gameId}
               />
             </Accordion.Content>
           </div>
