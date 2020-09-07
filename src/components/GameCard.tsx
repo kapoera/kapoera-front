@@ -45,9 +45,12 @@ const StyledImage = styled(Image)`
 `;
 
 export const GameCard: React.FC<GameCardProps> = ({
+  dividend,
   game_type,
   playing,
   result,
+  kaist_arr,
+  postech_arr,
   starting_time,
   clickEvent
 }: GameCardProps) => {
@@ -103,11 +106,15 @@ export const GameCard: React.FC<GameCardProps> = ({
             </Grid.Column>
           </Grid.Row>
           <Grid.Row columns={3}>
-            <Grid.Column textAlign="center">-</Grid.Column>
+            <Grid.Column textAlign="center">
+              {dividend / (kaist_arr.length + 1)}
+            </Grid.Column>
             <Grid.Column textAlign="center">
               {f({ id: 'game.winning' })}
             </Grid.Column>
-            <Grid.Column textAlign="center">-</Grid.Column>
+            <Grid.Column textAlign="center">
+              {dividend / (postech_arr.length + 1)}
+            </Grid.Column>
           </Grid.Row>
         </Grid>
       </Card.Content>
