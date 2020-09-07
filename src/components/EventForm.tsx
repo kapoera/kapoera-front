@@ -13,7 +13,7 @@ interface EventFormProps {
   event: EventType;
   betAble: string | null;
   setEvents: React.Dispatch<React.SetStateAction<EventType[]>>;
-  mail: string;
+  _id: string;
   game_type: string;
 }
 
@@ -22,7 +22,7 @@ const EventForm: React.FC<EventFormProps> = ({
   event,
   betAble,
   setEvents,
-  mail,
+  _id,
   game_type
 }: EventFormProps) => {
   const [eventChoice, setEventChoice] = useState<string | null>(betAble);
@@ -52,7 +52,7 @@ const EventForm: React.FC<EventFormProps> = ({
                 ...targetEvent,
                 responses: targetEvent.responses.concat({
                   choice: eventChoice,
-                  key: mail
+                  key: _id
                 })
               });
           });
