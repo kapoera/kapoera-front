@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Accordion } from 'semantic-ui-react';
+import { Accordion, AccordionTitleProps } from 'semantic-ui-react';
 import EventForm from '@/components/EventForm';
 import { GlobalContext } from '@/context';
 import axios from '@/utils/axios';
@@ -36,9 +36,12 @@ const defaultEvent: EventType[] = [
 
 const EventList: React.FC<EventListProps> = ({ isAdmin, gameId }: EventListProps) => {
   const [activeIndex, setActiveIndex] = useState(-1);
-  const handleClick = (e, titleProps) => {
+  const handleClick = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    titleProps: AccordionTitleProps
+  ) => {
     const { index } = titleProps;
-    const newIndex = activeIndex === index ? -1 : index;
+    const newIndex = (activeIndex === index ? -1 : index) as number;
     setActiveIndex(newIndex);
   };
   const [events, setEvents] = useState(defaultEvent);
