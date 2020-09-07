@@ -236,6 +236,7 @@ const Game: React.FC = () => {
               currentBetting={currentBetting}
               setCurrentBetting={setCurrentBetting}
               game_type={game_type}
+              playing={playing}
             />
           </div>
         </div>

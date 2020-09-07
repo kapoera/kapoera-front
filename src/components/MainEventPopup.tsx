@@ -3,6 +3,7 @@ import { Button, Header, Modal, Popup } from 'semantic-ui-react';
 import styled from 'styled-components';
 import KaistEmblem from '@/public/kaist_emblem.png';
 import PostechEmblem from '@/public/postech_emblem.png';
+import { GameStatus } from '@/components/GameCard';
 import PopupButton from '@/components/PopupButton';
 import { GlobalContext } from '@/context';
 import { useHistory } from 'react-router-dom';
@@ -70,6 +71,7 @@ interface MainEventPopupProps {
   currentBetting: LogoState;
   setCurrentBetting: (value: React.SetStateAction<LogoState>) => void;
   game_type: string;
+  playing: GameStatus;
 }
 
 interface BettingResponse {
@@ -78,7 +80,8 @@ interface BettingResponse {
 const MainEventPopup: React.FC<MainEventPopupProps> = ({
   currentBetting,
   setCurrentBetting,
-  game_type
+  game_type,
+  playing
 }: MainEventPopupProps) => {
   const inititalBetting = currentBetting;
   const [{ open, selected }, dispatch] = useReducer(reducer, {
@@ -91,8 +94,7 @@ const MainEventPopup: React.FC<MainEventPopupProps> = ({
   const history = useHistory();
   const bettingHandler = async () => {
     if (isLoggedIn) {
-      if (selected === LogoState.None) {
-      } else {
+      if (selected !== LogoState.None) {
         const { data }: { data: BettingResponse } = await axios.post(
           '/api/private/bet',
           {
@@ -114,7 +116,7 @@ const MainEventPopup: React.FC<MainEventPopupProps> = ({
       onClose={() => dispatch({ type: MainEventAction.ToggleOpen })}
       onOpen={() => dispatch({ type: MainEventAction.ToggleOpen })}
       open={open}
-      trigger={<PopupButton />}
+      trigger={<PopupButton disabled={playing !== GameStatus.Waiting} />}
     >
       <Header as="h2" className="centered">
         Who will win the {game_type} game?
