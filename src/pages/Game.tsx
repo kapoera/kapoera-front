@@ -265,6 +265,4 @@ const Game: React.FC = () => {
   );
 };
 
-export default styled(Game)`
-  overflow-x: hidden;
-`;
+export default Game;

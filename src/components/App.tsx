@@ -26,7 +26,6 @@ import { PrivateRoute } from './PrivateRoute';
 const GlobalStyle = createGlobalStyle`
   body {
     background-color: #fafafa;
-    overflow-x: hidden;
   }
   body * {
     font-family: Jua, sans-serif;
