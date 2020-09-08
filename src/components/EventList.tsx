@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { Accordion, AccordionTitleProps } from 'semantic-ui-react';
 import EventForm from '@/components/EventForm';
 import { GlobalContext } from '@/context';
+import { GameStatus } from '@/components/GameCard';
 import axios from '@/utils/axios';
 
 export interface Response {
@@ -18,9 +19,9 @@ export interface EventType {
   key: number;
 }
 
-interface EventListProps {
-  isAdmin: boolean;
+export interface EventListProps {
   gameId: string;
+  playing: GameStatus;
 }
 
 const defaultEvent: EventType[] = [
@@ -34,7 +35,7 @@ const defaultEvent: EventType[] = [
   }
 ];
 
-const EventList: React.FC<EventListProps> = ({ gameId }: EventListProps) => {
+const EventList: React.FC<EventListProps> = ({ gameId, playing }: EventListProps) => {
   const [activeIndex, setActiveIndex] = useState(-1);
   const handleClick = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
@@ -86,6 +87,7 @@ const EventList: React.FC<EventListProps> = ({ gameId }: EventListProps) => {
                 setEvents={setEvents}
                 _id={_id}
                 game_type={gameId}
+                playing={playing}
               />
             </Accordion.Content>
           </div>
