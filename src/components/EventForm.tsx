@@ -28,7 +28,7 @@ const EventForm: React.FC<EventFormProps> = ({
   game_type,
   playing
 }: EventFormProps) => {
-  const [eventChoice, setEventChoice] = useState<string | null>(betAble);
+  const [eventChoice, setEventChoice] = useState<string | null>(null);
 
   const handleChange = (_, { value }) => {
     setEventChoice(value);
@@ -59,6 +59,7 @@ const EventForm: React.FC<EventFormProps> = ({
                 })
               });
           });
+          setEventChoice(null)
         }
       }
     } else {

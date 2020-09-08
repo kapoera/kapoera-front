@@ -32,7 +32,7 @@ const Admin: React.FC = () => {
 
     return (
         <Container>
-            <div>
+            <div style={{ marginTop: '80px', marginBottom: '60px' }}>
                 <MainHeader>{f({ id: 'main.games' })}</MainHeader>
                 <Grid columns={3} doubling stackable style={{ marginTop: '1vmin' }}>
                     {gamesData.map(data => (

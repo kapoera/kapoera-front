@@ -24,7 +24,7 @@ const AdminEventForm: React.FC<AdminEventFormProps> = ({
     game_type,
     playing
 }: AdminEventFormProps) => {
-    const [answer, setAnswer] = useState<string | null>(event.answer);
+    const [answer, setAnswer] = useState<string | null>(null);
     const handleChange = (_, { value }) => {
         setAnswer(value);
     };
@@ -52,6 +52,7 @@ const AdminEventForm: React.FC<AdminEventFormProps> = ({
                                 answer: answer
                             });
                     });
+                    setAnswer(null)
                 }
             }
         } else {
