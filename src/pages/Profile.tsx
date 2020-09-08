@@ -43,6 +43,18 @@ const Profile: React.FC = () => {
     setInputNickname(nickname);
   }, [nickname]);
 
+  useEffect(() => {
+    const fetchRanking = async () => {
+      const { data }: { data: RankingResponse } = await axios.get(
+        '/api/private/rankings/top'
+      );
+
+      if (data.success && data.user) setUserRanking(data.user);
+    };
+
+    fetchRanking();
+  }, []);
+
   const handleNicknameChange = (_, data: InputOnChangeData) => {
     setInputNickname(data.value);
 
@@ -64,7 +76,7 @@ const Profile: React.FC = () => {
     } = await axios.post('/api/private/nickname', { nickname: inputNickname });
 
     if (success) {
-      // dispatch({ type: Actions.UpdateNickname, payload: inputNickname });
+      dispatch({ type: Actions.UpdateNickname, payload: inputNickname });
     } else {
       setPopupContent('Nickname taken. Please try another nickname');
       setPopupOpen(true);
