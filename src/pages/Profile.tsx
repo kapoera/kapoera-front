@@ -1,7 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import styled from 'styled-components';
-import { Button, Grid, Input, Popup, Segment } from 'semantic-ui-react';
+import {
+  Button,
+  Grid,
+  Input,
+  InputOnChangeData,
+  Popup,
+  Segment
+} from 'semantic-ui-react';
 import { GlobalContext, Actions } from '@/context';
 import axios from '@/utils/axios';
 import { RankingResponse } from '@/types';
@@ -24,6 +31,7 @@ const Profile: React.FC = () => {
   const { state, dispatch } = useContext(GlobalContext);
   const { nickname } = state.user || { nickname: '' };
   const [inputNickname, setInputNickname] = useState<string>(nickname);
+  const [popupContent, setPopupContent] = useState<string>('');
   const [userRanking, setUserRanking] = useState<{
     score: number;
     ranking: number;
@@ -35,18 +43,30 @@ const Profile: React.FC = () => {
     setInputNickname(nickname);
   }, [nickname]);
 
+  const handleNicknameChange = (_, data: InputOnChangeData) => {
+    setInputNickname(data.value);
+
+    if (!(0 < data.value.length && data.value.length <= 10)) {
+      setPopupContent(f({ id: 'profile.nickname_error' }));
+      setPopupOpen(true);
+    } else {
+      setPopupOpen(false);
+    }
+  };
+
   const handleNicknameSubmit = async () => {
     if (inputNickname === '') return;
 
     const {
-      data: { success, message }
+      data: { success }
     }: {
       data: { success: boolean; message?: string };
     } = await axios.post('/api/private/nickname', { nickname: inputNickname });
 
     if (success) {
-      dispatch({ type: Actions.UpdateNickname, payload: inputNickname });
+      // dispatch({ type: Actions.UpdateNickname, payload: inputNickname });
     } else {
+      setPopupContent('Nickname taken. Please try another nickname');
       setPopupOpen(true);
       setTimeout(() => {
         setPopupOpen(false);
@@ -111,12 +131,10 @@ const Profile: React.FC = () => {
                   <Input
                     type="text"
                     value={inputNickname}
-                    onChange={(_, data) => {
-                      setInputNickname(data.value);
-                    }}
+                    onChange={handleNicknameChange}
                   />
                 }
-                content="Nickname taken. Please try another nickname"
+                content={popupContent}
                 position="top right"
                 open={popupOpen}
                 inverted
@@ -127,7 +145,10 @@ const Profile: React.FC = () => {
             <Button
               color="teal"
               onClick={handleNicknameSubmit}
-              disabled={nickname === inputNickname}
+              disabled={
+                nickname === inputNickname ||
+                !(0 < inputNickname.length && inputNickname.length <= 10)
+              }
             >
               {f({ id: 'profile.save_changes' })}
             </Button>
