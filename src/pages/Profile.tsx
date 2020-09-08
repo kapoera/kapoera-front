@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import styled from 'styled-components';
-import { Grid, Input, Popup, Segment } from 'semantic-ui-react';
+import { Button, Grid, Input, Popup, Segment } from 'semantic-ui-react';
 import { GlobalContext, Actions } from '@/context';
 import axios from '@/utils/axios';
 import { RankingResponse } from '@/types';
@@ -30,7 +30,6 @@ const Profile: React.FC = () => {
   }>({ score: 0, ranking: 0 });
   const [popupOpen, setPopupOpen] = useState<boolean>(false);
   const { formatMessage: f } = useIntl();
-  const username = '';
 
   useEffect(() => {
     setInputNickname(nickname);
@@ -61,29 +60,49 @@ const Profile: React.FC = () => {
       <Segment
         as="div"
         textAlign="center"
-        style={{ height: '200px', display: 'flex', alignItems: 'center' }}
+        style={{ height: '250px', display: 'flex', alignItems: 'center' }}
       >
         <Grid centered>
           <Grid.Row columns={2}>
-            <Grid.Column width={4} verticalAlign="middle">
+            <Grid.Column
+              width={4}
+              verticalAlign="middle"
+              style={{ fontSize: 'calc(1rem + 0.5vmin)' }}
+            >
               {f({ id: 'profile.score' })}
             </Grid.Column>
-            <Grid.Column stretched width={10} textAlign="center">
+            <Grid.Column
+              stretched
+              width={10}
+              style={{ paddingLeft: '30px', fontSize: 'calc(1rem + 0.5vmin)' }}
+            >
               {userRanking.score}
               {f({ id: 'billboard.score_unit' })}
             </Grid.Column>
           </Grid.Row>
           <Grid.Row columns={2}>
-            <Grid.Column width={4} verticalAlign="middle">
+            <Grid.Column
+              width={4}
+              verticalAlign="middle"
+              style={{ fontSize: 'calc(1rem + 0.5vmin)' }}
+            >
               {f({ id: 'profile.ranking' })}
             </Grid.Column>
-            <Grid.Column stretched width={10} textAlign="center">
+            <Grid.Column
+              stretched
+              width={10}
+              style={{ paddingLeft: '30px', fontSize: 'calc(1rem + 0.5vmin)' }}
+            >
               {userRanking.ranking}
               {ordinalSuffix(userRanking.ranking)}
             </Grid.Column>
           </Grid.Row>
           <Grid.Row columns={2}>
-            <Grid.Column width={4} verticalAlign="middle">
+            <Grid.Column
+              width={4}
+              verticalAlign="middle"
+              style={{ fontSize: 'calc(1rem + 0.5vmin)' }}
+            >
               {f({ id: 'profile.nickname' })}
             </Grid.Column>
             <Grid.Column stretched width={10}>
@@ -95,12 +114,6 @@ const Profile: React.FC = () => {
                     onChange={(_, data) => {
                       setInputNickname(data.value);
                     }}
-                    action={{
-                      color: 'teal',
-                      content: f({ id: 'profile.save_changes' }),
-                      onClick: handleNicknameSubmit,
-                      disabled: nickname === inputNickname
-                    }}
                   />
                 }
                 content="Nickname taken. Please try another nickname"
@@ -109,6 +122,15 @@ const Profile: React.FC = () => {
                 inverted
               />
             </Grid.Column>
+          </Grid.Row>
+          <Grid.Row centered>
+            <Button
+              color="teal"
+              onClick={handleNicknameSubmit}
+              disabled={nickname === inputNickname}
+            >
+              {f({ id: 'profile.save_changes' })}
+            </Button>
           </Grid.Row>
         </Grid>
       </Segment>
