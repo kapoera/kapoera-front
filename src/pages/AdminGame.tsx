@@ -391,7 +391,7 @@ const AdminGame: React.FC = () => {
           </Form>
         </div>
       </Segment>
-      <AdminEventList gameId={gameId}></AdminEventList>
+      <AdminEventList gameId={gameId} playing={playing}></AdminEventList>
     </GameContainer>
   );
 };

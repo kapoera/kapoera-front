@@ -16,7 +16,7 @@ const defaultEvent: EventType[] = [
     }
 ];
 
-const AdminEventList: React.FC<EventListProps> = ({ gameId }: EventListProps) => {
+const AdminEventList: React.FC<EventListProps> = ({ gameId, playing }: EventListProps) => {
     const [activeIndex, setActiveIndex] = useState(-1);
     const handleClick = (
         e: React.MouseEvent<HTMLDivElement, MouseEvent>,
@@ -58,6 +58,7 @@ const AdminEventList: React.FC<EventListProps> = ({ gameId }: EventListProps) =>
                                 event={event}
                                 setEvents={setEvents}
                                 game_type={gameId}
+                                playing={playing}
                             />
                         </Accordion.Content>
                     </div>

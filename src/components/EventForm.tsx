@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Radio, Form, Button, Progress } from 'semantic-ui-react';
 import { useHistory } from 'react-router-dom';
 import { EventType } from './EventList';
+import { GameStatus } from '@/components/GameCard';
 import axios from '@/utils/axios';
 
 interface BettingResponse {
@@ -15,6 +16,7 @@ interface EventFormProps {
   setEvents: React.Dispatch<React.SetStateAction<EventType[]>>;
   _id: string;
   game_type: string;
+  playing: GameStatus
 }
 
 const EventForm: React.FC<EventFormProps> = ({
@@ -23,7 +25,8 @@ const EventForm: React.FC<EventFormProps> = ({
   betAble,
   setEvents,
   _id,
-  game_type
+  game_type,
+  playing
 }: EventFormProps) => {
   const [eventChoice, setEventChoice] = useState<string | null>(betAble);
 
@@ -107,7 +110,7 @@ const EventForm: React.FC<EventFormProps> = ({
       <Button
         content="Submit"
         onClick={handleSubmit}
-        disabled={betAble != null}
+        disabled={playing != GameStatus.Waiting || betAble != null}
       />
     </Form>
   );
