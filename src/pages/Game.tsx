@@ -260,7 +260,7 @@ const Game: React.FC = () => {
           </Grid.Row>
         </Grid>
       </Segment>
-      <EventList isAdmin={false} gameId={gameId} />
+      <EventList gameId={gameId} />
     </GameContainer>
   );
 };

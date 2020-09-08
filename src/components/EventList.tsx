@@ -18,8 +18,7 @@ export interface EventType {
   key: number;
 }
 
-interface EventListProps {
-  isAdmin: boolean;
+export interface EventListProps {
   gameId: string;
 }
 

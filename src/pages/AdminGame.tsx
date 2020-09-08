@@ -21,7 +21,7 @@ import {
 import KaistLogo from '@/public/kaist.png';
 import PostechLogo from '@/public/postech.png';
 import axios from '@/utils/axios';
-
+import AdminEventList from '@/components/AdminEventList'
 const Banner = styled.div`
   align-items: center;
   display: flex;
@@ -68,7 +68,7 @@ const defaultState: GameCardProps = {
   result: { [University.Kaist]: 0, [University.Postech]: 0 },
   starting_time: '2020-08-24T00:00:00.000Z',
   subevents: [],
-  clickEvent: _ => {}
+  clickEvent: _ => { }
 };
 const defaultWinner = Winner.None;
 const defaultPlaying = GameStatus.Waiting;
@@ -222,10 +222,10 @@ const AdminGame: React.FC = () => {
               />
             </Label>
           ) : (
-            <Label color="red" size="huge">
-              {f({ id: 'game.finished' })}
-            </Label>
-          )}
+                <Label color="red" size="huge">
+                  {f({ id: 'game.finished' })}
+                </Label>
+              )}
         </div>
       </Grid>
 
@@ -391,7 +391,7 @@ const AdminGame: React.FC = () => {
           </Form>
         </div>
       </Segment>
-      {/* <EventList isAdmin={true} gameId={gameId}></EventList> */}
+      <AdminEventList gameId={gameId}></AdminEventList>
     </GameContainer>
   );
 };
