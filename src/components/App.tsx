@@ -23,12 +23,17 @@ import {
 import axios from '@/utils/axios';
 import NavBar from './NavBar';
 import { PrivateRoute } from './PrivateRoute';
+import Footer from './Footer';
 const GlobalStyle = createGlobalStyle`
   body {
     background-color: #fafafa;
   }
   body * {
     font-family: Jua, sans-serif;
+  }
+  #app {
+    min-height: 100%;
+    position: relative;
   }
 `;
 
@@ -109,6 +114,7 @@ const App: React.FC = () => {
             </Route>
           </Switch>
         </BrowserRouter>
+        <Footer></Footer>
       </IntlProvider>
     </GlobalContext.Provider>
   );
