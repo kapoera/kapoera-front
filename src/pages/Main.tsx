@@ -1,25 +1,20 @@
 import React, { useEffect, useContext, useState } from 'react';
 import { Container, Grid, Transition } from 'semantic-ui-react';
 import { useIntl } from 'react-intl';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { GameCard, GameCardProps } from '@/components/GameCard';
-import { Billboard, RankingI } from '@/components/Billboard';
+import Billboard from '@/components/Billboard';
 import MyStatusCard from '@/components/MyStatusCard';
 import StatusBanner from '@/components/StatusBanner';
 import { GlobalContext } from '@/context';
 import axios from '@/utils/axios';
-import { useHistory } from 'react-router-dom';
+import { RankingI, RankingResponse } from '@/types';
 
 const MainHeader = styled.div`
   font-size: calc(2rem + 2.5vmin);
   margin-left: 30px;
 `;
-
-interface RankingResponse {
-  success: boolean;
-  rankings?: RankingI[];
-  user?: { score: number; ranking: number };
-}
 
 const Main: React.FC = () => {
   const [gamesData, setGamesData] = useState([]);

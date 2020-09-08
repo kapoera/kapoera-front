@@ -2,11 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Grid, Label } from 'semantic-ui-react';
 import { useIntl } from 'react-intl';
-
-export interface RankingI {
-  score: number;
-  nickname: string;
-}
+import { RankingI } from '@/types';
 
 interface StyledGridRowProps {
   last: number;
@@ -111,4 +107,4 @@ const BillboardPlain: React.FC<{ rankings: RankingI[] }> = ({
   );
 };
 
-export const Billboard = styled(BillboardPlain)``;
+export default BillboardPlain;
