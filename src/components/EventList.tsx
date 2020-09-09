@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
+import { useIntl } from 'react-intl';
 import { Accordion, AccordionTitleProps } from 'semantic-ui-react';
 import EventForm from '@/components/EventForm';
 import { GlobalContext } from '@/context';
@@ -15,7 +16,8 @@ export interface EventType {
   answer: string;
   choices: Array<string>;
   responses: Array<Response>;
-  name: string;
+  name_ko: string;
+  name_en: string;
   key: number;
 }
 
@@ -30,15 +32,21 @@ const defaultEvent: EventType[] = [
     answer: 'a',
     choices: [],
     responses: [],
-    name: 'default',
+    name_ko: 'default',
+    name_en: 'default',
     key: -1
   }
 ];
 
-const EventList: React.FC<EventListProps> = ({ gameId, playing }: EventListProps) => {
+const EventList: React.FC<EventListProps> = ({
+  gameId,
+  playing
+}: EventListProps) => {
+  const { locale } = useIntl();
+
   const [activeIndex, setActiveIndex] = useState(-1);
   const handleClick = (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    _: React.MouseEvent<HTMLDivElement, MouseEvent>,
     titleProps: AccordionTitleProps
   ) => {
     const { index } = titleProps;
@@ -77,7 +85,7 @@ const EventList: React.FC<EventListProps> = ({ gameId, playing }: EventListProps
               index={key}
               onClick={handleClick}
             >
-              {event.name}
+              {event[`name_${locale}`]}
             </Accordion.Title>
             <Accordion.Content active={activeIndex === key}>
               <EventForm
