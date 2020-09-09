@@ -11,7 +11,9 @@ const defaultEvent: EventType[] = [
         answer: 'a',
         choices: [],
         responses: [],
-        name: 'default',
+        name_ko: 'default',
+        name_en: 'default',
+        dividend: 500,
         key: -1
     }
 ];
@@ -50,7 +52,7 @@ const AdminEventList: React.FC<EventListProps> = ({ gameId, playing }: EventList
                             index={key}
                             onClick={handleClick}
                         >
-                            {event.name}
+                            {event.name_ko}
                         </Accordion.Title>
                         <Accordion.Content active={activeIndex === key}>
                             <AdminEventForm

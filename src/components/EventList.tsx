@@ -18,6 +18,7 @@ export interface EventType {
   responses: Array<Response>;
   name_ko: string;
   name_en: string;
+  dividend: number;
   key: number;
 }
 
@@ -34,6 +35,7 @@ const defaultEvent: EventType[] = [
     responses: [],
     name_ko: 'default',
     name_en: 'default',
+    dividend: 500,
     key: -1
   }
 ];

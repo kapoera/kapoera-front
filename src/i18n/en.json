@@ -48,5 +48,6 @@
     "mainpopup.alreadybet": "You already bet!",
     "mainpopup.selectaside": "Select a side!",
     "mainpopup.submitbet": "Submit Bet",
-    "mainpopup.betwarning": "Once you bet, you cannot undo it. Proceed?"
+    "mainpopup.betwarning": "Once you bet, you cannot undo it. Proceed?",
+    "event.helper": "Click on each progress bar to see the option's winning"
 }
