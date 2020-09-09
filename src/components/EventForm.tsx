@@ -181,12 +181,18 @@ const EventForm: React.FC<EventFormProps> = ({
             onClick={handleSubmit}
             disabled
           /></div>} />
+        ) : (eventChoice === null) ? (
+          <Popup content='선택후 제출해주세요.' on="click" trigger={<div style={{ display: "inline-block" }}><Button
+            content="Submit"
+            onClick={handleSubmit}
+            disabled
+          /></div>} />
         ) : (
-              <Button
-                content="Submit"
-                onClick={handleSubmit}
-              />
-            )
+                <Button
+                  content="Submit"
+                  onClick={handleSubmit}
+                />
+              )
       }
 
     </Form >
