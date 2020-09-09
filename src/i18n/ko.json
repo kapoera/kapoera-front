@@ -18,7 +18,7 @@
     "game.playing": "진행 중",
     "game.finished": "종료",
     "game.score": "점수",
-    "game.winning": "적중 상금",
+    "game.winning": "적중 시 상금",
     "game.status": "게임 상태",
     "game.status.change": "게임 상태 변경",
     "game.score.change": "점수 변경",

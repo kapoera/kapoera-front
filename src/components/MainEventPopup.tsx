@@ -1,5 +1,5 @@
-import React, { useReducer, useContext } from 'react';
-import { Button, Header, Modal, Popup } from 'semantic-ui-react';
+import React, { useContext, useReducer, useState } from 'react';
+import { Button, Header, Icon, Modal, Popup } from 'semantic-ui-react';
 import styled from 'styled-components';
 import KaistEmblem from '@/public/kaist_emblem.png';
 import PostechEmblem from '@/public/postech_emblem.png';
@@ -67,6 +67,48 @@ const reducer = (
   }
 };
 
+interface BettingResponse {
+  success: boolean;
+}
+
+interface ConfirmModalProps {
+  handleBetSubmit: () => Promise<void>;
+}
+
+const ConfirmModal: React.FC<ConfirmModalProps> = ({
+  handleBetSubmit
+}: ConfirmModalProps) => {
+  const [open, setOpen] = useState<boolean>(false);
+
+  return (
+    <Modal
+      size="small"
+      onClose={() => setOpen(false)}
+      onOpen={() => setOpen(true)}
+      open={open}
+      trigger={<Button color="vk">Submit Bet</Button>}
+    >
+      <Modal.Content style={{ fontSize: 'calc(0.8rem + 1vmin)' }}>
+        You cannot undo this action. Proceed?
+      </Modal.Content>
+      <Modal.Actions>
+        <Button onClick={() => setOpen(false)}>
+          <Icon name="remove" /> Cancel
+        </Button>
+        <Button
+          color="vk"
+          onClick={() => {
+            setOpen(false);
+            handleBetSubmit();
+          }}
+        >
+          <Icon name="checkmark" /> Yes
+        </Button>
+      </Modal.Actions>
+    </Modal>
+  );
+};
+
 interface MainEventPopupProps {
   currentBetting: LogoState;
   setCurrentBetting: (value: React.SetStateAction<LogoState>) => void;
@@ -74,9 +116,6 @@ interface MainEventPopupProps {
   playing: GameStatus;
 }
 
-interface BettingResponse {
-  success: boolean;
-}
 const MainEventPopup: React.FC<MainEventPopupProps> = ({
   currentBetting,
   setCurrentBetting,
@@ -92,7 +131,7 @@ const MainEventPopup: React.FC<MainEventPopupProps> = ({
     state: { isLoggedIn }
   } = useContext(GlobalContext);
   const history = useHistory();
-  const bettingHandler = async () => {
+  const handleBetSubmit = async () => {
     if (isLoggedIn) {
       if (selected !== LogoState.None) {
         const { data }: { data: BettingResponse } = await axios.post(
@@ -167,23 +206,6 @@ const MainEventPopup: React.FC<MainEventPopupProps> = ({
             />
           </LogoGroup>
           <ButtonGroup>
-            {inititalBetting === LogoState.None ? (
-              <Button color="vk" onClick={bettingHandler}>
-                Submit Bet
-              </Button>
-            ) : (
-              <Popup
-                trigger={
-                  <span>
-                    <Button color="vk" onClick={bettingHandler} disabled>
-                      Submit Bet
-                    </Button>
-                  </span>
-                }
-                content="Already betted"
-                basic
-              />
-            )}
             <Button
               onClick={() => {
                 dispatch({ type: MainEventAction.ToggleOpen });
@@ -191,6 +213,27 @@ const MainEventPopup: React.FC<MainEventPopupProps> = ({
             >
               Cancel
             </Button>
+            {inititalBetting === LogoState.None &&
+            selected !== LogoState.None ? (
+              <ConfirmModal handleBetSubmit={handleBetSubmit} />
+            ) : (
+              <Popup
+                position="top center"
+                trigger={
+                  <span>
+                    <Button color="vk" onClick={handleBetSubmit} disabled>
+                      Submit Bet
+                    </Button>
+                  </span>
+                }
+                content={
+                  inititalBetting !== LogoState.None
+                    ? 'Already betted'
+                    : 'Select a side to bet'
+                }
+                basic
+              />
+            )}
           </ButtonGroup>
         </ModalContainer>
       </Modal.Content>
