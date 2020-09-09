@@ -100,7 +100,7 @@ function reducer(
         payload:
           action.payload === 'KAIST'
             ? [state.kaistLength + 1, state.postechLength]
-            : [state.kaistLength, state.postechLength]
+            : [state.kaistLength, state.postechLength + 1]
       });
     case 'SET_BETTING':
       return {
