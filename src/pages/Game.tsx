@@ -67,7 +67,7 @@ const defaultState: GameCardProps = {
   result: { [University.Kaist]: 0, [University.Postech]: 0 },
   starting_time: '2020-08-24T00:00:00.000Z',
   subevents: [],
-  clickEvent: () => {}
+  clickEvent: () => { }
 };
 
 interface GameState {
@@ -87,6 +87,7 @@ function reducer(
   switch (action.type) {
     case 'UPDATE_RATIO':
       return {
+        ...state,
         kaistRatio:
           (100 * action.payload[0]) / (action.payload[0] + action.payload[1]),
         kaistLength: action.payload[0],
@@ -138,24 +139,24 @@ const Game: React.FC = () => {
     setGameData
   ] = useState(defaultState);
 
-  useEffect(() => {
-    const socket = io(config.socketURL, {
-      transports: ['websocket'],
-      upgrade: false,
-      query: { game: gameId }
-    });
-    socket.on('refresh', (data: GameCardProps) => {
-      if (data.kaist_arr.length + data.postech_arr.length !== 0)
-        dispatch({
-          type: 'UPDATE_RATIO',
-          payload: [data.kaist_arr.length, data.postech_arr.length]
-        });
-    });
+  // useEffect(() => {
+  //   const socket = io(config.socketURL, {
+  //     transports: ['websocket'],
+  //     upgrade: false,
+  //     query: { game: gameId }
+  //   });
+  //   socket.on('refresh', (data: GameCardProps) => {
+  //     if (data.kaist_arr.length + data.postech_arr.length !== 0)
+  //       dispatch({
+  //         type: 'UPDATE_RATIO',
+  //         payload: [data.kaist_arr.length, data.postech_arr.length]
+  //       });
+  //   });
 
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
+  //   return () => {
+  //     socket.disconnect();
+  //   };
+  // }, []);
 
   useEffect(() => {
     const fetchGame = async () => {
@@ -163,6 +164,7 @@ const Game: React.FC = () => {
         '/api/games/' + gameId
       );
       setGameData(data);
+      console.log(data)
       if (data.kaist_arr.includes(_id)) {
         dispatch({ type: 'SET_BETTING', payload: LogoState.Kaist });
       } else if (data.postech_arr.includes(_id)) {
@@ -254,10 +256,10 @@ const Game: React.FC = () => {
               />
             </Label>
           ) : (
-            <Label color="red" size="huge">
-              {f({ id: 'game.finished' })}
-            </Label>
-          )}
+                <Label color="red" size="huge">
+                  {f({ id: 'game.finished' })}
+                </Label>
+              )}
         </div>
       </Grid>
       <Segment>
@@ -289,9 +291,9 @@ const Game: React.FC = () => {
           <Grid.Row centered>
             <Grid.Column stretched>
               <StyledProgress
-                label={`${Math.floor(kaistRatio)}% (${kaistLength} / ${
+                label={`${Math.floor(kaistRatio)}% (${
                   kaistLength + postechLength
-                })`}
+                  } / ${kaistLength})`}
                 percent={Math.floor(kaistRatio)}
                 color="blue"
                 direction="left"
@@ -301,7 +303,7 @@ const Game: React.FC = () => {
               <StyledProgress
                 label={`${Math.floor(postechRatio)}% (${postechLength} / ${
                   kaistLength + postechLength
-                })`}
+                  })`}
                 direction="right"
                 percent={Math.floor(postechRatio)}
                 color="red"

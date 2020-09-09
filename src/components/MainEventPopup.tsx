@@ -115,17 +115,17 @@ interface MainEventPopupProps {
   currentBetting: LogoState;
   dispatch: React.Dispatch<
     | {
-        type: 'UPDATE_RATIO';
-        payload: [number, number];
-      }
+      type: 'UPDATE_RATIO';
+      payload: [number, number];
+    }
     | {
-        type: 'INCREMENT';
-        payload: 'KAIST' | 'POSTECH';
-      }
+      type: 'INCREMENT';
+      payload: 'KAIST' | 'POSTECH';
+    }
     | {
-        type: 'SET_BETTING';
-        payload: LogoState;
-      }
+      type: 'SET_BETTING';
+      payload: LogoState;
+    }
   >;
   game_type: string;
   playing: GameStatus;
@@ -143,7 +143,7 @@ const MainEventPopup: React.FC<MainEventPopupProps> = ({
 }: MainEventPopupProps) => {
   const history = useHistory();
   const { formatMessage: f } = useIntl();
-
+  console.log(currentBetting)
   const {
     state: { isLoggedIn }
   } = useContext(GlobalContext);
@@ -185,8 +185,8 @@ const MainEventPopup: React.FC<MainEventPopupProps> = ({
   const betDisabledMessage = !isLoggedIn
     ? f({ id: 'mainpopup.signintobet' })
     : currentBetting !== LogoState.None
-    ? f({ id: 'mainpopup.alreadybet' })
-    : f({ id: 'mainpopup.selectaside' });
+      ? f({ id: 'mainpopup.alreadybet' })
+      : f({ id: 'mainpopup.selectaside' });
 
   return (
     <Modal
@@ -273,19 +273,19 @@ const MainEventPopup: React.FC<MainEventPopupProps> = ({
             {betEnabled ? (
               <ConfirmModal handleBetSubmit={handleBetSubmit} />
             ) : (
-              <Popup
-                position="top center"
-                trigger={
-                  <span>
-                    <Button color="vk" disabled>
-                      {f({ id: 'mainpopup.submitbet' })}
-                    </Button>
-                  </span>
-                }
-                content={betDisabledMessage}
-                basic
-              />
-            )}
+                <Popup
+                  position="top center"
+                  trigger={
+                    <span>
+                      <Button color="vk" disabled>
+                        {f({ id: 'mainpopup.submitbet' })}
+                      </Button>
+                    </span>
+                  }
+                  content={betDisabledMessage}
+                  basic
+                />
+              )}
           </ButtonGroup>
         </ModalContainer>
       </Modal.Content>
