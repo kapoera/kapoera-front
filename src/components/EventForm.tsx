@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useIntl } from 'react-intl';
 import { Radio, Form, Button, Progress, Popup } from 'semantic-ui-react';
 import { useHistory } from 'react-router-dom';
 import { EventType } from './EventList';
@@ -34,7 +35,7 @@ const EventForm: React.FC<EventFormProps> = ({
     setEventChoice(value);
   };
   const history = useHistory();
-
+  const { formatMessage: f } = useIntl();
   const handleSubmit = async () => {
     if (isLoggedIn) {
       if (eventChoice) {
@@ -72,12 +73,20 @@ const EventForm: React.FC<EventFormProps> = ({
     const numer = event.responses.filter(res => res.choice === choice).length;
     return (numer / denom) * 100;
   };
+  const calculateDividend = (choice: string) => {
+    const denom = event.responses.filter(res => res.choice === choice).length;
+    return (event.dividend) / (denom + 1)
+  }
 
   return (
     <Form>
-      <Form.Field>
+      {/* <Form.Field>
         Selected value: <b>{betAble || eventChoice}</b>
+      </Form.Field> */}
+      <Form.Field style={{ color: "grey" }}>
+        {f({ id: 'event.helper' })}
       </Form.Field>
+
       {event.choices.map((choice, key) => (
         (choice === event.answer && betAble === choice) ? (
           <Form.Field
@@ -98,7 +107,7 @@ const EventForm: React.FC<EventFormProps> = ({
               disabled={betAble != null}
               style={{ marginRight: 'auto' }}
             />
-            <Progress
+            <Popup on="click" content={`${f({ id: 'game.winning' })}: ${calculateDividend(choice)}`} trigger={<Progress
               percent={calculatePercent(choice)}
               indicating
               style={{
@@ -106,7 +115,8 @@ const EventForm: React.FC<EventFormProps> = ({
                 margin: '0.2rem 1rem',
                 justifySelf: 'flex-end'
               }}
-            ></Progress>
+            ></Progress>} />
+
           </Form.Field>
         ) : (choice === event.answer && betAble != choice) ? (
           <Form.Field
@@ -128,7 +138,7 @@ const EventForm: React.FC<EventFormProps> = ({
               disabled={betAble != null}
               style={{ marginRight: 'auto' }}
             />
-            <Progress
+            <Popup on="click" content={`${f({ id: 'game.winning' })}: ${calculateDividend(choice)}`} trigger={<Progress
               percent={calculatePercent(choice)}
               indicating
               style={{
@@ -136,7 +146,7 @@ const EventForm: React.FC<EventFormProps> = ({
                 margin: '0.2rem 1rem',
                 justifySelf: 'flex-end'
               }}
-            ></Progress>
+            ></Progress>} />
           </Form.Field>
         ) : (
               <Form.Field
@@ -156,7 +166,7 @@ const EventForm: React.FC<EventFormProps> = ({
                   disabled={betAble != null}
                   style={{ marginRight: 'auto' }}
                 />
-                <Progress
+                <Popup on="click" content={`${f({ id: 'game.winning' })}: ${calculateDividend(choice)}`} trigger={<Progress
                   percent={calculatePercent(choice)}
                   indicating
                   style={{
@@ -164,25 +174,25 @@ const EventForm: React.FC<EventFormProps> = ({
                     margin: '0.2rem 1rem',
                     justifySelf: 'flex-end'
                   }}
-                ></Progress>
+                ></Progress>} />
               </Form.Field>
             )
       ))}
       {
         (playing != GameStatus.Waiting) ? (
-          <Popup content='베팅이 종료되었습니다.' on="click" trigger={<div style={{ display: "inline-block" }}><Button
+          <Popup content='베팅이 종료되었습니다.' trigger={<div style={{ display: "inline-block" }}><Button
             content="Submit"
             onClick={handleSubmit}
             disabled
           /></div>} />
         ) : (betAble != null) ? (
-          <Popup content='이미 베팅하셨습니다.' on="click" trigger={<div style={{ display: "inline-block" }}><Button
+          <Popup content='이미 베팅하셨습니다.' trigger={<div style={{ display: "inline-block" }}><Button
             content="Submit"
             onClick={handleSubmit}
             disabled
           /></div>} />
         ) : (eventChoice === null) ? (
-          <Popup content='선택후 제출해주세요.' on="click" trigger={<div style={{ display: "inline-block" }}><Button
+          <Popup content='선택후 제출해주세요.' trigger={<div style={{ display: "inline-block" }}><Button
             content="Submit"
             onClick={handleSubmit}
             disabled

@@ -12,6 +12,7 @@
     "profile.nickname": "Nickname",
     "profile.save_changes": "Save Changes",
     "profile.nickname_error": "Nickname must be 1~10 characters long",
+    "profile.success": "nickname is successfully changed",
     "game.ai": "Artificial Intelligence",
     "game.hacking": "Hacking",
     "game.kart": "Kart Rider",
@@ -47,5 +48,6 @@
     "mainpopup.alreadybet": "You already bet!",
     "mainpopup.selectaside": "Select a side!",
     "mainpopup.submitbet": "Submit Bet",
-    "mainpopup.betwarning": "Once you bet, you cannot undo it. Proceed?"
+    "mainpopup.betwarning": "Once you bet, you cannot undo it. Proceed?",
+    "event.helper": "Click on each progress bar to see the option's winning"
 }

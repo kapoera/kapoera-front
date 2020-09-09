@@ -54,7 +54,7 @@ const Footer: React.FC = () => {
                                     Welcome! Bet freely and receive prizes!
                                 </p>
                             </div>
-                            <Image src={Logo} size="mini" verticalAlign="middle" style={{ display: "inline", position: "relative", right: "-5rem" }}></Image>
+                            <Image src={Logo} size="mini" verticalAlign="middle" style={{ display: "inline", position: "relative", right: "-5rem", bottom: "1rem" }}></Image>
                         </div>
                     </Grid.Column>
                 </Grid>
