@@ -170,19 +170,19 @@ const EventForm: React.FC<EventFormProps> = ({
       ))}
       {
         (playing != GameStatus.Waiting) ? (
-          <Popup content='베팅이 종료되었습니다.' on="click" trigger={<div style={{ display: "inline-block" }}><Button
+          <Popup content='베팅이 종료되었습니다.' trigger={<div style={{ display: "inline-block" }}><Button
             content="Submit"
             onClick={handleSubmit}
             disabled
           /></div>} />
         ) : (betAble != null) ? (
-          <Popup content='이미 베팅하셨습니다.' on="click" trigger={<div style={{ display: "inline-block" }}><Button
+          <Popup content='이미 베팅하셨습니다.' trigger={<div style={{ display: "inline-block" }}><Button
             content="Submit"
             onClick={handleSubmit}
             disabled
           /></div>} />
         ) : (eventChoice === null) ? (
-          <Popup content='선택후 제출해주세요.' on="click" trigger={<div style={{ display: "inline-block" }}><Button
+          <Popup content='선택후 제출해주세요.' trigger={<div style={{ display: "inline-block" }}><Button
             content="Submit"
             onClick={handleSubmit}
             disabled
