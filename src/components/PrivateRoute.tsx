@@ -6,7 +6,7 @@ interface PrivateRouteProps extends RouteProps {
   children: React.ReactChild;
 }
 
-export const PrivateRoute: React.FC<PrivateRouteProps> = (
+const PrivateRoute: React.FC<PrivateRouteProps> = (
   props: PrivateRouteProps
 ) => {
   const { children, ...rest } = props;
@@ -16,3 +16,5 @@ export const PrivateRoute: React.FC<PrivateRouteProps> = (
 
   return <Route {...rest}>{isAdmin ? children : <Redirect to="/" />}</Route>;
 };
+
+export default PrivateRoute;
