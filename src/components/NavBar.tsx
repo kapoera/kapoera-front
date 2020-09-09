@@ -57,7 +57,7 @@ const NavBar: React.FC<NavBarProps> = ({ className }: NavBarProps) => {
     <StyledMenu className={className} color="grey" inverted secondary>
       <Menu.Item onClick={() => history.push('/')} style={{ padding: "0" }}>
         <Image src={LogoNav} size="mini" circular style={{ height: "35px" }}></Image>
-        <div style={{ display: "flex", alignItems: "center", marginLeft: "0.5rem" }}>
+        <div style={{ display: "flex", alignItems: "center", marginLeft: "1rem" }}>
           <h3>{f({ id: 'home' })}</h3>
         </div>
       </Menu.Item>

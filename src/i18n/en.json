@@ -12,6 +12,7 @@
     "profile.nickname": "Nickname",
     "profile.save_changes": "Save Changes",
     "profile.nickname_error": "Nickname must be 1~10 characters long",
+    "profile.success": "nickname is successfully changed",
     "game.ai": "Artificial Intelligence",
     "game.hacking": "Hacking",
     "game.kart": "Kart Rider",

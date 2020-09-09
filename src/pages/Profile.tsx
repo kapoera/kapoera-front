@@ -77,6 +77,11 @@ const Profile: React.FC = () => {
 
     if (success) {
       dispatch({ type: Actions.UpdateNickname, payload: inputNickname });
+      setPopupContent(f({ id: 'profile.success' }));
+      setPopupOpen(true);
+      setTimeout(() => {
+        setPopupOpen(false);
+      }, 2000);
     } else {
       setPopupContent('Nickname taken. Please try another nickname');
       setPopupOpen(true);
