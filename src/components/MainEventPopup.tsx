@@ -122,15 +122,16 @@ const MainEventPopup: React.FC<MainEventPopupProps> = ({
   game_type,
   playing
 }: MainEventPopupProps) => {
-  const inititalBetting = currentBetting;
+  const history = useHistory();
+  const {
+    state: { isLoggedIn }
+  } = useContext(GlobalContext);
+
   const [{ open, selected }, dispatch] = useReducer(reducer, {
     open: false,
     selected: currentBetting
   });
-  const {
-    state: { isLoggedIn }
-  } = useContext(GlobalContext);
-  const history = useHistory();
+
   const handleBetSubmit = async () => {
     if (isLoggedIn) {
       if (selected !== LogoState.None) {
@@ -150,6 +151,17 @@ const MainEventPopup: React.FC<MainEventPopupProps> = ({
       }
     } else history.push('/login');
   };
+
+  const betEnabled =
+    isLoggedIn &&
+    currentBetting === LogoState.None &&
+    selected !== LogoState.None;
+
+  const betDisabledMessage = !isLoggedIn
+    ? 'Sign in to bet!'
+    : currentBetting !== LogoState.None
+    ? 'You already bet!'
+    : 'Select a side!';
 
   return (
     <Modal
@@ -176,12 +188,12 @@ const MainEventPopup: React.FC<MainEventPopupProps> = ({
           <LogoGroup>
             <LogoWrapper
               checked={
-                inititalBetting === LogoState.Kaist ||
+                currentBetting === LogoState.Kaist ||
                 selected === LogoState.Kaist
               }
               src={KaistEmblem}
               onClick={() => {
-                if (inititalBetting === LogoState.None) {
+                if (currentBetting === LogoState.None) {
                   dispatch({
                     type: MainEventAction.SelectLogo,
                     payload: LogoState.Kaist
@@ -191,12 +203,12 @@ const MainEventPopup: React.FC<MainEventPopupProps> = ({
             />
             <LogoWrapper
               checked={
-                inititalBetting === LogoState.Postech ||
+                currentBetting === LogoState.Postech ||
                 selected === LogoState.Postech
               }
               src={PostechEmblem}
               onClick={() => {
-                if (inititalBetting === LogoState.None) {
+                if (currentBetting === LogoState.None) {
                   dispatch({
                     type: MainEventAction.SelectLogo,
                     payload: LogoState.Postech
@@ -213,8 +225,7 @@ const MainEventPopup: React.FC<MainEventPopupProps> = ({
             >
               Cancel
             </Button>
-            {inititalBetting === LogoState.None &&
-            selected !== LogoState.None ? (
+            {betEnabled ? (
               <ConfirmModal handleBetSubmit={handleBetSubmit} />
             ) : (
               <Popup
@@ -226,11 +237,7 @@ const MainEventPopup: React.FC<MainEventPopupProps> = ({
                     </Button>
                   </span>
                 }
-                content={
-                  inititalBetting !== LogoState.None
-                    ? 'Already betted'
-                    : 'Select a side to bet'
-                }
+                content={betDisabledMessage}
                 basic
               />
             )}
