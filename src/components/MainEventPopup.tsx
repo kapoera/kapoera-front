@@ -122,7 +122,7 @@ const MainEventPopup: React.FC<MainEventPopupProps> = ({
           disabled={playing === GameStatus.Waiting}
           content="Game has already started or finished"
           trigger={
-            <div>
+            <div onClick={() => dispatch({ type: MainEventAction.ToggleOpen })}>
               <PopupButton disabled={playing !== GameStatus.Waiting} />
             </div>
           }
