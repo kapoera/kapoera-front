@@ -1,14 +1,15 @@
 import React, { useContext, useReducer, useState } from 'react';
+import { useIntl } from 'react-intl';
+import { useHistory } from 'react-router-dom';
 import { Button, Header, Icon, Modal, Popup } from 'semantic-ui-react';
 import styled from 'styled-components';
-import KaistEmblem from '@/public/kaist_emblem.png';
-import PostechEmblem from '@/public/postech_emblem.png';
 import { GameStatus } from '@/components/GameCard';
 import PopupButton from '@/components/PopupButton';
 import { GlobalContext } from '@/context';
-import { useHistory } from 'react-router-dom';
-import axios from '@/utils/axios';
 import { LogoState } from '@/pages/Game';
+import KaistEmblem from '@/public/kaist_emblem.png';
+import PostechEmblem from '@/public/postech_emblem.png';
+import axios from '@/utils/axios';
 
 interface LogoWrapperProps {
   checked?: boolean;
@@ -114,15 +115,21 @@ interface MainEventPopupProps {
   setCurrentBetting: (value: React.SetStateAction<LogoState>) => void;
   game_type: string;
   playing: GameStatus;
+  dividend: number;
+  bets: [number, number];
 }
 
 const MainEventPopup: React.FC<MainEventPopupProps> = ({
   currentBetting,
   setCurrentBetting,
   game_type,
-  playing
+  playing,
+  dividend,
+  bets
 }: MainEventPopupProps) => {
   const history = useHistory();
+  const { formatMessage: f } = useIntl();
+
   const {
     state: { isLoggedIn }
   } = useContext(GlobalContext);
@@ -186,36 +193,48 @@ const MainEventPopup: React.FC<MainEventPopupProps> = ({
       <Modal.Content>
         <ModalContainer>
           <LogoGroup>
-            <LogoWrapper
-              checked={
-                currentBetting === LogoState.Kaist ||
-                selected === LogoState.Kaist
-              }
-              src={KaistEmblem}
-              onClick={() => {
-                if (currentBetting === LogoState.None) {
-                  dispatch({
-                    type: MainEventAction.SelectLogo,
-                    payload: LogoState.Kaist
-                  });
+            <div>
+              <LogoWrapper
+                checked={
+                  currentBetting === LogoState.Kaist ||
+                  selected === LogoState.Kaist
                 }
-              }}
-            />
-            <LogoWrapper
-              checked={
-                currentBetting === LogoState.Postech ||
-                selected === LogoState.Postech
-              }
-              src={PostechEmblem}
-              onClick={() => {
-                if (currentBetting === LogoState.None) {
-                  dispatch({
-                    type: MainEventAction.SelectLogo,
-                    payload: LogoState.Postech
-                  });
+                src={KaistEmblem}
+                onClick={() => {
+                  if (currentBetting === LogoState.None) {
+                    dispatch({
+                      type: MainEventAction.SelectLogo,
+                      payload: LogoState.Kaist
+                    });
+                  }
+                }}
+              />
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                {f({ id: 'game.winning' })}:{' '}
+                {Math.round(dividend / (bets[0] + 1))}
+              </div>
+            </div>
+            <div>
+              <LogoWrapper
+                checked={
+                  currentBetting === LogoState.Postech ||
+                  selected === LogoState.Postech
                 }
-              }}
-            />
+                src={PostechEmblem}
+                onClick={() => {
+                  if (currentBetting === LogoState.None) {
+                    dispatch({
+                      type: MainEventAction.SelectLogo,
+                      payload: LogoState.Postech
+                    });
+                  }
+                }}
+              />
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                {f({ id: 'game.winning' })}:{' '}
+                {Math.round(dividend / (bets[1] + 1))}
+              </div>
+            </div>
           </LogoGroup>
           <ButtonGroup>
             <Button
