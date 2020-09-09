@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useReducer } from 'react';
 import { useParams } from 'react-router-dom';
 import { FormattedDate, useIntl } from 'react-intl';
 import { Grid, Image, Label, Progress, Segment } from 'semantic-ui-react';
@@ -70,16 +70,48 @@ const defaultState: GameCardProps = {
   clickEvent: () => {}
 };
 
+interface GameState {
+  kaistRatio: number;
+  kaistLength: number;
+  postechRatio: number;
+  postechLength: number;
+}
+
+const reducer = (
+  state: GameState,
+  action: { type: string; payload: [number, number] }
+) => {
+  switch (action.type) {
+    case 'UPDATE_RATIO':
+      return {
+        kaistRatio:
+          (100 * action.payload[0]) / (action.payload[0] + action.payload[1]),
+        kaistLength: action.payload[0],
+        postechRatio:
+          (100 * action.payload[1]) / (action.payload[0] + action.payload[1]),
+        postechLength: action.payload[1]
+      };
+    default:
+      return state;
+  }
+};
+
 const Game: React.FC = () => {
-  const { state } = useContext(GlobalContext);
-  const { _id } = state.user || { _id: '0' };
+  const { state: globalState } = useContext(GlobalContext);
+  const { _id } = globalState.user || { _id: '0' };
+
+  const [state, dispatch] = useReducer(reducer, {
+    kaistRatio: 0,
+    kaistLength: 0,
+    postechRatio: 0,
+    postechLength: 0
+  });
+  const { kaistRatio, kaistLength, postechRatio, postechLength } = state;
+
   const { gameId }: { gameId: string } = useParams();
   const [{ playing, starting_time, result, game_type }, setGameData] = useState(
     defaultState
   );
-
-  const [kaistRatio, setKaistRatio] = useState<number>(0.0);
-  const [postechRatio, setPostechRatio] = useState<number>(0.0);
   const [currentBetting, setCurrentBetting] = useState<LogoState>(
     LogoState.None
   );
@@ -92,16 +124,11 @@ const Game: React.FC = () => {
       query: { game: gameId }
     });
     socket.on('refresh', (data: GameCardProps) => {
-      if (data.kaist_arr.length + data.postech_arr.length != 0) {
-        setKaistRatio(
-          (100 * data.kaist_arr.length) /
-            (data.kaist_arr.length + data.postech_arr.length)
-        );
-        setPostechRatio(
-          (100 * data.postech_arr.length) /
-            (data.kaist_arr.length + data.postech_arr.length)
-        );
-      }
+      if (data.kaist_arr.length + data.postech_arr.length !== 0)
+        dispatch({
+          type: 'UPDATE_RATIO',
+          payload: [data.kaist_arr.length, data.postech_arr.length]
+        });
     });
 
     return () => {
@@ -122,16 +149,12 @@ const Game: React.FC = () => {
       } else {
         setCurrentBetting(LogoState.None);
       }
-      if (data.kaist_arr.length + data.postech_arr.length != 0) {
-        setKaistRatio(
-          (100 * data.kaist_arr.length) /
-            (data.kaist_arr.length + data.postech_arr.length)
-        );
-        setPostechRatio(
-          (100 * data.postech_arr.length) /
-            (data.kaist_arr.length + data.postech_arr.length)
-        );
-      }
+
+      if (data.kaist_arr.length + data.postech_arr.length !== 0)
+        dispatch({
+          type: 'UPDATE_RATIO',
+          payload: [data.kaist_arr.length, data.postech_arr.length]
+        });
     };
     fetchGame();
   }, [_id]);
@@ -243,7 +266,9 @@ const Game: React.FC = () => {
           <Grid.Row centered>
             <Grid.Column stretched>
               <StyledProgress
-                label={`${Math.floor(kaistRatio)}%`}
+                label={`${Math.floor(kaistRatio)}% (${kaistLength} / ${
+                  kaistLength + postechLength
+                })`}
                 percent={Math.floor(kaistRatio)}
                 color="blue"
                 direction="left"
@@ -251,7 +276,9 @@ const Game: React.FC = () => {
             </Grid.Column>
             <Grid.Column stretched>
               <StyledProgress
-                label={`${Math.floor(postechRatio)}%`}
+                label={`${Math.floor(postechRatio)}% (${postechLength} / ${
+                  kaistLength + postechLength
+                })`}
                 direction="right"
                 percent={Math.floor(postechRatio)}
                 color="red"

@@ -52,7 +52,12 @@ interface AdminAction {
   type: typeof Actions.Admin;
 }
 
-type GlobalAction = LoginAction | LogoutAction | UpdateNickname | ToggleLocale | AdminAction;
+type GlobalAction =
+  | LoginAction
+  | LogoutAction
+  | UpdateNickname
+  | ToggleLocale
+  | AdminAction;
 
 export const initialState: GlobalState = {
   isLoggedIn: false,
@@ -80,7 +85,7 @@ export const globalContextReducer = (
     case Actions.ToggleLocale:
       return { ...state, locale: state.locale === 'ko' ? 'en' : 'ko' };
     case Actions.Admin:
-      return { ...state, isAdmin: true }
+      return { ...state, isAdmin: true };
     default:
       return state;
   }
