@@ -113,7 +113,20 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
 
 interface MainEventPopupProps {
   currentBetting: LogoState;
-  setCurrentBetting: (value: React.SetStateAction<LogoState>) => void;
+  dispatch: React.Dispatch<
+    | {
+        type: 'UPDATE_RATIO';
+        payload: [number, number];
+      }
+    | {
+        type: 'INCREMENT';
+        payload: 'KAIST' | 'POSTECH';
+      }
+    | {
+        type: 'SET_BETTING';
+        payload: LogoState;
+      }
+  >;
   game_type: string;
   playing: GameStatus;
   dividend: number;
@@ -122,7 +135,7 @@ interface MainEventPopupProps {
 
 const MainEventPopup: React.FC<MainEventPopupProps> = ({
   currentBetting,
-  setCurrentBetting,
+  dispatch: gameDispatch,
   game_type,
   playing,
   dividend,
@@ -151,7 +164,11 @@ const MainEventPopup: React.FC<MainEventPopupProps> = ({
           }
         );
         if (data.success) {
-          setCurrentBetting(selected);
+          gameDispatch({ type: 'SET_BETTING', payload: selected });
+          gameDispatch({
+            type: 'INCREMENT',
+            payload: selected === LogoState.Kaist ? 'KAIST' : 'POSTECH'
+          });
           dispatch({ type: MainEventAction.ToggleOpen });
         } else {
           dispatch({ type: MainEventAction.ToggleOpen });
@@ -260,7 +277,7 @@ const MainEventPopup: React.FC<MainEventPopupProps> = ({
                 position="top center"
                 trigger={
                   <span>
-                    <Button color="vk" onClick={handleBetSubmit} disabled>
+                    <Button color="vk" disabled>
                       {f({ id: 'mainpopup.submitbet' })}
                     </Button>
                   </span>
