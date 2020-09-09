@@ -181,7 +181,12 @@ const MainEventPopup: React.FC<MainEventPopupProps> = ({
           disabled={playing === GameStatus.Waiting}
           content={f({ id: 'game.not_waiting' })}
           trigger={
-            <div onClick={() => dispatch({ type: MainEventAction.ToggleOpen })}>
+            <div
+              onClick={() => {
+                if (playing === GameStatus.Waiting)
+                  dispatch({ type: MainEventAction.ToggleOpen });
+              }}
+            >
               <PopupButton disabled={playing !== GameStatus.Waiting} />
             </div>
           }
