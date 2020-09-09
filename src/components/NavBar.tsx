@@ -6,12 +6,14 @@ import {
   Dropdown,
   Icon,
   Menu,
-  Transition
+  Transition,
+  Image
 } from 'semantic-ui-react';
 import styled from 'styled-components';
 import { GlobalContext, Actions } from '@/context';
 import axios from '@/utils/axios';
 import config from '@/config';
+import LogoNav from '@/public/logonav.png';
 
 interface NavBarProps {
   className?: string;
@@ -53,13 +55,16 @@ const NavBar: React.FC<NavBarProps> = ({ className }: NavBarProps) => {
 
   return (
     <StyledMenu className={className} color="grey" inverted secondary>
+      <Menu.Item style={{ padding: "0" }}>
+        <Image src={LogoNav} size="mini" circular style={{ height: "35px" }}></Image>
+      </Menu.Item>
       <Menu.Item onClick={() => history.push('/')}>
         <h3>{f({ id: 'home' })}</h3>
       </Menu.Item>
-      { isAdmin ?
-      <Menu.Item onClick={() => history.push('/admin')}>
-        <h3>admin</h3>
-      </Menu.Item> : <div></div>}
+      {isAdmin ?
+        <Menu.Item onClick={() => history.push('/admin')}>
+          <h3>admin</h3>
+        </Menu.Item> : <div></div>}
       <Menu.Menu position="right">
         <Menu.Item onClick={() => dispatch({ type: Actions.ToggleLocale })}>
           <Icon name="language" size="large" style={{ margin: 0 }} />

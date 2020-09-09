@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Radio, Form, Button, Progress } from 'semantic-ui-react';
+import { Radio, Form, Button, Progress, Popup } from 'semantic-ui-react';
 import { useHistory } from 'react-router-dom';
 import { EventType } from './EventList';
 import { GameStatus } from '@/components/GameCard';
@@ -79,41 +79,123 @@ const EventForm: React.FC<EventFormProps> = ({
         Selected value: <b>{betAble || eventChoice}</b>
       </Form.Field>
       {event.choices.map((choice, key) => (
-        <Form.Field
-          key={key}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'flex-start'
-          }}
-        >
-          <Radio
-            label={choice}
-            value={choice}
-            name="radioGroup"
-            checked={choice === eventChoice || choice === betAble}
-            onChange={handleChange}
-            disabled={betAble != null}
-            style={{ marginRight: 'auto' }}
-          />
-          <Progress
-            percent={calculatePercent(choice)}
-            indicating
+        (choice === event.answer && betAble === choice) ? (
+          <Form.Field
+            key={key}
             style={{
-              width: '60%',
-              margin: '0.2rem 1rem',
-              justifySelf: 'flex-end'
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'flex-start',
+              outline: "3px solid green",
             }}
-          ></Progress>
-        </Form.Field>
+          >
+            <Radio
+              label={choice}
+              value={choice}
+              name="radioGroup"
+              checked={choice === eventChoice || choice === betAble}
+              onChange={handleChange}
+              disabled={betAble != null}
+              style={{ marginRight: 'auto' }}
+            />
+            <Progress
+              percent={calculatePercent(choice)}
+              indicating
+              style={{
+                width: '60%',
+                margin: '0.2rem 1rem',
+                justifySelf: 'flex-end'
+              }}
+            ></Progress>
+          </Form.Field>
+        ) : (choice === event.answer && betAble != choice) ? (
+          <Form.Field
+            key={key}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'flex-start',
+              outline: "3px solid red",
+              boxShadow: "0 0 0 2px #f00"
+            }}
+          >
+            <Radio
+              label={choice}
+              value={choice}
+              name="radioGroup"
+              checked={choice === eventChoice || choice === betAble}
+              onChange={handleChange}
+              disabled={betAble != null}
+              style={{ marginRight: 'auto' }}
+            />
+            <Progress
+              percent={calculatePercent(choice)}
+              indicating
+              style={{
+                width: '60%',
+                margin: '0.2rem 1rem',
+                justifySelf: 'flex-end'
+              }}
+            ></Progress>
+          </Form.Field>
+        ) : (
+              <Form.Field
+                key={key}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'flex-start'
+                }}
+              >
+                <Radio
+                  label={choice}
+                  value={choice}
+                  name="radioGroup"
+                  checked={choice === eventChoice || choice === betAble}
+                  onChange={handleChange}
+                  disabled={betAble != null}
+                  style={{ marginRight: 'auto' }}
+                />
+                <Progress
+                  percent={calculatePercent(choice)}
+                  indicating
+                  style={{
+                    width: '60%',
+                    margin: '0.2rem 1rem',
+                    justifySelf: 'flex-end'
+                  }}
+                ></Progress>
+              </Form.Field>
+            )
       ))}
+      {
+        (playing != GameStatus.Waiting) ? (
+          <Popup content='베팅이 종료되었습니다.' on="click" trigger={<div style={{ display: "inline-block" }}><Button
+            content="Submit"
+            onClick={handleSubmit}
+            disabled
+          /></div>} />
+        ) : (betAble != null) ? (
+          <Popup content='이미 베팅하셨습니다.' on="click" trigger={<div style={{ display: "inline-block" }}><Button
+            content="Submit"
+            onClick={handleSubmit}
+            disabled
+          /></div>} />
+        ) : (eventChoice === null) ? (
+          <Popup content='선택후 제출해주세요.' on="click" trigger={<div style={{ display: "inline-block" }}><Button
+            content="Submit"
+            onClick={handleSubmit}
+            disabled
+          /></div>} />
+        ) : (
+                <Button
+                  content="Submit"
+                  onClick={handleSubmit}
+                />
+              )
+      }
 
-      <Button
-        content="Submit"
-        onClick={handleSubmit}
-        disabled={playing != GameStatus.Waiting || betAble != null}
-      />
-    </Form>
+    </Form >
   );
 };
 
