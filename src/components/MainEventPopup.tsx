@@ -111,12 +111,23 @@ const MainEventPopup: React.FC<MainEventPopupProps> = ({
       }
     } else history.push('/login');
   };
+
   return (
     <Modal
       onClose={() => dispatch({ type: MainEventAction.ToggleOpen })}
       onOpen={() => dispatch({ type: MainEventAction.ToggleOpen })}
       open={open}
-      trigger={<PopupButton disabled={playing !== GameStatus.Waiting} />}
+      trigger={
+        <Popup
+          disabled={playing === GameStatus.Waiting}
+          content="Game has already started or finished"
+          trigger={
+            <div onClick={() => dispatch({ type: MainEventAction.ToggleOpen })}>
+              <PopupButton disabled={playing !== GameStatus.Waiting} />
+            </div>
+          }
+        />
+      }
     >
       <Header as="h2" className="centered">
         Who will win the {game_type} game?

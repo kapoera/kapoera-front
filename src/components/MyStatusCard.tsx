@@ -3,6 +3,7 @@ import { useIntl } from 'react-intl';
 import { useHistory } from 'react-router-dom';
 import { Button, Icon, Segment, Statistic } from 'semantic-ui-react';
 import styled from 'styled-components';
+import { ordinalSuffix } from '@/utils/commons';
 
 interface FlexBoxProps {
   wrap?: number;
@@ -33,12 +34,6 @@ const UserHeader = styled.div`
   margin-top: 10px;
   text-align: center;
 `;
-
-const ordinalSuffix = (num: number) => {
-  const s = ['th', 'st', 'nd', 'rd'];
-  const v = num % 100;
-  return s[(v - 20) % 10] || s[v] || s[0];
-};
 
 const SuffixSpan = styled.span`
   font-family: inherit;
