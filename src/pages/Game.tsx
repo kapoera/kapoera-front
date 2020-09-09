@@ -109,9 +109,10 @@ const Game: React.FC = () => {
   const { kaistRatio, kaistLength, postechRatio, postechLength } = state;
 
   const { gameId }: { gameId: string } = useParams();
-  const [{ playing, starting_time, result, game_type }, setGameData] = useState(
-    defaultState
-  );
+  const [
+    { playing, starting_time, result, game_type, dividend },
+    setGameData
+  ] = useState(defaultState);
   const [currentBetting, setCurrentBetting] = useState<LogoState>(
     LogoState.None
   );
@@ -259,6 +260,8 @@ const Game: React.FC = () => {
               setCurrentBetting={setCurrentBetting}
               game_type={game_type}
               playing={playing}
+              dividend={dividend}
+              bets={[kaistLength, postechLength]}
             />
           </div>
         </div>

@@ -1,14 +1,15 @@
-import React, { useReducer, useContext } from 'react';
-import { Button, Header, Modal, Popup } from 'semantic-ui-react';
+import React, { useContext, useReducer, useState } from 'react';
+import { useIntl } from 'react-intl';
+import { useHistory } from 'react-router-dom';
+import { Button, Header, Icon, Modal, Popup } from 'semantic-ui-react';
 import styled from 'styled-components';
-import KaistEmblem from '@/public/kaist_emblem.png';
-import PostechEmblem from '@/public/postech_emblem.png';
 import { GameStatus } from '@/components/GameCard';
 import PopupButton from '@/components/PopupButton';
 import { GlobalContext } from '@/context';
-import { useHistory } from 'react-router-dom';
-import axios from '@/utils/axios';
 import { LogoState } from '@/pages/Game';
+import KaistEmblem from '@/public/kaist_emblem.png';
+import PostechEmblem from '@/public/postech_emblem.png';
+import axios from '@/utils/axios';
 
 interface LogoWrapperProps {
   checked?: boolean;
@@ -67,32 +68,79 @@ const reducer = (
   }
 };
 
+interface BettingResponse {
+  success: boolean;
+}
+
+interface ConfirmModalProps {
+  handleBetSubmit: () => Promise<void>;
+}
+
+const ConfirmModal: React.FC<ConfirmModalProps> = ({
+  handleBetSubmit
+}: ConfirmModalProps) => {
+  const [open, setOpen] = useState<boolean>(false);
+  const { formatMessage: f } = useIntl();
+
+  return (
+    <Modal
+      size="small"
+      onClose={() => setOpen(false)}
+      onOpen={() => setOpen(true)}
+      open={open}
+      trigger={<Button color="vk">{f({ id: 'mainpopup.submitbet' })}</Button>}
+    >
+      <Modal.Content style={{ fontSize: 'calc(0.8rem + 1vmin)' }}>
+        {f({ id: 'mainpopup.betwarning' })}
+      </Modal.Content>
+      <Modal.Actions>
+        <Button onClick={() => setOpen(false)}>
+          <Icon name="remove" /> {f({ id: 'cancel' })}
+        </Button>
+        <Button
+          color="vk"
+          onClick={() => {
+            setOpen(false);
+            handleBetSubmit();
+          }}
+        >
+          <Icon name="checkmark" /> {f({ id: 'yes' })}
+        </Button>
+      </Modal.Actions>
+    </Modal>
+  );
+};
+
 interface MainEventPopupProps {
   currentBetting: LogoState;
   setCurrentBetting: (value: React.SetStateAction<LogoState>) => void;
   game_type: string;
   playing: GameStatus;
+  dividend: number;
+  bets: [number, number];
 }
 
-interface BettingResponse {
-  success: boolean;
-}
 const MainEventPopup: React.FC<MainEventPopupProps> = ({
   currentBetting,
   setCurrentBetting,
   game_type,
-  playing
+  playing,
+  dividend,
+  bets
 }: MainEventPopupProps) => {
-  const inititalBetting = currentBetting;
+  const history = useHistory();
+  const { formatMessage: f } = useIntl();
+
+  const {
+    state: { isLoggedIn }
+  } = useContext(GlobalContext);
+
   const [{ open, selected }, dispatch] = useReducer(reducer, {
     open: false,
     selected: currentBetting
   });
-  const {
-    state: { isLoggedIn }
-  } = useContext(GlobalContext);
-  const history = useHistory();
-  const bettingHandler = async () => {
+
+  const handleBetSubmit = async () => {
     if (isLoggedIn) {
       if (selected !== LogoState.None) {
         const { data }: { data: BettingResponse } = await axios.post(
@@ -112,6 +160,17 @@ const MainEventPopup: React.FC<MainEventPopupProps> = ({
     } else history.push('/login');
   };
 
+  const betEnabled =
+    isLoggedIn &&
+    currentBetting === LogoState.None &&
+    selected !== LogoState.None;
+
+  const betDisabledMessage = !isLoggedIn
+    ? f({ id: 'mainpopup.signintobet' })
+    : currentBetting !== LogoState.None
+    ? f({ id: 'mainpopup.alreadybet' })
+    : f({ id: 'mainpopup.selectaside' });
+
   return (
     <Modal
       onClose={() => dispatch({ type: MainEventAction.ToggleOpen })}
@@ -120,7 +179,7 @@ const MainEventPopup: React.FC<MainEventPopupProps> = ({
       trigger={
         <Popup
           disabled={playing === GameStatus.Waiting}
-          content="Game has already started or finished"
+          content={f({ id: 'game.not_waiting' })}
           trigger={
             <div onClick={() => dispatch({ type: MainEventAction.ToggleOpen })}>
               <PopupButton disabled={playing !== GameStatus.Waiting} />
@@ -130,67 +189,81 @@ const MainEventPopup: React.FC<MainEventPopupProps> = ({
       }
     >
       <Header as="h2" className="centered">
-        Who will win the {game_type} game?
+        {f(
+          { id: 'mainpopup.header' },
+          { game_type: f({ id: `game.${game_type}` }) }
+        )}
       </Header>
       <Modal.Content>
         <ModalContainer>
           <LogoGroup>
-            <LogoWrapper
-              checked={
-                inititalBetting === LogoState.Kaist ||
-                selected === LogoState.Kaist
-              }
-              src={KaistEmblem}
-              onClick={() => {
-                if (inititalBetting === LogoState.None) {
-                  dispatch({
-                    type: MainEventAction.SelectLogo,
-                    payload: LogoState.Kaist
-                  });
+            <div>
+              <LogoWrapper
+                checked={
+                  currentBetting === LogoState.Kaist ||
+                  selected === LogoState.Kaist
                 }
-              }}
-            />
-            <LogoWrapper
-              checked={
-                inititalBetting === LogoState.Postech ||
-                selected === LogoState.Postech
-              }
-              src={PostechEmblem}
-              onClick={() => {
-                if (inititalBetting === LogoState.None) {
-                  dispatch({
-                    type: MainEventAction.SelectLogo,
-                    payload: LogoState.Postech
-                  });
+                src={KaistEmblem}
+                onClick={() => {
+                  if (currentBetting === LogoState.None) {
+                    dispatch({
+                      type: MainEventAction.SelectLogo,
+                      payload: LogoState.Kaist
+                    });
+                  }
+                }}
+              />
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                {f({ id: 'game.winning' })}:{' '}
+                {Math.round(dividend / (bets[0] + 1))}
+              </div>
+            </div>
+            <div>
+              <LogoWrapper
+                checked={
+                  currentBetting === LogoState.Postech ||
+                  selected === LogoState.Postech
                 }
-              }}
-            />
+                src={PostechEmblem}
+                onClick={() => {
+                  if (currentBetting === LogoState.None) {
+                    dispatch({
+                      type: MainEventAction.SelectLogo,
+                      payload: LogoState.Postech
+                    });
+                  }
+                }}
+              />
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                {f({ id: 'game.winning' })}:{' '}
+                {Math.round(dividend / (bets[1] + 1))}
+              </div>
+            </div>
           </LogoGroup>
           <ButtonGroup>
-            {inititalBetting === LogoState.None ? (
-              <Button color="vk" onClick={bettingHandler}>
-                Submit Bet
-              </Button>
-            ) : (
-              <Popup
-                trigger={
-                  <span>
-                    <Button color="vk" onClick={bettingHandler} disabled>
-                      Submit Bet
-                    </Button>
-                  </span>
-                }
-                content="Already betted"
-                basic
-              />
-            )}
             <Button
               onClick={() => {
                 dispatch({ type: MainEventAction.ToggleOpen });
               }}
             >
-              Cancel
+              {f({ id: 'cancel' })}
             </Button>
+            {betEnabled ? (
+              <ConfirmModal handleBetSubmit={handleBetSubmit} />
+            ) : (
+              <Popup
+                position="top center"
+                trigger={
+                  <span>
+                    <Button color="vk" onClick={handleBetSubmit} disabled>
+                      {f({ id: 'mainpopup.submitbet' })}
+                    </Button>
+                  </span>
+                }
+                content={betDisabledMessage}
+                basic
+              />
+            )}
           </ButtonGroup>
         </ModalContainer>
       </Modal.Content>
