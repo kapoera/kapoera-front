@@ -77,10 +77,13 @@ interface GameState {
   postechLength: number;
 }
 
-const reducer = (
+function reducer(
   state: GameState,
-  action: { type: string; payload: [number, number] }
-) => {
+  action:
+    | { type: 'UPDATE_RATIO'; payload: [number, number] }
+    | { type: 'INCREMENT'; payload: 'KAIST' | 'POSTECH' }
+    | { type: 'SET_BETTING'; payload: LogoState }
+) {
   switch (action.type) {
     case 'UPDATE_RATIO':
       return {
@@ -91,12 +94,26 @@ const reducer = (
           (100 * action.payload[1]) / (action.payload[0] + action.payload[1]),
         postechLength: action.payload[1]
       };
+    case 'INCREMENT':
+      return reducer(state, {
+        type: 'UPDATE_RATIO',
+        payload:
+          action.payload === 'KAIST'
+            ? [state.kaistLength + 1, state.postechLength]
+            : [state.kaistLength, state.postechLength + 1]
+      });
+    case 'SET_BETTING':
+      return {
+        ...state,
+        currentBetting: action.payload
+      };
     default:
       return state;
   }
-};
+}
 
 const Game: React.FC = () => {
+  const { formatMessage: f } = useIntl();
   const { state: globalState } = useContext(GlobalContext);
   const { _id } = globalState.user || { _id: '0' };
 
@@ -104,19 +121,22 @@ const Game: React.FC = () => {
     kaistRatio: 0,
     kaistLength: 0,
     postechRatio: 0,
-    postechLength: 0
+    postechLength: 0,
+    currentBetting: LogoState.None
   });
-  const { kaistRatio, kaistLength, postechRatio, postechLength } = state;
+  const {
+    kaistRatio,
+    kaistLength,
+    postechRatio,
+    postechLength,
+    currentBetting
+  } = state;
 
   const { gameId }: { gameId: string } = useParams();
   const [
     { playing, starting_time, result, game_type, dividend },
     setGameData
   ] = useState(defaultState);
-  const [currentBetting, setCurrentBetting] = useState<LogoState>(
-    LogoState.None
-  );
-  const { formatMessage: f } = useIntl();
 
   useEffect(() => {
     const socket = io(config.socketURL, {
@@ -144,11 +164,11 @@ const Game: React.FC = () => {
       );
       setGameData(data);
       if (data.kaist_arr.includes(_id)) {
-        setCurrentBetting(LogoState.Kaist);
+        dispatch({ type: 'SET_BETTING', payload: LogoState.Kaist });
       } else if (data.postech_arr.includes(_id)) {
-        setCurrentBetting(LogoState.Postech);
+        dispatch({ type: 'SET_BETTING', payload: LogoState.Postech });
       } else {
-        setCurrentBetting(LogoState.None);
+        dispatch({ type: 'SET_BETTING', payload: LogoState.None });
       }
 
       if (data.kaist_arr.length + data.postech_arr.length !== 0)
@@ -257,7 +277,7 @@ const Game: React.FC = () => {
           <div style={{ padding: '10px 0' }}>
             <MainEventPopup
               currentBetting={currentBetting}
-              setCurrentBetting={setCurrentBetting}
+              dispatch={dispatch}
               game_type={game_type}
               playing={playing}
               dividend={dividend}
