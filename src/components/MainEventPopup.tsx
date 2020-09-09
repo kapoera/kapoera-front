@@ -80,6 +80,7 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
   handleBetSubmit
 }: ConfirmModalProps) => {
   const [open, setOpen] = useState<boolean>(false);
+  const { formatMessage: f } = useIntl();
 
   return (
     <Modal
@@ -87,14 +88,14 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
       onClose={() => setOpen(false)}
       onOpen={() => setOpen(true)}
       open={open}
-      trigger={<Button color="vk">Submit Bet</Button>}
+      trigger={<Button color="vk">{f({ id: 'mainpopup.submitbet' })}</Button>}
     >
       <Modal.Content style={{ fontSize: 'calc(0.8rem + 1vmin)' }}>
-        You cannot undo this action. Proceed?
+        {f({ id: 'mainpopup.betwarning' })}
       </Modal.Content>
       <Modal.Actions>
         <Button onClick={() => setOpen(false)}>
-          <Icon name="remove" /> Cancel
+          <Icon name="remove" /> {f({ id: 'cancel' })}
         </Button>
         <Button
           color="vk"
@@ -103,7 +104,7 @@ const ConfirmModal: React.FC<ConfirmModalProps> = ({
             handleBetSubmit();
           }}
         >
-          <Icon name="checkmark" /> Yes
+          <Icon name="checkmark" /> {f({ id: 'yes' })}
         </Button>
       </Modal.Actions>
     </Modal>
@@ -165,10 +166,10 @@ const MainEventPopup: React.FC<MainEventPopupProps> = ({
     selected !== LogoState.None;
 
   const betDisabledMessage = !isLoggedIn
-    ? 'Sign in to bet!'
+    ? f({ id: 'mainpopup.signintobet' })
     : currentBetting !== LogoState.None
-    ? 'You already bet!'
-    : 'Select a side!';
+    ? f({ id: 'mainpopup.alreadybet' })
+    : f({ id: 'mainpopup.selectaside' });
 
   return (
     <Modal
@@ -178,7 +179,7 @@ const MainEventPopup: React.FC<MainEventPopupProps> = ({
       trigger={
         <Popup
           disabled={playing === GameStatus.Waiting}
-          content="Game has already started or finished"
+          content={f({ id: 'game.not_waiting' })}
           trigger={
             <div onClick={() => dispatch({ type: MainEventAction.ToggleOpen })}>
               <PopupButton disabled={playing !== GameStatus.Waiting} />
@@ -188,7 +189,10 @@ const MainEventPopup: React.FC<MainEventPopupProps> = ({
       }
     >
       <Header as="h2" className="centered">
-        Who will win the {game_type} game?
+        {f(
+          { id: 'mainpopup.header' },
+          { game_type: f({ id: `game.${game_type}` }) }
+        )}
       </Header>
       <Modal.Content>
         <ModalContainer>
@@ -242,7 +246,7 @@ const MainEventPopup: React.FC<MainEventPopupProps> = ({
                 dispatch({ type: MainEventAction.ToggleOpen });
               }}
             >
-              Cancel
+              {f({ id: 'cancel' })}
             </Button>
             {betEnabled ? (
               <ConfirmModal handleBetSubmit={handleBetSubmit} />
@@ -252,7 +256,7 @@ const MainEventPopup: React.FC<MainEventPopupProps> = ({
                 trigger={
                   <span>
                     <Button color="vk" onClick={handleBetSubmit} disabled>
-                      Submit Bet
+                      {f({ id: 'mainpopup.submitbet' })}
                     </Button>
                   </span>
                 }

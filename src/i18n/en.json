@@ -4,6 +4,8 @@
     "login": "Login",
     "logout": "Logout",
     "profile": "Profile",
+    "yes": "Yes",
+    "cancel": "Cancel",
     "profile.header": "My Profile",
     "profile.score": "score",
     "profile.ranking": "Ranking",
@@ -19,6 +21,7 @@
     "game.finished": "Finished",
     "game.score": "Score",
     "game.winning": "Winning",
+    "game.not_waiting": "Game has already started or finished",
     "game.status": "game status",
     "game.status.change": "change game status",
     "game.score.change": "change score",
@@ -38,5 +41,11 @@
     "statusbanner.day": "Day {day}",
     "nicknamemodal.content": "To change the default nickname given to you, visit the profile page. Note that nicknames are publicly exposed in this service.",
     "nicknamemodal.header": "Welcome, {nickname}",
-    "nicknamemodal.button": "To Main Page"
+    "nicknamemodal.button": "To Main Page",
+    "mainpopup.header": "Who will win the {game_type} game?",
+    "mainpopup.signintobet": "Sign in to bet!",
+    "mainpopup.alreadybet": "You already bet!",
+    "mainpopup.selectaside": "Select a side!",
+    "mainpopup.submitbet": "Submit Bet",
+    "mainpopup.betwarning": "Once you bet, you cannot undo it. Proceed?"
 }
