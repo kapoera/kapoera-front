@@ -7,9 +7,11 @@ import {
     Grid,
     List,
     Header,
-    Divider
+    Image
 } from 'semantic-ui-react';
 import styled from 'styled-components';
+import Logo from '@/public/logo.png';
+
 
 const StyledSegment = styled(Segment)`
     @media only screen and (max-width: 768px){
@@ -44,11 +46,16 @@ const Footer: React.FC = () => {
                             <List.Item as='a' href="https://github.com/pacokwon">Paco</List.Item>
                         </List>
                     </Grid.Column>
-                    <Grid.Column width={7}>
-                        <Header inverted as='h4' content='Cyber Kaist-Postech Science War' />
-                        <p>
-                            Welcome! Bet freely and receive prizes!
-                        </p>
+                    <Grid.Column width={7} verticalAlign="middle">
+                        <div>
+                            <div style={{ display: "inline-block" }}>
+                                <Header inverted as='h4' content='Cyber Kaist-Postech Science War' />
+                                <p>
+                                    Welcome! Bet freely and receive prizes!
+                                </p>
+                            </div>
+                            <Image src={Logo} size="mini" verticalAlign="middle" style={{ display: "inline", position: "relative", right: "-5rem" }}></Image>
+                        </div>
                     </Grid.Column>
                 </Grid>
 
