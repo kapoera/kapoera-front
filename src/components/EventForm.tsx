@@ -79,15 +79,44 @@ const EventForm: React.FC<EventFormProps> = ({
         Selected value: <b>{betAble || eventChoice}</b>
       </Form.Field>
       {event.choices.map((choice, key) => (
-        (choice === event.answer) ? (
+        (choice === event.answer && betAble === choice) ? (
           <Form.Field
             key={key}
             style={{
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'flex-start',
-              border: "3px solid green",
-              borderRadius: "5px"
+              outline: "3px solid green",
+            }}
+          >
+            <Radio
+              label={choice}
+              value={choice}
+              name="radioGroup"
+              checked={choice === eventChoice || choice === betAble}
+              onChange={handleChange}
+              disabled={betAble != null}
+              style={{ marginRight: 'auto' }}
+            />
+            <Progress
+              percent={calculatePercent(choice)}
+              indicating
+              style={{
+                width: '60%',
+                margin: '0.2rem 1rem',
+                justifySelf: 'flex-end'
+              }}
+            ></Progress>
+          </Form.Field>
+        ) : (choice === event.answer && betAble != choice) ? (
+          <Form.Field
+            key={key}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'flex-start',
+              outline: "3px solid red",
+              boxShadow: "0 0 0 2px #f00"
             }}
           >
             <Radio
@@ -110,34 +139,34 @@ const EventForm: React.FC<EventFormProps> = ({
             ></Progress>
           </Form.Field>
         ) : (
-            <Form.Field
-              key={key}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'flex-start'
-              }}
-            >
-              <Radio
-                label={choice}
-                value={choice}
-                name="radioGroup"
-                checked={choice === eventChoice || choice === betAble}
-                onChange={handleChange}
-                disabled={betAble != null}
-                style={{ marginRight: 'auto' }}
-              />
-              <Progress
-                percent={calculatePercent(choice)}
-                indicating
+              <Form.Field
+                key={key}
                 style={{
-                  width: '60%',
-                  margin: '0.2rem 1rem',
-                  justifySelf: 'flex-end'
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'flex-start'
                 }}
-              ></Progress>
-            </Form.Field>
-          )
+              >
+                <Radio
+                  label={choice}
+                  value={choice}
+                  name="radioGroup"
+                  checked={choice === eventChoice || choice === betAble}
+                  onChange={handleChange}
+                  disabled={betAble != null}
+                  style={{ marginRight: 'auto' }}
+                />
+                <Progress
+                  percent={calculatePercent(choice)}
+                  indicating
+                  style={{
+                    width: '60%',
+                    margin: '0.2rem 1rem',
+                    justifySelf: 'flex-end'
+                  }}
+                ></Progress>
+              </Form.Field>
+            )
       ))}
       {
         (playing != GameStatus.Waiting) ? (
@@ -160,7 +189,7 @@ const EventForm: React.FC<EventFormProps> = ({
             )
       }
 
-    </Form>
+    </Form >
   );
 };
 
