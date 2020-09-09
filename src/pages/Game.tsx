@@ -77,10 +77,12 @@ interface GameState {
   postechLength: number;
 }
 
-const reducer = (
+function reducer(
   state: GameState,
-  action: { type: string; payload: [number, number] }
-) => {
+  action:
+    | { type: 'UPDATE_RATIO'; payload: [number, number] }
+    | { type: 'INCREMENT'; payload: 'KAIST' | 'POSTECH' }
+) {
   switch (action.type) {
     case 'UPDATE_RATIO':
       return {
@@ -91,12 +93,21 @@ const reducer = (
           (100 * action.payload[1]) / (action.payload[0] + action.payload[1]),
         postechLength: action.payload[1]
       };
+    case 'INCREMENT':
+      return reducer(state, {
+        type: 'UPDATE_RATIO',
+        payload:
+          action.payload === 'KAIST'
+            ? [state.kaistLength + 1, state.postechLength]
+            : [state.kaistLength, state.postechLength]
+      });
     default:
       return state;
   }
-};
+}
 
 const Game: React.FC = () => {
+  const { formatMessage: f } = useIntl();
   const { state: globalState } = useContext(GlobalContext);
   const { _id } = globalState.user || { _id: '0' };
 
@@ -116,7 +127,6 @@ const Game: React.FC = () => {
   const [currentBetting, setCurrentBetting] = useState<LogoState>(
     LogoState.None
   );
-  const { formatMessage: f } = useIntl();
 
   useEffect(() => {
     const socket = io(config.socketURL, {
