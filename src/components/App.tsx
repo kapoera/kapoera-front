@@ -3,6 +3,7 @@ import 'semantic-ui-css/semantic.min.css';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
 import { IntlProvider } from 'react-intl';
+
 import {
   GlobalContext,
   globalContextReducer as reducer,
@@ -21,9 +22,12 @@ import {
   AdminGame
 } from '@/pages';
 import axios from '@/utils/axios';
-import NavBar from './NavBar';
-import { PrivateRoute } from './PrivateRoute';
+
 import Footer from './Footer';
+import NavBar from './NavBar';
+import PrivateRoute from './PrivateRoute';
+import ScrollToTop from './ScrollToTop';
+
 const GlobalStyle = createGlobalStyle`
   body {
     background-color: #fafafa;
@@ -88,6 +92,7 @@ const App: React.FC = () => {
       <IntlProvider locale={state.locale} messages={translations[state.locale]}>
         <GlobalStyle />
         <BrowserRouter>
+          <ScrollToTop />
           <NavBar />
           <Switch>
             <Route path="/signin/callback">
