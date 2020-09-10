@@ -107,7 +107,6 @@ const EventForm: React.FC<EventFormProps> = ({
               name="radioGroup"
               checked={choice === eventChoice || choice === betAble}
               onChange={handleChange}
-              disabled={betAble != null}
               style={{ marginRight: 'auto' }}
             />
             <Popup on="click" content={`${f({ id: 'game.winning' })}: ${calculateDividend(choice)}`} trigger={<Progress
