@@ -22,6 +22,7 @@
     "game.score": "점수",
     "game.winning": "적중 시 상금",
     "game.not_waiting": "게임이 이미 시작하거나 종료됐습니다.",
+    "game.label_message": "베팅 종료시각",
     "game.status": "게임 상태",
     "game.status.change": "게임 상태 변경",
     "game.score.change": "점수 변경",
