@@ -77,7 +77,10 @@ const EventForm: React.FC<EventFormProps> = ({
     const denom = event.responses.filter(res => res.choice === choice).length;
     return (event.dividend) / (denom + 1)
   }
-
+  // if (event.answer === undefined)
+  //   console.log(event.answer)
+  // else
+  //   console.log("event")
   return (
     <Form>
       {/* <Form.Field>
@@ -88,14 +91,14 @@ const EventForm: React.FC<EventFormProps> = ({
       </Form.Field>
 
       {event.choices.map((choice, key) => (
-        (choice === event.answer && betAble === choice) ? (
+        (choice === event.answer && event.answer != undefined) ? (
           <Form.Field
             key={key}
             style={{
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'flex-start',
-              outline: "3px solid green",
+              // outline: "3px solid green",
             }}
           >
             <Radio
@@ -108,25 +111,27 @@ const EventForm: React.FC<EventFormProps> = ({
               style={{ marginRight: 'auto' }}
             />
             <Popup on="click" content={`${f({ id: 'game.winning' })}: ${calculateDividend(choice)}`} trigger={<Progress
+              // progress="value"
+              // value="correct"
               percent={calculatePercent(choice)}
-              indicating
+              color="green"
               style={{
                 width: '60%',
                 margin: '0.2rem 1rem',
                 justifySelf: 'flex-end'
               }}
-            ></Progress>} />
+            >{f({ id: 'correct' })}</Progress>} />
 
           </Form.Field>
-        ) : (choice === event.answer && betAble != choice) ? (
+        ) : (choice != event.answer && event.answer != undefined) ? (
           <Form.Field
             key={key}
             style={{
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'flex-start',
-              outline: "3px solid red",
-              boxShadow: "0 0 0 2px #f00"
+              // outline: "3px solid red",
+              // boxShadow: "0 0 0 2px #f00"
             }}
           >
             <Radio
@@ -140,11 +145,10 @@ const EventForm: React.FC<EventFormProps> = ({
             />
             <Popup on="click" content={`${f({ id: 'game.winning' })}: ${calculateDividend(choice)}`} trigger={<Progress
               percent={calculatePercent(choice)}
-              indicating
               style={{
                 width: '60%',
                 margin: '0.2rem 1rem',
-                justifySelf: 'flex-end'
+                justifySelf: 'flex-end',
               }}
             ></Progress>} />
           </Form.Field>
@@ -168,7 +172,7 @@ const EventForm: React.FC<EventFormProps> = ({
                 />
                 <Popup on="click" content={`${f({ id: 'game.winning' })}: ${calculateDividend(choice)}`} trigger={<Progress
                   percent={calculatePercent(choice)}
-                  indicating
+                  color="yellow"
                   style={{
                     width: '60%',
                     margin: '0.2rem 1rem',
