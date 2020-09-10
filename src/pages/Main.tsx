@@ -75,7 +75,7 @@ const Main: React.FC = () => {
           </Grid.Column>
         </Grid>
       </div>
-      <div style={{ marginBottom: "15rem" }}>
+      <div style={{ marginBottom: '15rem' }}>
         <MainHeader>{f({ id: 'main.games' })}</MainHeader>
         <Grid columns={3} doubling stackable style={{ marginTop: '1vmin' }}>
           {gamesData.map(data => (
