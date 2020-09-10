@@ -32,6 +32,7 @@ const UserHeader = styled.div`
   line-height: 1.4;
   margin-left: 10px;
   margin-top: 10px;
+  word-wrap: break-word;
   text-align: center;
 `;
 
