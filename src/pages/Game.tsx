@@ -243,7 +243,18 @@ const Game: React.FC = () => {
               {f({ id: 'game.playing' })}
             </Label>
           ) : playing === GameStatus.Waiting ? (
-            <Label color="black" size="huge" style={{ fontSize: '0.8rem' }}>
+            <Label
+              size="medium"
+              style={{
+                textAlign: 'center',
+                lineHeight: 1.2,
+                background: config.primary,
+                borderColor: config.primary,
+                color: 'white'
+              }}
+            >
+              {f({ id: 'game.label_message' })}
+              <br />
               <FormattedDate
                 value={starting_time}
                 month="2-digit"
