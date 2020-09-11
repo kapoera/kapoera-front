@@ -88,7 +88,7 @@ const AdminEventForm: React.FC<AdminEventFormProps> = ({
       <Button
         content="Submit"
         onClick={handleSubmit}
-        disabled={playing != GameStatus.Waiting || event.answer != null}
+        disabled={event.answer != null}
       />
     </Form>
   );
