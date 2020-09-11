@@ -67,7 +67,7 @@ const defaultState: GameCardProps = {
   result: { [University.Kaist]: 0, [University.Postech]: 0 },
   starting_time: '2020-08-24T00:00:00.000Z',
   subevents: [],
-  clickEvent: () => { }
+  clickEvent: () => {}
 };
 
 interface GameState {
@@ -164,7 +164,6 @@ const Game: React.FC = () => {
         '/api/games/' + gameId
       );
       setGameData(data);
-      console.log(data)
       if (data.kaist_arr.includes(_id)) {
         dispatch({ type: 'SET_BETTING', payload: LogoState.Kaist });
       } else if (data.postech_arr.includes(_id)) {
@@ -267,10 +266,10 @@ const Game: React.FC = () => {
               />
             </Label>
           ) : (
-                <Label color="red" size="huge">
-                  {f({ id: 'game.finished' })}
-                </Label>
-              )}
+            <Label color="red" size="huge">
+              {f({ id: 'game.finished' })}
+            </Label>
+          )}
         </div>
       </Grid>
       <Segment>
@@ -304,7 +303,7 @@ const Game: React.FC = () => {
               <StyledProgress
                 label={`${Math.floor(kaistRatio)}% (${
                   kaistLength + postechLength
-                  } / ${kaistLength})`}
+                } / ${kaistLength})`}
                 percent={Math.floor(kaistRatio)}
                 color="blue"
                 direction="left"
@@ -314,7 +313,7 @@ const Game: React.FC = () => {
               <StyledProgress
                 label={`${Math.floor(postechRatio)}% (${postechLength} / ${
                   kaistLength + postechLength
-                  })`}
+                })`}
                 direction="right"
                 percent={Math.floor(postechRatio)}
                 color="red"
