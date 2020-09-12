@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useIntl } from 'react-intl';
 import { Image } from 'semantic-ui-react';
 import styled from 'styled-components';
@@ -31,12 +31,9 @@ const Overlay = styled.div`
 
 const StatusBanner: React.FC = () => {
   const { formatMessage: f } = useIntl();
-  const standard = 1625756400000;
-  const [day, setDay] = useState<number>(1)
+  const standard = new Date('2020-09-18T15:00:00Z').getTime();
+  const day = Date.now() > standard ? 2 : 1;
 
-  useEffect(() => {
-    if (Date.now() > standard) setDay(2)
-  }, [])
   return (
     <div
       style={{
