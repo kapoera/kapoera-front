@@ -35,7 +35,7 @@ const Footer: React.FC = () => {
                     <Grid.Column width={3}>
                         <Header inverted as='h4' content='Game' />
                         <List link inverted>
-                            <List.Item as='a'>Link One</List.Item>
+                            <List.Item as='a' href="https://www.youtube.com/c/카이스트방송국VOK">watch game</List.Item>
                         </List>
                     </Grid.Column>
                     <Grid.Column width={3}>

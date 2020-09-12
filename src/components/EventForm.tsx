@@ -103,7 +103,7 @@ const EventForm: React.FC<EventFormProps> = ({
             }}
           >
             <Radio
-              label={choice}
+              label={`${choice} (${f({ id: 'correct' })})`}
               value={choice}
               name="radioGroup"
               checked={choice === eventChoice || choice === betAble}
@@ -125,7 +125,6 @@ const EventForm: React.FC<EventFormProps> = ({
                     justifySelf: 'flex-end'
                   }}
                 >
-                  {f({ id: 'correct' })}
                 </Progress>
               }
             />
@@ -166,42 +165,42 @@ const EventForm: React.FC<EventFormProps> = ({
             />
           </Form.Field>
         ) : (
-          <Form.Field
-            key={key}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'flex-start'
-            }}
-          >
-            <Radio
-              label={choice}
-              value={choice}
-              name="radioGroup"
-              checked={choice === eventChoice || choice === betAble}
-              onChange={handleChange}
-              disabled={betAble != null}
-              style={{ marginRight: 'auto' }}
-            />
-            <Popup
-              on="click"
-              content={`${f({ id: 'game.winning' })}: ${calculateDividend(
-                choice
-              )}`}
-              trigger={
-                <Progress
-                  percent={calculatePercent(choice)}
-                  color="yellow"
-                  style={{
-                    width: '60%',
-                    margin: '0.2rem 1rem',
-                    justifySelf: 'flex-end'
-                  }}
+              <Form.Field
+                key={key}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'flex-start'
+                }}
+              >
+                <Radio
+                  label={choice}
+                  value={choice}
+                  name="radioGroup"
+                  checked={choice === eventChoice || choice === betAble}
+                  onChange={handleChange}
+                  disabled={betAble != null}
+                  style={{ marginRight: 'auto' }}
                 />
-              }
-            />
-          </Form.Field>
-        )
+                <Popup
+                  on="click"
+                  content={`${f({ id: 'game.winning' })}: ${calculateDividend(
+                    choice
+                  )}`}
+                  trigger={
+                    <Progress
+                      percent={calculatePercent(choice)}
+                      color="yellow"
+                      style={{
+                        width: '60%',
+                        margin: '0.2rem 1rem',
+                        justifySelf: 'flex-end'
+                      }}
+                    />
+                  }
+                />
+              </Form.Field>
+            )
       )}
       {playing !== GameStatus.Waiting ? (
         <Popup
@@ -231,32 +230,32 @@ const EventForm: React.FC<EventFormProps> = ({
           }
         />
       ) : (
-        <Modal
-          size="small"
-          onClose={() => setConfirmModalOpen(false)}
-          onOpen={() => setConfirmModalOpen(true)}
-          open={confirmModalOpen}
-          trigger={<Button content="Submit" />}
-        >
-          <Modal.Content style={{ fontSize: 'calc(0.8rem + 1vmin)' }}>
-            {f({ id: 'mainpopup.betwarning' })}
-          </Modal.Content>
-          <Modal.Actions>
-            <Button onClick={() => setConfirmModalOpen(false)}>
-              <Icon name="remove" /> {f({ id: 'cancel' })}
-            </Button>
-            <Button
-              color="vk"
-              onClick={() => {
-                setConfirmModalOpen(false);
-                handleSubmit();
-              }}
-            >
-              <Icon name="checkmark" /> {f({ id: 'yes' })}
-            </Button>
-          </Modal.Actions>
-        </Modal>
-      )}
+              <Modal
+                size="small"
+                onClose={() => setConfirmModalOpen(false)}
+                onOpen={() => setConfirmModalOpen(true)}
+                open={confirmModalOpen}
+                trigger={<Button content="Submit" />}
+              >
+                <Modal.Content style={{ fontSize: 'calc(0.8rem + 1vmin)' }}>
+                  {f({ id: 'mainpopup.betwarning' })}
+                </Modal.Content>
+                <Modal.Actions>
+                  <Button onClick={() => setConfirmModalOpen(false)}>
+                    <Icon name="remove" /> {f({ id: 'cancel' })}
+                  </Button>
+                  <Button
+                    color="vk"
+                    onClick={() => {
+                      setConfirmModalOpen(false);
+                      handleSubmit();
+                    }}
+                  >
+                    <Icon name="checkmark" /> {f({ id: 'yes' })}
+                  </Button>
+                </Modal.Actions>
+              </Modal>
+            )}
     </Form>
   );
 };

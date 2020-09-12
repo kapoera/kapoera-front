@@ -68,7 +68,7 @@ const defaultState: GameCardProps = {
   result: { [University.Kaist]: 0, [University.Postech]: 0 },
   starting_time: '2020-08-24T00:00:00.000Z',
   subevents: [],
-  clickEvent: _ => {}
+  clickEvent: _ => { }
 };
 const defaultWinner = Winner.None;
 const defaultPlaying = GameStatus.Waiting;
@@ -216,10 +216,10 @@ const AdminGame: React.FC = () => {
               />
             </Label>
           ) : (
-            <Label color="red" size="huge">
-              {f({ id: 'game.finished' })}
-            </Label>
-          )}
+                <Label color="red" size="huge">
+                  {f({ id: 'game.finished' })}
+                </Label>
+              )}
         </div>
       </Grid>
 
@@ -298,7 +298,7 @@ const AdminGame: React.FC = () => {
           </div>
           <Form>
             <Form.Field>
-              Selected value: <b>{playing}</b>
+              Selected value:
             </Form.Field>
 
             <Form.Field
