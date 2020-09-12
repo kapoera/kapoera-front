@@ -49,7 +49,8 @@ module.exports = {
   plugins: [
     new ForkTsCheckerWebpackPlugin(),
     new HtmlWebpackPlugin({
-      template: './src/index.html'
+      template: './src/index.html',
+      favicon: './src/public/logonav.png'
     }),
     new CleanWebpackPlugin()
   ],
