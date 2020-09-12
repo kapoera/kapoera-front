@@ -70,7 +70,7 @@ const defaultState: GameCardProps = {
   result: { [University.Kaist]: 0, [University.Postech]: 0 },
   starting_time: '2020-08-24T00:00:00.000Z',
   subevents: [],
-  clickEvent: () => { }
+  clickEvent: () => {}
 };
 
 interface GameState {
@@ -186,10 +186,23 @@ const Game: React.FC = () => {
 
   return (
     <GameContainer>
-      <div style={{ display: "flex", alignItems: "center" }}>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
         <Banner>{f({ id: `game.${gameId}` })}</Banner>
-        <Label as='a' href={link[gameId]} pointing='left' style={{ height: "2rem", marginLeft: "1rem", lineHeight: "1rem", background: "white", border: "1px solid grey", color: "black", fontWeight: "lighter" }}>
-          {f({ id: "watch" })}
+        <Label
+          as="a"
+          href={link[gameId]}
+          pointing="left"
+          style={{
+            height: '2rem',
+            marginLeft: '1rem',
+            lineHeight: '1rem',
+            background: 'white',
+            border: '1px solid grey',
+            color: 'black',
+            fontWeight: 'lighter'
+          }}
+        >
+          {f({ id: 'watch' })}
         </Label>
       </div>
       <Grid
@@ -274,10 +287,10 @@ const Game: React.FC = () => {
               />
             </Label>
           ) : (
-                <Label color="red" size="huge">
-                  {f({ id: 'game.finished' })}
-                </Label>
-              )}
+            <Label color="red" size="huge">
+              {f({ id: 'game.finished' })}
+            </Label>
+          )}
         </div>
       </Grid>
       <Segment>
@@ -309,8 +322,9 @@ const Game: React.FC = () => {
           <Grid.Row centered>
             <Grid.Column stretched>
               <StyledProgress
-                label={`${Math.floor(kaistRatio)}% (${kaistLength + postechLength
-                  } / ${kaistLength})`}
+                label={`${Math.floor(kaistRatio)}% (${
+                  kaistLength + postechLength
+                } / ${kaistLength})`}
                 percent={Math.floor(kaistRatio)}
                 color="blue"
                 direction="left"
@@ -318,8 +332,9 @@ const Game: React.FC = () => {
             </Grid.Column>
             <Grid.Column stretched>
               <StyledProgress
-                label={`${Math.floor(postechRatio)}% (${postechLength} / ${kaistLength + postechLength
-                  })`}
+                label={`${Math.floor(postechRatio)}% (${postechLength} / ${
+                  kaistLength + postechLength
+                })`}
                 direction="right"
                 percent={Math.floor(postechRatio)}
                 color="red"
@@ -329,7 +344,7 @@ const Game: React.FC = () => {
         </Grid>
       </Segment>
       <EventList gameId={gameId} playing={playing} />
-    </GameContainer >
+    </GameContainer>
   );
 };
 
