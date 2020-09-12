@@ -23,6 +23,8 @@ const Main: React.FC = () => {
     score: number;
     ranking: number;
   } | null>(null);
+  const billboardLength = 50;
+
   const { formatMessage: f } = useIntl();
   const {
     state: { user, isLoggedIn }
@@ -38,7 +40,9 @@ const Main: React.FC = () => {
 
     const fetchRanking = async () => {
       const { data }: { data: RankingResponse } = await axios.get(
-        isLoggedIn ? '/api/private/rankings/top' : '/api/rankings/top'
+        isLoggedIn
+          ? `/api/private/rankings/top?limit=${billboardLength}`
+          : `/api/rankings/top?limit=${billboardLength}`
       );
 
       if (data.success) {
@@ -63,8 +67,8 @@ const Main: React.FC = () => {
           stackable
           style={{ marginTop: '1vmin', padding: '14px 0' }}
         >
-          <Grid.Column width={12}>
-            <Billboard rankings={rankings} />
+          <Grid.Column width={12} style={{ paddingBottom: 0 }}>
+            <Billboard rankings={rankings} length={billboardLength} />
           </Grid.Column>
           <Grid.Column width={4} style={{ padding: 0 }}>
             <MyStatusCard
