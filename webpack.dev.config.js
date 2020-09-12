@@ -50,7 +50,7 @@ module.exports = {
     new ForkTsCheckerWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: './src/index.html',
-      favicon: './src/public/logonav.png'
+      favicon: './src/public/logofavicon.png'
     }),
     new CleanWebpackPlugin()
   ],

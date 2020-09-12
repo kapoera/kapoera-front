@@ -33,9 +33,9 @@ const Footer: React.FC = () => {
                         </List>
                     </Grid.Column>
                     <Grid.Column width={3}>
-                        <Header inverted as='h4' content='Game' />
+                        <Header inverted as='h4' content='Contact us' />
                         <List link inverted>
-                            <List.Item as='a' href="https://www.youtube.com/c/카이스트방송국VOK">watch game</List.Item>
+                            <List.Item as='a' style={{ wordWrap: 'break-world' }}>haechank@kaist.ac.kr</List.Item>
                         </List>
                     </Grid.Column>
                     <Grid.Column width={3}>

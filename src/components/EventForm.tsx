@@ -84,7 +84,7 @@ const EventForm: React.FC<EventFormProps> = ({
   };
   const calculateDividend = (choice: string) => {
     const denom = event.responses.filter(res => res.choice === choice).length;
-    return event.dividend / (denom + 1);
+    return Math.round(event.dividend / (denom + 1));
   };
   return (
     <Form>
