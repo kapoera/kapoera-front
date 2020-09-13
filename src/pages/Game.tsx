@@ -40,7 +40,7 @@ interface ColumnContentProps {
 const ColumnContent = styled.div`
   display: flex;
   flex-direction: column;
-  font-size: calc(1em + 2vmin);
+  font-size: calc(0.5em + 2vmin);
   height: 100%;
   justify-content: center;
   ${({ align }: ColumnContentProps) =>
@@ -70,7 +70,7 @@ const defaultState: GameCardProps = {
   result: { [University.Kaist]: 0, [University.Postech]: 0 },
   starting_time: '2020-08-24T00:00:00.000Z',
   subevents: [],
-  clickEvent: () => {}
+  clickEvent: () => { }
 };
 
 interface GameState {
@@ -287,10 +287,10 @@ const Game: React.FC = () => {
               />
             </Label>
           ) : (
-            <Label color="red" size="huge">
-              {f({ id: 'game.finished' })}
-            </Label>
-          )}
+                <Label color="red" size="huge">
+                  {f({ id: 'game.finished' })}
+                </Label>
+              )}
         </div>
       </Grid>
       <Segment>
@@ -322,9 +322,8 @@ const Game: React.FC = () => {
           <Grid.Row centered>
             <Grid.Column stretched>
               <StyledProgress
-                label={`${Math.floor(kaistRatio)}% (${
-                  kaistLength + postechLength
-                } / ${kaistLength})`}
+                label={`${Math.floor(kaistRatio)}% (${kaistLength + postechLength
+                  } / ${kaistLength})`}
                 percent={Math.floor(kaistRatio)}
                 color="blue"
                 direction="left"
@@ -332,9 +331,8 @@ const Game: React.FC = () => {
             </Grid.Column>
             <Grid.Column stretched>
               <StyledProgress
-                label={`${Math.floor(postechRatio)}% (${postechLength} / ${
-                  kaistLength + postechLength
-                })`}
+                label={`${Math.floor(postechRatio)}% (${postechLength} / ${kaistLength + postechLength
+                  })`}
                 direction="right"
                 percent={Math.floor(postechRatio)}
                 color="red"
