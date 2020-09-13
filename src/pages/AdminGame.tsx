@@ -310,14 +310,12 @@ const AdminGame: React.FC = () => {
             >
               <Input
                 type="number"
-                max={5}
                 min={0}
                 value={result[University.Kaist]}
                 onChange={handleKaistScore}
               />
               <Input
                 type="number"
-                max={5}
                 min={0}
                 value={result[University.Postech]}
                 onChange={handlePostechScore}

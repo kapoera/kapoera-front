@@ -86,6 +86,7 @@ const EventList: React.FC<EventListProps> = ({
               active={activeIndex === key}
               index={key}
               onClick={handleClick}
+              style={{ fontWeight: "lighter", fontSize: "1.2rem", fontFamily: "Jua, sans-serif" }}
             >
               {event[`name_${locale}`]}
             </Accordion.Title>

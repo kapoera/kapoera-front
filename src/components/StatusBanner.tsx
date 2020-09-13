@@ -31,8 +31,10 @@ const Overlay = styled.div`
 
 const StatusBanner: React.FC = () => {
   const { formatMessage: f } = useIntl();
-  const standard = new Date('2020-09-18T15:00:00Z').getTime();
-  const day = Date.now() > standard ? 2 : 1;
+  const firstDay = new Date('2020-09-17T15:00:00Z').getTime();
+  const secondDay = new Date('2020-09-18T15:00:00Z').getTime();
+  const currentTime = Date.now();
+  const day = currentTime > secondDay ? 2 : (secondDay >= currentTime && currentTime > firstDay) ? 1 : 0;
 
   return (
     <div
