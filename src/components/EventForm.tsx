@@ -108,7 +108,7 @@ const EventForm: React.FC<EventFormProps> = ({
               name="radioGroup"
               checked={choice === eventChoice || choice === betAble}
               onChange={handleChange}
-              style={{ marginRight: 'auto' }}
+              style={{ flex: 2, fontSize: 'calc(0.7rem + 0.6vmin)' }}
             />
             <Popup
               on="click"
@@ -120,7 +120,7 @@ const EventForm: React.FC<EventFormProps> = ({
                   percent={calculatePercent(choice)}
                   color="green"
                   style={{
-                    width: '50%',
+                    flex: 3,
                     margin: '0.2rem 1rem',
                     justifySelf: 'flex-end'
                   }}
@@ -144,7 +144,7 @@ const EventForm: React.FC<EventFormProps> = ({
               checked={choice === eventChoice || choice === betAble}
               onChange={handleChange}
               disabled={betAble != null}
-              style={{ marginRight: 'auto' }}
+              style={{ flex: 2, fontSize: 'calc(0.7rem + 0.6vmin)' }}
             />
             <Popup
               on="click"
@@ -155,7 +155,7 @@ const EventForm: React.FC<EventFormProps> = ({
                 <Progress
                   percent={calculatePercent(choice)}
                   style={{
-                    width: '50%',
+		    flex: 3,
                     margin: '0.2rem 1rem',
                     justifySelf: 'flex-end'
                   }}
@@ -179,7 +179,7 @@ const EventForm: React.FC<EventFormProps> = ({
               checked={choice === eventChoice || choice === betAble}
               onChange={handleChange}
               disabled={betAble != null}
-              style={{ marginRight: 'auto' }}
+              style={{ flex: 2, fontSize: 'calc(0.7rem + 0.6vmin)' }}
             />
             <Popup
               on="click"
@@ -191,7 +191,7 @@ const EventForm: React.FC<EventFormProps> = ({
                   percent={calculatePercent(choice)}
                   color="yellow"
                   style={{
-                    width: '50%',
+		    flex: 3,
                     margin: '0.2rem 1rem',
                     justifySelf: 'flex-end'
                   }}
