@@ -1,6 +1,6 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { Segment } from 'semantic-ui-react';
+import { Divider, Segment } from 'semantic-ui-react';
 import styled from 'styled-components';
 
 const HeaderContainer = styled.div``;
@@ -32,6 +32,7 @@ export const GameRecord: React.FC<GameRecordProps> = ({
       <HeaderContainer>
         <SegmentHeader>{f({ id: 'record.headtohead' })}</SegmentHeader>
       </HeaderContainer>
+      <Divider style={{ margin: '7px 20px 20px' }} />
       <div
         style={{
           fontSize: 'calc(0.8rem + 1vmin)'
@@ -42,8 +43,8 @@ export const GameRecord: React.FC<GameRecordProps> = ({
             <div
               style={{
                 flex: 1,
-                textAlign: 'right',
-                fontWeight: 'bold'
+                textAlign: 'center',
+                fontSize: 'calc(0.9rem + 1.1vmin)'
               }}
             >
               {year}
@@ -51,9 +52,17 @@ export const GameRecord: React.FC<GameRecordProps> = ({
             <div
               style={{ flex: 1, textAlign: 'center', fontWeight: 'lighter' }}
             >
-              {score[0]} : {score[1]}
+              {`${score[0]} : ${score[1]}`}
             </div>
-            <div style={{ flex: 1, fontWeight: 'lighter' }}>{winner}</div>
+            <div
+              style={{
+                flex: 1,
+                textAlign: 'center',
+                color: winner === RecordWinner.KAIST ? '#2185d0' : '#db2828'
+              }}
+            >
+              {f({ id: 'record.result' }, { winner })}
+            </div>
           </div>
         ))}
       </div>
