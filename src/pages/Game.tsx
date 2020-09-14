@@ -3,15 +3,17 @@ import { useParams } from 'react-router-dom';
 import { FormattedDate, useIntl } from 'react-intl';
 import { Grid, Image, Label, Progress, Segment } from 'semantic-ui-react';
 import styled from 'styled-components';
-import { GameCardProps, University, GameStatus } from '@/components/GameCard';
+import { GameCardProps } from '@/components/GameCard';
 import EventList from '@/components/EventList';
 import MainEventPopup from '@/components/MainEventPopup';
+import { GameRecord } from '@/components/GameRecord';
 import config from '@/config';
 import link from '@/config/link';
+import { GlobalContext } from '@/context';
 import KaistLogo from '@/public/kaist.png';
 import PostechLogo from '@/public/postech.png';
-import { GlobalContext } from '@/context';
 import axios from '@/utils/axios';
+import { GameStatus, University } from '@/types';
 
 interface StyledProgressProps {
   direction: 'left' | 'right';
@@ -52,9 +54,6 @@ const GameContainer = styled.div`
   max-width: 1000px;
 `;
 
-// const StyledLabel = styled(Label)`
-
-// `
 export enum LogoState {
   None = 'NONE',
   Kaist = 'K',
@@ -70,7 +69,8 @@ const defaultState: GameCardProps = {
   result: { [University.Kaist]: 0, [University.Postech]: 0 },
   starting_time: '2020-08-24T00:00:00.000Z',
   subevents: [],
-  clickEvent: () => { }
+  records: [],
+  clickEvent: () => {}
 };
 
 interface GameState {
@@ -86,6 +86,7 @@ function reducer(
     | { type: 'UPDATE_RATIO'; payload: [number, number] }
     | { type: 'INCREMENT'; payload: 'KAIST' | 'POSTECH' }
     | { type: 'SET_BETTING'; payload: LogoState }
+    | { type: 'INITIALIZE'; payload: GameCardProps }
 ) {
   switch (action.type) {
     case 'UPDATE_RATIO':
@@ -138,34 +139,16 @@ const Game: React.FC = () => {
 
   const { gameId }: { gameId: string } = useParams();
   const [
-    { playing, starting_time, result, game_type, dividend },
+    { playing, starting_time, result, game_type, dividend, records },
     setGameData
   ] = useState(defaultState);
-
-  // useEffect(() => {
-  //   const socket = io(config.socketURL, {
-  //     transports: ['websocket'],
-  //     upgrade: false,
-  //     query: { game: gameId }
-  //   });
-  //   socket.on('refresh', (data: GameCardProps) => {
-  //     if (data.kaist_arr.length + data.postech_arr.length !== 0)
-  //       dispatch({
-  //         type: 'UPDATE_RATIO',
-  //         payload: [data.kaist_arr.length, data.postech_arr.length]
-  //       });
-  //   });
-
-  //   return () => {
-  //     socket.disconnect();
-  //   };
-  // }, []);
 
   useEffect(() => {
     const fetchGame = async () => {
       const { data }: { data: GameCardProps } = await axios.get(
         '/api/games/' + gameId
       );
+
       setGameData(data);
       if (data.kaist_arr.includes(_id)) {
         dispatch({ type: 'SET_BETTING', payload: LogoState.Kaist });
@@ -287,12 +270,13 @@ const Game: React.FC = () => {
               />
             </Label>
           ) : (
-                <Label color="red" size="huge">
-                  {f({ id: 'game.finished' })}
-                </Label>
-              )}
+            <Label color="red" size="huge">
+              {f({ id: 'game.finished' })}
+            </Label>
+          )}
         </div>
       </Grid>
+      <GameRecord records={records} />
       <Segment>
         <div style={{ marginLeft: '20px', display: 'flex' }}>
           <div
@@ -322,8 +306,9 @@ const Game: React.FC = () => {
           <Grid.Row centered>
             <Grid.Column stretched>
               <StyledProgress
-                label={`${Math.floor(kaistRatio)}% (${kaistLength + postechLength
-                  } / ${kaistLength})`}
+                label={`${Math.floor(kaistRatio)}% (${
+                  kaistLength + postechLength
+                } / ${kaistLength})`}
                 percent={Math.floor(kaistRatio)}
                 color="blue"
                 direction="left"
@@ -331,8 +316,9 @@ const Game: React.FC = () => {
             </Grid.Column>
             <Grid.Column stretched>
               <StyledProgress
-                label={`${Math.floor(postechRatio)}% (${postechLength} / ${kaistLength + postechLength
-                  })`}
+                label={`${Math.floor(postechRatio)}% (${postechLength} / ${
+                  kaistLength + postechLength
+                })`}
                 direction="right"
                 percent={Math.floor(postechRatio)}
                 color="red"

@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 import { useHistory } from 'react-router-dom';
 import { Button, Header, Icon, Modal, Popup } from 'semantic-ui-react';
 import styled from 'styled-components';
-import { GameStatus } from '@/components/GameCard';
+import { GameStatus } from '@/types';
 import PopupButton from '@/components/PopupButton';
 import { GlobalContext } from '@/context';
 import { LogoState } from '@/pages/Game';

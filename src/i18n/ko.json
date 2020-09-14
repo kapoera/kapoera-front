@@ -52,5 +52,7 @@
     "mainpopup.selectaside": "팀을 선택하세요",
     "mainpopup.submitbet": "베팅하기",
     "mainpopup.betwarning": "베팅은 번복할 수 없습니다. 계속하시겠습니까?",
-    "event.helper": "적중 상금을 보시려면 Progress바를 클릭하세요"
+    "event.helper": "적중 상금을 보시려면 Progress바를 클릭하세요",
+    "record.headtohead": "상대 전적",
+    "record.result": "{winner} 승"
 }

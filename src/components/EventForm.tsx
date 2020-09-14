@@ -11,7 +11,7 @@ import {
 } from 'semantic-ui-react';
 import { useHistory } from 'react-router-dom';
 import { EventType } from './EventList';
-import { GameStatus } from '@/components/GameCard';
+import { GameStatus } from '@/types';
 import axios from '@/utils/axios';
 
 interface BettingResponse {
@@ -155,7 +155,7 @@ const EventForm: React.FC<EventFormProps> = ({
                 <Progress
                   percent={calculatePercent(choice)}
                   style={{
-		    flex: 3,
+                    flex: 3,
                     margin: '0.2rem 1rem',
                     justifySelf: 'flex-end'
                   }}
@@ -191,7 +191,7 @@ const EventForm: React.FC<EventFormProps> = ({
                   percent={calculatePercent(choice)}
                   color="yellow"
                   style={{
-		    flex: 3,
+                    flex: 3,
                     margin: '0.2rem 1rem',
                     justifySelf: 'flex-end'
                   }}

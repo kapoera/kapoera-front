@@ -1,5 +1,4 @@
 export default {
   baseURL: 'https://cyberkapo20.site/route',
-  socketURL: 'https://cyberkapo20.site:8080',
   primary: '#383838'
 };
