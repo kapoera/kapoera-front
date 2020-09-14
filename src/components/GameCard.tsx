@@ -6,22 +6,11 @@ import { Grid, Image, Label } from 'semantic-ui-react';
 import KaistLogo from '@/public/kaist.png';
 import PostechLogo from '@/public/postech.png';
 import Library from '@/public/games';
+import { GameStatus, University, Winner } from '@/types';
 
-export enum University {
-  Kaist = 'K',
-  Postech = 'P'
-}
-
-export enum Winner {
-  Kaist = 'K',
-  Postech = 'P',
-  None = 'N'
-}
-
-export enum GameStatus {
-  Waiting = 'waiting',
-  Running = 'running',
-  Exiting = 'exiting'
+enum RecordWinner {
+  KAIST = 'KAIST',
+  POSTECH = 'POSTECH'
 }
 
 export interface GameCardProps {
@@ -34,6 +23,7 @@ export interface GameCardProps {
   starting_time: string;
   winner?: Winner;
   subevents: number[];
+  records: { score: [number, number]; winner: RecordWinner; year: number }[];
   clickEvent: (arg0: string) => void;
 }
 

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Radio, Form, Button } from 'semantic-ui-react';
 import { useHistory } from 'react-router-dom';
 import { EventType } from './EventList';
-import { GameStatus } from '@/components/GameCard';
+import { GameStatus } from '@/types';
 import axios from '@/utils/axios';
 
 interface BettingResponse {

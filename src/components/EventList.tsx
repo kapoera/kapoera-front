@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 import { Accordion, AccordionTitleProps } from 'semantic-ui-react';
 import EventForm from '@/components/EventForm';
 import { GlobalContext } from '@/context';
-import { GameStatus } from '@/components/GameCard';
+import { GameStatus } from '@/types';
 import axios from '@/utils/axios';
 
 export interface Response {
@@ -86,7 +86,11 @@ const EventList: React.FC<EventListProps> = ({
               active={activeIndex === key}
               index={key}
               onClick={handleClick}
-              style={{ fontWeight: "lighter", fontSize: "1.2rem", fontFamily: "Jua, sans-serif" }}
+              style={{
+                fontWeight: 'lighter',
+                fontSize: '1.2rem',
+                fontFamily: 'Jua, sans-serif'
+              }}
             >
               {event[`name_${locale}`]}
             </Accordion.Title>

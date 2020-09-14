@@ -12,16 +12,13 @@ import {
   Input
 } from 'semantic-ui-react';
 import styled from 'styled-components';
-import {
-  GameCardProps,
-  University,
-  GameStatus,
-  Winner
-} from '@/components/GameCard';
+import AdminEventList from '@/components/AdminEventList';
+import { GameCardProps } from '@/components/GameCard';
 import KaistLogo from '@/public/kaist.png';
 import PostechLogo from '@/public/postech.png';
 import axios from '@/utils/axios';
-import AdminEventList from '@/components/AdminEventList';
+import { University, GameStatus, Winner } from '@/types';
+
 const Banner = styled.div`
   align-items: center;
   display: flex;
@@ -68,8 +65,10 @@ const defaultState: GameCardProps = {
   result: { [University.Kaist]: 0, [University.Postech]: 0 },
   starting_time: '2020-08-24T00:00:00.000Z',
   subevents: [],
-  clickEvent: _ => { }
+  clickEvent: _ => {},
+  records: []
 };
+
 const defaultWinner = Winner.None;
 const defaultPlaying = GameStatus.Waiting;
 const defaultResult = { [University.Kaist]: 0, [University.Postech]: 0 };
@@ -216,10 +215,10 @@ const AdminGame: React.FC = () => {
               />
             </Label>
           ) : (
-                <Label color="red" size="huge">
-                  {f({ id: 'game.finished' })}
-                </Label>
-              )}
+            <Label color="red" size="huge">
+              {f({ id: 'game.finished' })}
+            </Label>
+          )}
         </div>
       </Grid>
 
@@ -297,9 +296,7 @@ const AdminGame: React.FC = () => {
             {f({ id: 'game.score.change' })}
           </div>
           <Form>
-            <Form.Field>
-              Selected value:
-            </Form.Field>
+            <Form.Field>Selected value:</Form.Field>
 
             <Form.Field
               style={{
